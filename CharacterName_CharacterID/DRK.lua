@@ -18,358 +18,79 @@ local korin_obi = false
 local anrin_obi = false
 
 local sets = {
-    Idle = {
-        Main = 'Tredecim Scythe',
-        Ammo = 'Bomb Core',
-        Neck = 'Jeweled Collar',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Vampire Cloak',
-        Hands = 'Heavy Gauntlets',
-        Ring1 = 'Shadow Ring',
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 },
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Dst. Leggings +1',
-    },
-    IdleALT = {
-        Main = 'Terra\'s Staff',
-        Sub = '',
-        Range = 'Rosenbogen',
-        Ammo = '',
-        Head = 'displaced',
-        Body = 'Vampire Cloak',
-        Neck = 'Jeweled Collar',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Hands = 'Heavy Gauntlets',
-        Ring1 = 'Shadow Ring',
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 },
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Dst. Leggings +1',
-    },
-    IdleDT = {
-        Head = 'Darksteel Cap +1', -- 2
-        Neck = 'Evasion Torque',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Dst. Harness +1', -- 4
-        Hands = 'Heavy Gauntlets', -- 3
-        Ring1 = 'Jelly Ring', -- 5
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Dst. Subligar +1', -- 3
-        Feet = 'Dst. Leggings +1', -- 2
-    },
-    IdleALTDT = {
-        Head = 'Darksteel Cap +1', -- 2
-        Neck = 'Evasion Torque',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Dst. Harness +1', -- 4
-        Hands = 'Heavy Gauntlets', -- 3
-        Ring1 = 'Jelly Ring', -- 5
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Dst. Subligar +1', -- 3
-        Feet = 'Dst. Leggings +1', -- 2
-    },
-    Resting = {
-        Neck = 'Paisley Scarf',
-        Ear2 = 'Sanative Earring',
-    },
-    Town = {
-        Main = 'Tredecim Scythe',
-        Head = 'Homam Zucchetto',
-        Body = 'Haubergeon',
-        Hands = 'Homam Manopolas',
-        Legs = 'Blood Cuisses',
-        Feet = 'Homam Gambieras',
-    },
-    Movement = {
-        Hands = 'Homam Manopolas',
-        Legs = 'Blood Cuisses',
-    },
+    Idle = {},
 
-    DT = {
-        Head = 'Darksteel Cap +1', -- 2
-        Neck = 'Evasion Torque',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Dst. Harness +1', -- 4
-        Hands = 'Heavy Gauntlets', -- 3
-        Ring1 = 'Jelly Ring', -- 5
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Dst. Subligar +1', -- 3
-        Feet = 'Dst. Leggings +1', -- 2
-    },
-    MDT = { -- Shell IV provides 23% MDT
-        Head = 'Darksteel Cap +1',
-        Neck = 'Jeweled Collar',
-        Ear1 = 'Merman\'s Earring', -- 2
-        Ear2 = 'Merman\'s Earring', -- 2
-        Body = 'Cor. Scale Mail +1', -- 4
-        Hands = 'Coral Fng. Gnt. +1', -- 2
-        Ring1 = 'Shadow Ring',
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Coral Cuisses +1', -- 3
-        Feet = 'Coral Greaves +1', -- 2
-    },
-    FireRes = {
-        Main = 'Neptune\'s Staff', -- 20
-        Sub = '',
-        Range = 'Rosenbogen',
-        Ammo = '',
-        Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
-        Ear1 = 'Cmn. Earring', -- 11
-        Ear2 = 'Cmn. Earring', -- 11
-        Body = 'Assault Brstplate', -- 15
-        Hands = 'Tarasque Mitts +1', -- 6
-        Ring1 = 'Triumph Ring', -- 10
-        Ring2 = 'Malflame Ring', -- 10
-        Back = 'Dino Mantle', -- 4
-        Waist = 'Water Belt', -- 20
-        Legs = 'Blood Cuisses', -- 21
-        Feet = 'Power Sandals', -- 7
-    },
-    IceRes = {
-        Main = 'Vulcan\'s Staff', -- 20
-        Sub = '',
-        Range = 'Rosenbogen',
-        Ammo = '',
-        Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
-        Ear1 = 'Diamond Earring', -- 10
-        Ear2 = 'Omn. Earring', -- 11
-        Body = 'Assault Brstplate', -- 15
-        Hands = 'Feral Gloves', -- 4
-        Ring1 = 'Omniscient Ring', -- 10
-        Ring2 = 'Malfrost Ring', -- 10
-        Back = 'Ram Mantle +1', -- 6
-        Waist = 'Fire Belt', -- 20
-        Legs = 'Feral Trousers', -- 6
-        Feet = 'Blood Greaves', -- 21
-    },
-    LightningRes = {
-        Main = 'Terra\'s Staff',
-        Sub = '',
-        Range = 'Lightning Bow +1', -- 7
-        Ammo = '',
-        Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
-        Ear1 = 'Robust Earring', -- 11
-        Ear2 = 'Robust Earring', -- 11
-        Body = 'Assault Brstplate', -- 15
-        Hands = 'Heavy Gauntlets',
-        Ring1 = 'Spinel Ring', -- 9
-        Ring2 = 'Malflash Ring', -- 10
-        Back = 'Gaia Mantle +1', -- 12
-        Waist = 'Earth Belt', -- 20
-        Legs = 'Blood Cuisses', -- 21
-        Feet = 'Dst. Leggings +1',
-    },
-    EarthRes = {
-        Main = 'Auster\'s Staff', -- 20
-        Sub = '',
-        Range = 'Rosenbogen',
-        Ammo = '',
-        Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
-        Ear1 = 'Robust Earring', -- 11
-        Ear2 = 'Robust Earring', -- 11
-        Body = 'Assault Brstplate', -- 15
-        Hands = 'Coral Fng. Gnt. +1',
-        Ring1 = 'Robust Ring', -- 10
-        Ring2 = 'Maldust Ring', -- 10
-        Back = 'Gaia Mantle +1', -- 10
-        Waist = 'Wind Belt', -- 20
-        Legs = 'Beak Trousers +1', -- 7
-        Feet = 'Blood Greaves', -- 21
-    },
-    WindRes = {
-        Main = 'Aquilo\'s Staff', -- 20
-        Sub = '',
-        Range = 'Rosenbogen',
-        Ammo = '',
-        Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
-        Ear1 = 'Diamond Earring', -- 10
-        Ear2 = 'Omn. Earring', -- 11
-        Body = 'Assault Brstplate', -- 15
-        Hands = 'Coral Fng. Gnt. +1',
-        Ring1 = 'Emerald Ring', -- 9
-        Ring2 = 'Malgust Ring', -- 10
-        Back = 'Shadow Mantle',
-        Waist = 'Ice Belt', -- 20
-        Legs = 'Coral Cuisses +1',
-        Feet = 'Blood Greaves', -- 21
-    },
-    WaterRes = {
-        Main = 'Jupiter\'s Staff', -- 20
-        Sub = '',
-        Range = 'Rosenbogen',
-        Ammo = '',
-        Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
-        Ear1 = 'Cmn. Earring', -- 11
-        Ear2 = 'Cmn. Earring', -- 11
-        Body = 'Assault Brstplate', -- 15
-        Hands = 'Coral Fng. Gnt. +1', -- 4
-        Ring1 = 'Communion Ring', -- 10
-        Ring2 = 'Malflood Ring', -- 10
-        Back = 'Shadow Mantle',
-        Waist = 'Lightning Belt', -- 20
-        Legs = 'Blood Cuisses', -- 21
-        Feet = 'Coral Greaves +1', -- 4
-    },
-    Evasion = { -- Use this set for your zerg set. See README.md
-        Main = 'Octave Club',
-        Sub = 'Wyvern Targe',
-        Ammo = 'Happy Egg',
-        Head = 'Homam Zucchetto',
-        Neck = 'Shield Pendant',
-        Ear1 = 'Wyvern Earring',
-        Ear2 = 'Bloodbead Earring',
-        Body = 'Gloom Breastplate',
-        Hands = 'Dusk Gloves +1',
-        Ring1 = 'Bomb Queen Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Gigant Mantle',
-        Waist = 'Sonic Belt',
-        Legs = 'Homam Cosciales',
-        Feet = 'Homam Gambieras',
-    },
+    IdleALT = {},
 
-    Precast = {
-        Ear1 = 'Loquac. Earring',
-        Legs = 'Homam Cosciales',
-    },
-    SIRD = {
-        Neck = 'Willpower Torque', -- 5
-        Ear1 = 'Magnetic Earring', -- 8
-        Ear2 = 'Knightly Earring', -- 9
-        Waist = 'Silver Obi +1', -- 8
-        Feet = 'Mountain Gaiters', -- 5
-    },
-    Haste = { -- Used for Utsusemi and Stun cooldown
-        Head = 'Homam Zucchetto',
-        Body = 'Dst. Harness +1',
-        Hands = 'Dusk Gloves +1',
-        Waist = 'Sonic Belt',
-        Legs = 'Homam Cosciales',
-        Feet = 'Homam Gambieras',
-    },
+    IdleDT = {},
 
-    Hate = {
-        Main = 'Octave Club', -- lul
-        Sub = 'Koenig Shield', -- 3
-        Head = 'Aegishjalmr', -- 7
-        Neck = 'Harmonia\'s Torque', -- 3
-        Ear1 = 'Hades Earring +1', -- 2
-        Ear2 = { Name = 'Bloodbead Earring', Priority = 100 },
-        Body = { Name = 'Hydra Haubert', Priority = -100 }, -- 9
-        Hands = { Name = 'Hydra Moufles', Priority = -100 }, -- 6
-        Ring1 = 'Mermaid Ring', -- 2
-        Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
-        Back = { Name = 'Gigant Mantle', Priority = 100 },
-        Waist = 'Warwolf Belt', -- 3
-        Legs = { Name = 'Hydra Brayettes', Priority = -100 }, -- 6
-        Legs = { Name = 'Hydra Sollerets', Priority = -100 }, -- 4
-    },
+    IdleALTDT = {},
 
+    Resting = {},
+
+    Town = {},
+
+    Movement = {},
+
+    DT = {},
+
+    -- Shell IV provides 23% MDT
+    MDT = {},
+
+    FireRes = {},
+
+    IceRes = {},
+
+    LightningRes = {},
+
+    EarthRes = {},
+
+    WindRes = {},
+
+    WaterRes = {},
+
+    -- Use this set for your zerg set. See README.md
+    Evasion = {},
+
+    Precast = {},
+
+    SIRD = {},
+
+    -- Used for Utsusemi and Stun cooldown
+    Haste = {},
+
+    Hate = {},
+
+    TP_LowAcc = {},
+
+    TP_HighAcc = {},
+
+    WS = {},
+
+    WS_Guillotine = {},
+
+    WS_SpinningSlash = {},
+
+    WS_CrossReaper = {},
+
+    WeaponBash = {},
+
+    ArcaneCircle = {},
+
+    SoulEater = {},
+
+    Nuke = {},
+
+    Enfeebling = {},
+
+    Drain = {},
+
+    Absorb = {},
+
+    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
-
-    TP_LowAcc = {
-        Ammo = 'Bomb Core',
-        Head = 'Homam Zucchetto',
-        Neck = 'Justice Torque',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Abyssal Earring',
-        Body = 'Haubergeon',
-        Hands = 'Dusk Gloves +1',
-        Ring1 = 'Toreador\'s Ring',
-        Ring2 = 'Toreador\'s Ring',
-        Back = 'Forager\'s Mantle',
-        Waist = 'Sonic Belt',
-        Legs = 'Homam Cosciales',
-        Feet = 'Homam Gambieras',
-    },
-    TP_HighAcc = {
-        Ammo = 'Bomb Core',
-        Head = 'Homam Zucchetto',
-        Neck = 'Peacock Amulet',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Abyssal Earring',
-        Body = 'Haubergeon',
-        Hands = 'Dusk Gloves +1',
-        Ring1 = 'Toreador\'s Ring',
-        Ring2 = 'Toreador\'s Ring',
-        Back = 'Abyss Cape',
-        Waist = 'Sonic Belt',
-        Legs = 'Homam Cosciales',
-        Feet = 'Homam Gambieras',
-    },
-
-    WS = {
-        Ammo = 'Bomb Core',
-        Head = 'Chs. Burgeonet +1',
-        Neck = 'Snow Gorget',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Abyssal Earring',
-        Body = 'Haubergeon',
-        Hands = 'Chs. Gauntlets +1',
-        Ring1 = 'Triumph Ring',
-        Ring2 = 'Toreador\'s Ring',
-        Back = 'Forager\'s Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Onyx Cuisses',
-        Feet = 'Chs. Sollerets +1',
-    },
-    WS_Guillotine = {},
-    WS_SpinningSlash = {},
-    WS_CrossReaper = {},
-
-    WeaponBash = {
-        Hands = 'Chs. Gauntlets +1',
-    },
-    ArcaneCircle = {
-        Feet = 'Chs. Sollerets +1',
-    },
-    SoulEater = {
-        Head = 'Chs. Burgeonet +1',
-    },
-    Nuke = {},
-    Enfeebling = {},
-    Drain = {
-        Ammo = 'Phtm. Tathlum',
-        Head = { Name = 'Chs. Burgeonet +1', Priority = 100 },
-        Neck = 'Dark Torque',
-        Ear1 = 'Dark Earring',
-        Ear2 = 'Abyssal Earring',
-        Body = 'Dst. Harness +1',
-        Hands = { Name = 'Blood Fng. Gnt.', Priority = 100 },
-        Ring1 = 'Omniscient Ring',
-        Ring2 = 'Overlord\'s Ring',
-        Back = 'Merciful Cape',
-        Waist = 'Sonic Belt',
-        Legs = 'Abs. Flanchard +1',
-        Feet = 'Mountain Gaiters',
-    },
-    Absorb = {
-        Ring2 = 'Snow Ring',
-    },
 }
 profile.Sets = sets
 

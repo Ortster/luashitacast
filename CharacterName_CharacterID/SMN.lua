@@ -47,7 +47,7 @@ local sets = {
     Casting = {},
 
     -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
-    SIRD = {
+    SIRD = {},
 
     -- Used only on Haste, Refresh, Blink and Utsusemi casts
     Haste = {},

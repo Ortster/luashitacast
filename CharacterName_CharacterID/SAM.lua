@@ -8,37 +8,53 @@ local saotome_kote = '' -- 'Saotome Kote'
 
 local sets = {
     Idle = {},
+
     IdleALT = {},
+
     Resting = {},
+
     Town = {},
+
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+
+    -- Shell IV provides 23% MDT
+    MDT = {},
+
     FireRes = {},
+
     IceRes = {},
+
     LightningRes = {},
+
     EarthRes = {},
+
     WindRes = {},
+
     WaterRes = {},
+
     Evasion = {},
 
     Precast = {},
-    SIRD = {
-    },
-    Haste = { -- Used for Utsusemi cooldown
-    },
 
-    LockSet1 = {},
-    LockSet2 = {},
-    LockSet3 = {},
+    SIRD = {},
+
+    -- Used for Utsusemi cooldown
+    Haste = {},
 
     TP_LowAcc = {},
+
     TP_HighAcc = {},
 
     WS = {},
+
     WS_Kaiten = {},
+
+    -- Custom Sets - Level Sync Sets For Example
+    LockSet1 = {},
+    LockSet2 = {},
+    LockSet3 = {},
 }
 profile.Sets = sets
 

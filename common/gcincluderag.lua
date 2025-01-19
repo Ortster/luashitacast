@@ -56,9 +56,10 @@ local Towns = T{
     'Mog Garden','Celennia Memorial Library','Western Adoulin','Eastern Adoulin'
 }
 
-local Sandy = T{ 'Southern San d\'Oria [S]','Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille' }
-local Bastok = T{ 'Bastok Markets [S]','Bastok Mines','Bastok Markets','Port Bastok','Metalworks' }
-local Windy = T{ 'Windurst Waters [S]','Windurst Waters','Windurst Walls','Port Windurst','Windurst Woods','Heavens Tower' }
+local Sandy = T{ 'Southern San d\'Oria [S]', 'Southern San d\'Oria', 'Northern San d\'Oria', 'Port San d\'Oria', 'Chateau d\'Oraguille' }
+local Bastok = T{ 'Bastok Markets [S]', 'Bastok Mines', 'Bastok Markets', 'Port Bastok','Metalworks' }
+local Windy = T{ 'Windurst Waters [S]', 'Windurst Waters', 'Windurst Walls', 'Port Windurst', 'Windurst Woods', 'Heavens Tower' }
+local Jeuno = T{ 'Ru\'Lude Gardens', 'Upper Jeuno', 'Lower Jeuno', 'Port Jeuno'}
 
 local OverrideNameTable = {
     ['idle'] = 'Idle',
@@ -271,9 +272,10 @@ function gcinclude.DoDefaultOverride(isMelee)
 
     if (environment.Area ~= nil) and (Towns:contains(environment.Area)) then
         gFunc.EquipSet('Town')
-        if (ducal_aketon == true) then
-            gFunc.Equip('Body', 'Ducal Aketon')
-        end
+    end
+	
+    if (environment.Area ~= nil) and (ducal_aketon == true) and ((Sandy:contains(environment.Area)) or (Bastok:contains(environment.Area)) or (Windy:contains(environment.Area)) or (Jeuno:contains(environment.Area))) then
+        gFunc.Equip('Body', 'Ducal Aketon')
     end
     if (environment.Area ~= nil) and (Sandy:contains(environment.Area) and kingdom_aketon == true) then gFunc.Equip('Body', 'Kingdom Aketon') end
     if (environment.Area ~= nil) and (Bastok:contains(environment.Area) and republic_aketon == true) then gFunc.Equip('Body', 'Republic Aketon') end

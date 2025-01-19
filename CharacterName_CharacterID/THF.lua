@@ -6,53 +6,77 @@ local ta_rogue_armlets = false
 
 local sets = {
     Idle = {},
+    
     IdleALT = {},
+    
     Resting = {},
+    
     Town = {},
+    
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+    
+    -- Shell IV provides 23% MDT
+    MDT = {},
+    
     FireRes = {},
+    
     IceRes = {},
+    
     LightningRes = {},
+    
     EarthRes = {},
+    
     WindRes = {},
+    
     WaterRes = {},
+    
     Evasion = {},
 
     Precast = {},
-    SIRD = {
-    },
-    Haste = { -- Used for Utsusemi cooldown
-    },
-
-    LockSet1 = {},
-    LockSet2 = {},
-    LockSet3 = {},
+    
+    SIRD = {},
+    
+    -- Used for Utsusemi cooldown
+    Haste = {},
 
     TP_LowAcc = {},
+    
     TP_HighAcc = {},
+    
     TP_NIN = {},
 
     WS = {},
+    
     WS_Evisceration = {},
+    
     WS_SharkBite = {},
 
     SA = {},
+    
     TA = {},
+    
     SATA = {},
 
     Flee = {},
+    
     Hide = {},
+    
     Steal = {},
+    
     Mug = {},
 
     TH = {},
 
     Ranged = {},
+    
     Ranged_INT = {},
+    
+    -- Custom Sets - Level Sync Sets For Example
+    LockSet1 = {},
+    LockSet2 = {},
+    LockSet3 = {},
 }
 profile.Sets = sets
 

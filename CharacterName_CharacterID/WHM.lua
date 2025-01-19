@@ -8,65 +8,97 @@ local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 
 local sets = {
     Idle = {},
+
     IdleALT = {},
+
     IdleMaxMP = {},
+
     Resting = {},
+
     Town = {},
+
     Movement = {},
 
     DT = {},
+
     DTNight = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+
+    -- Shell IV provides 23% MDT
+    MDT = {},
+
     FireRes = {},
+
     IceRes = {},
+
     LightningRes = {},
+
     EarthRes = {},
+
     WindRes = {},
+
     WaterRes = {},
+
     Evasion = {},
 
     Precast = {},
-    Casting = { -- Default Casting Equipment when using Idle sets
-    },
-    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
-    },
-    Haste = { -- Used only on Haste, Refresh, Blink and Utsusemi casts
-    },
+
+    -- Default Casting Equipment when using Idle sets
+    Casting = {},
+
+    -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    SIRD = {},
+
+    -- Used only on Haste, Refresh, Blink and Utsusemi casts
+    Haste = {},
+
     ConserveMP = {},
 
     Cure = {},
+
     Cure5 = {},
-    Regen = {
-        Body = 'Cleric\'s Bliaut',
-    },
+
+    Regen = {},
+
     Barspell = {},
+
     Cursna = {},
 
     Enhancing = {},
+
     Stoneskin = {},
+
     Spikes = {},
 
     Enfeebling = {},
+
     EnfeeblingMND = {},
+
     EnfeeblingINT = {},
+
     EnfeeblingACC = {},
 
     Divine = {},
+
     Banish = {},
+
     Dark = {},
 
     Nuke = {},
+
     NukeACC = {},
+
     NukeDOT = {},
 
+    TP = {},
+
+    TP_NIN = {},
+
+    WS = {},
+
+    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
-
-    TP = {},
-    TP_NIN = {},
-    WS = {},
 }
 profile.Sets = sets
 

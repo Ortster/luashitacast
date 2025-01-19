@@ -14,87 +14,87 @@ local opuntia_hoop_slot = 'Ring1'
 
 local sets = {
     Idle = {},
-	
+
     IdleALT = {},
-	
+
     IdleMaxMP = {},
-	
+
     Resting = {},
-	
+
     Town = {},
-	
+
     Movement = {},
 
     DT = {},
-	
+
     DTNight = {},
-	
-	-- Shell IV provides 23% MDT
+
+    -- Shell IV provides 23% MDT
     MDT = {},
-	
+
     FireRes = {},
-	
+
     IceRes = {},
-	
+
     LightningRes = {},
-	
+
     EarthRes = {},
-	
+
     WindRes = {},
-	
+
     WaterRes = {},
-	
+
     Evasion = {},
 
     Precast = {},
-	
+
     Casting = {},
-	
-	-- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+
+    -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
     SIRD = {},
-	
-	-- This will override Precast if /lag is turned on or the spell casting time is too short. e.g. Tier 1: "Stone"
+
+    -- This will override Precast if /lag is turned on or the spell casting time is too short. e.g. Tier 1: "Stone"
     Yellow = {},
-	
+
     YellowHNM = {},
-	
-	-- Used only on Haste, Refresh, Blink and Utsusemi casts
+
+    -- Used only on Haste, Refresh, Blink and Utsusemi casts
     Haste = {},
-	
+
     ConserveMP = {},
 
     Cure = {},
-	
+
     Cursna = {},
 
     Enhancing = {},
-	
+
     Stoneskin = {},
-	
+
     Spikes = {},
 
     Enfeebling = {},
-	
+
     EnfeeblingMND = {},
-	
+
     EnfeeblingINT = {},
-	
+
     EnfeeblingACC = {},
 
     Divine = {},
-	
+
     Dark = {},
-	
+
     Stun = {},
 
     Nuke = {},
-	
+
     NukeHNM = {},
-	
+
     NukeACC = {},
-	
+
     NukeDOT = {},
-	
+
     MB = {},
 
     -- Custom Sets - Level Sync Sets For Example

@@ -1,43 +1,43 @@
 -- Defines Staves to equip
 -- Set as '' if you do not have them
-local fire_staff = 'Vulcan\'s Staff'
-local earth_staff = 'Terra\'s Staff'
-local water_staff = 'Neptune\'s Staff'
-local wind_staff = 'Auster\'s Staff'
-local ice_staff = 'Aquilo\'s Staff'
-local thunder_staff = 'Jupiter\'s Staff'
-local light_staff = 'Apollo\'s Staff'
-local dark_staff = 'Pluto\'s Staff'
+local fire_staff = '' -- 'Fire Staff' or 'Vulcan\'s Staff'
+local earth_staff = '' -- 'Earth Staff' or 'Terra\'s Staff'
+local water_staff = '' -- 'Water Staff' or 'Neptune\'s Staff'
+local wind_staff = '' -- 'Wind Staff' or 'Auster\'s Staff'
+local ice_staff = '' -- 'Ice Staff' or 'Aquilo\'s Staff'
+local thunder_staff = '' -- 'Thunder Staff' or 'Jupiter\'s Staff'
+local light_staff = '' -- 'Light Staff' or 'Apollo\'s Staff'
+local dark_staff = '' -- 'Dark Staff' or 'Pluto\'s Staff'
 
 -- Set to true if you have the obi
-local karin_obi = true
+local karin_obi = false
 local dorin_obi = false
 local suirin_obi = false
 local furin_obi = false
-local hyorin_obi = true
-local rairin_obi = true
-local korin_obi = true
-local anrin_obi = true
+local hyorin_obi = false
+local rairin_obi = false
+local korin_obi = false
+local anrin_obi = false
 
 -- Set to true if you have the item, and specify which ring or earring slot it will override
-local diabolos_pole = true
-local uggalepih_pendant = true
-local master_casters_bracelets = true
+local diabolos_pole = false
+local uggalepih_pendant = false
+local master_casters_bracelets = false
 local dream_boots = true
 local dream_mittens = true
 local skulkers_cape = false
 local wizards_mantle = false
-local republic_gold_medal = true -- Note: Disabled for BRD
+local republic_gold_medal = false -- Note: Disabled for BRD
 
 local diabolos_earring = false
 local diabolos_earring_slot = 'Ear2'
-local diabolos_ring = true
+local diabolos_ring = false
 local diabolos_ring_slot = 'Ring2'
 local ice_ring = false
 local ice_ring_slot = 'Ring2'
-local water_ring = true
+local water_ring = false
 local water_ring_slot = 'Ring2'
-local overlords_ring = true
+local overlords_ring = false
 local overlords_ring_slot = 'Ring1'
 local wizards_earring = false
 local wizards_earring_slot = 'Ear2'
@@ -49,18 +49,18 @@ local tp_fencers_ring = false
 local tp_fencers_ring_slot = 'Ring1'
 
 -- BLM Specific
-local sorcerers_ring = true
+local sorcerers_ring = false
 local sorcerers_ring_slot = 'Ring1' -- This is Ring1 instead of Ring2 to allow Ice Ring override to work
 -- Leave as '' if you do not have them.
-local sorcerers_tonban = 'Src. Tonban +1'
+local sorcerers_tonban = '' -- 'Src. Tonban' or 'Src. Tonban +1'
 
 -- SMN Specific
-local carbuncle_mitts = true
-local yinyang_robe = true
+local carbuncle_mitts = false
+local yinyang_robe = false
 local bahamuts_staff = false
 -- Leave as '' if you do not have them.
-local summoners_doublet = 'Smn. Doublet +1'
-local summoners_horn = 'Summoner\'s Horn'
+local summoners_doublet = '' -- 'Smn. Doublet' or 'Smn. Doublet +1'
+local summoners_horn = '' -- 'Summoner\'s Horn' or 'Summoner\'s Horn +1'
 local conjurers_ring = false
 local conjurers_ring_slot = 'Ring1'
 
@@ -71,10 +71,10 @@ local medicine_ring = false
 local medicine_ring_slot = 'Ring1'
 
 -- Set to true if you have both Dark Earring and Abyssal earring to turn off Diabolos's Earring override for Dark Magic sets
-local dark_and_abyssal_earrings = true
+local dark_and_abyssal_earrings = false
 
 -- For Meleeing on WHM, BRD or RDM. Fenrir's Earring will be prioritised over Diabolos's Earring if using the same slot
-local fenrirs_earring = true
+local fenrirs_earring = false
 local fenrirs_earring_slot = 'Ear2'
 local tp_diabolos_earring = false
 local tp_diabolos_earring_slot = 'Ear2'

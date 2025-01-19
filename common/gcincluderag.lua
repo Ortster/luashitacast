@@ -5,11 +5,11 @@ local republic_aketon = false
 local federation_aketon = false
 local ducal_aketon = false
 
-local dream_boots = true
-local dream_mittens = true
+local dream_boots = false
+local dream_mittens = false
 local skulkers_cape = false
 
-local load_stylist = true -- set to true to just load stylist on game start. this is purely for convenience since putting it in scripts doesn't work.
+local load_stylist = false -- set to true to just load stylist on game start. this is purely for convenience since putting it in scripts doesn't work.
 
 -- Add additional equipment here that you want to automatically lock when equipping
 local LockableEquipment = {

@@ -4,47 +4,61 @@ local fastCastValue = 0.00 -- 0% from gear
 
 local sets = {
     Idle = {},
+
     IdleALT = {},
+
     Resting = {},
+
     Town = {},
+
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+
+    -- Shell IV provides 23% MDT
+    MDT = {},
+
     FireRes = {},
+
     IceRes = {},
+
     LightningRes = {},
+
     EarthRes = {},
+
     WindRes = {},
+
     WaterRes = {},
+
     Evasion = {},
 
     Precast = {},
-    SIRD = {
-    },
-    Haste = { -- Used for Utsusemi cooldown
-    },
 
-    LockSet1 = {},
-    LockSet2 = {},
-    LockSet3 = {},
+    SIRD = {},
+
+    -- Used for Utsusemi cooldown
+    Haste = {},
 
     TP_LowAcc = {},
+
     TP_HighAcc = {},
 
     TP_Aggressor = {},
 
     WS = {},
+
     Warcry = {},
+
     Provoke = {},
 
-    DW = {
-        Ear1 = 'Stealth Earring',
-    },
-    SAM = {
-        Ear1 = 'Attila\'s Earring',
-    },
+    DW = {},
+
+    SAM = {},
+
+    -- Custom Sets - Level Sync Sets For Example
+    LockSet1 = {},
+    LockSet2 = {},
+    LockSet3 = {},
 }
 profile.Sets = sets
 

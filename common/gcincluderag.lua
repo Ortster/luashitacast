@@ -9,6 +9,8 @@ local dream_boots = false
 local dream_mittens = false
 local skulkers_cape = false
 
+local restDelay = 16 -- Set to 16 for default resting delay before set equip, 1 for near immediate
+
 local load_stylist = false -- set to true to just load stylist on game start. this is purely for convenience since putting it in scripts doesn't work.
 
 -- Add additional equipment here that you want to automatically lock when equipping
@@ -304,7 +306,7 @@ function gcinclude.DoDefaultOverride(isMelee)
 
     if (player.Status == 'Resting') then
         if (not restTimestampRecorded) then
-            restTimestamp = os.clock() + 16
+            restTimestamp = os.clock() + restDelay
             restTimestampRecorded = true
         end
         if (os.clock() > restTimestamp) then

@@ -1,6 +1,6 @@
 local profile = {}
 
-local max_hp_in_idle_with_regen_gear_equipped = 1632
+local max_hp_in_idle_with_regen_gear_equipped = 663
 local fastCastValue = 0.00 -- 2% from gear
 
 -- Replace these with '' if you do not have them
@@ -23,7 +23,22 @@ local kampfer_earring = false
 local kampfer_earring_slot = 'Ear2'
 
 local sets = {
-    Idle = {},
+    Idle_Priority = {
+        Main =  { 'Boreas Cesti', 'Fed. Baghnakhs' },
+        Ammo =  { 'Civet Sachet', 'Happy Egg' },
+        Head =  { 'Mrc.Cpt. Headgear', 'Cmp. Eye Circlet' },
+        Neck =  { 'Spike Necklace', 'Wing Pendant' },
+        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Body =  { 'Mrc.Cpt. Doublet', 'Power Gi' },
+        Hands = { 'Battle Gloves' },
+        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
+        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Brown Belt', 'Purple Belt' },
+        Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
+        Feet =  { 'Fed. Kyahan', 'Light Soleas' },
+    },
 
     IdleALT = {},
 
@@ -97,7 +112,7 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 5')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 

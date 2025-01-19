@@ -5,10 +5,10 @@ local CurrentLevel = 1
 local kingdom_aketon = false
 local republic_aketon = false
 local federation_aketon = false
-local ducal_aketon = false
+local ducal_aketon = true
 
-local dream_boots = false
-local dream_mittens = false
+local dream_boots = true
+local dream_mittens = true
 local skulkers_cape = false
 
 local restDelay = 16 -- Set to 16 for default resting delay before set equip, 1 for near immediate

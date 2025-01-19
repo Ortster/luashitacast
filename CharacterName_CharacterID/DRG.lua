@@ -11,8 +11,23 @@ local heal_hp_threshold_whm = 859
 local heal_hp_threshold_rdm = 869
 
 local sets = {
-    Idle = {},
-
+    Idle_Priority = {
+        Main =  { 'Gnd.Kgt. Lance', 'Mythril Lance +1', 'Peregrine', 'Ryl.Sqr. Halbred', 'Fuscina' },
+--      Sub = '',
+        Ammo =  { 'Civet Sachet', 'Happy Egg' },
+        Head =  { 'Walkure Mask', 'Mrc.Cpt. Headgear', 'Ryl.Ftm. Bandana' },
+        Neck =  { 'Spike Necklace', 'Wing Pendant' },
+        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Beastly Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
+        Hands = { 'Drachen Fng. Gnt.', 'Battle Gloves' },
+        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
+        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
+        Legs =  { 'Drachen Brais', 'Republic Subligar', 'Bone Subligar +1' },
+        Feet =  { 'Drachen Greaves', 'Bounding Boots' },
+    },
     IdleALT = {},
 
     Resting = {},
@@ -65,7 +80,9 @@ local sets = {
     LockSet3 = {},
 
     ['Ancient Circle'] = {},
-    ['Jump'] = {},
+    ['Jump'] = {
+--      Feet =  'Drachen Greaves',
+    },
     ['High Jump'] = {},
     ['Super Jump'] = {},
     ['Call Wyvern'] = {},

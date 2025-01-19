@@ -77,7 +77,9 @@ local sets = {
 
     Sing_Mazurka = {},
 
-    Sing_Minuet = {},
+    Sing_Minuet = {
+        Range = 'Cornette +1',
+    },
 
     Sing_March = {},
 
@@ -148,7 +150,7 @@ profile.Sets = sets
 
 profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 9')
 end
 
 --[[

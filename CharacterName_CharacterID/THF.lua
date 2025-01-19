@@ -5,7 +5,25 @@ local fastCastValue = 0.00 -- 0% from gear
 local ta_rogue_armlets = false
 
 local sets = {
-    Idle = {},
+    Idle_Priority = {
+        Main =  { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife', 'Dagger +1' },
+        Sub =   { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife' },
+        Range = { 'Rogetsurin' },
+        Ammo =  { '' },
+        --Ammo =  { 'Civet Sachet', 'Happy Egg' },
+        Head =  { 'Walkure Mask', 'Mrc.Cpt. Headgear', 'Ryl.Ftm. Bandana' },
+        Neck =  { 'Spike Necklace', 'Wing Pendant' },
+        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
+        Hands = { 'Battle Gloves' },
+        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
+        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Life Belt', 'Tilt Belt', 'Warrior\'s Belt' },
+        Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
+        Feet =  { 'Bounding Boots' },
+    },
     
     IdleALT = {},
     
@@ -81,7 +99,7 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 6')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 

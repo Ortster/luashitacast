@@ -13,14 +13,32 @@ local dilation_ring = false
 local dilation_ring_slot = 'Ring2'
 
 local sets = {
-    Idle = {},
+    Idle_Priority = {
+        Main =  { 'Solid Wand', 'Yew Wand +1', 'Willow Wand +1' },
+        Sub =   { 'Mahogany Shield', 'Parana Shield' },
+        Ammo =  { 'Morion Tathlum', 'Happy Egg' },
+        Head =  { 'Silver Hairpin', 'Brass Hairpin +1', 'Copper Hairpin +1' },
+        Neck =  { 'Justice Badge' },
+        Ear1 =  { 'Energy Earring' },
+        Ear2 =  { 'Energy Earring' },
+        Body =  { 'Baron\'s Saio', 'Beetle Harness +1', 'Bone Harness +1' },
+        Hands = { 'Mycophile Cuffs', 'Baron\'s Cuffs', 'Battle Gloves' },
+        Ring1 = { 'Eremite\'s Ring' },
+        Ring2 = { 'Eremite\'s Ring' },
+        Back =  { 'Mist Silk Cape' },
+        Waist = { 'Friar\'s Rope' },
+        Legs =  { 'Seer\'s Slacks', 'Windurstian Slops', 'Mithran Loincloth' },
+        Feet =  { 'Seer\'s Pumps', 'Light Soleas', 'Mithran Gaiters' },
+    },
 
     IdleALT = {},
 
     IdleMaxMP = {},
 
-    Resting = {},
-
+    Resting = {
+        Main = 'Pilgrim\'s Wand',
+        Legs = 'Baron\'s Slops',
+    },
     Town = {},
 
     Movement = {},
@@ -68,11 +86,17 @@ local sets = {
 
     Cheat_HPUp = {},
 
-    Cure = {},
+    Cure = {
+        Ring1 = 'Saintly Ring',
+        Ring2 = 'Saintly Ring',
+    },
 
     Cursna = {},
 
-    Enhancing = {},
+    Enhancing = {
+        Ring1 = 'Saintly Ring',
+        Ring2 = 'Saintly Ring',
+    },
 
     Stoneskin = {},
 
@@ -80,9 +104,16 @@ local sets = {
 
     Enfeebling = {},
 
-    EnfeeblingMND = {},
+    EnfeeblingMND = {
+        Ring1 = 'Saintly Ring',
+        Ring2 = 'Saintly Ring',
+    },
 
-    EnfeeblingINT = {},
+    EnfeeblingINT = {
+        Neck =  'Black Neckerchief',
+        Ring1 = 'Eremite\'s Ring',
+        Ring2 = 'Eremite\'s Ring',
+    },
 
     EnfeeblingACC = {},
 
@@ -130,7 +161,7 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 25')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 
     --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //dia')

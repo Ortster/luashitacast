@@ -7,13 +7,33 @@ local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 
 local sets = {
-    Idle = {},
+    Idle_Priority = {
+        Main =  { 'Solid Wand', 'Yew Wand +1', 'Willow Wand +1' },
+        Sub =   { 'Mahogany Shield', 'Parana Shield' },
+        Ammo =  { 'Morion Tathlum', 'Happy Egg' },
+        Head =  { 'Silver Hairpin', 'Brass Hairpin +1', 'Copper Hairpin +1' },
+        Neck =  { 'Justice Badge' },
+        Ear1 =  { 'Energy Earring' },
+        Ear2 =  { 'Energy Earring' },
+        Body =  { 'Baron\'s Saio', 'Ducal Aketon' },
+        Hands = { 'Mycophile Cuffs', 'Baron\'s Cuffs', 'Mithran Gauntlets' },
+        Ring1 = { 'Saintly Ring' },
+        Ring2 = { 'Saintly Ring' },
+        Back =  { 'Mist Silk Cape' },
+        Waist = { 'Friar\'s Rope' },
+        Legs =  { 'Savage Loincloth', 'Seer\'s Slacks', 'Windurstian Slops', 'Mithran Loincloth' },
+        Feet =  { 'Seer\'s Pumps', 'Light Soleas', 'Mithran Gaiters' },
+    },
 
     IdleALT = {},
 
     IdleMaxMP = {},
 
-    Resting = {},
+    Resting = {
+        Main = 'Pilgrim\'s Wand',
+        Body = 'Seer\'s Tunic',
+        Legs = 'Baron\'s Slops',
+    },
 
     Town = {},
 
@@ -53,7 +73,11 @@ local sets = {
 
     ConserveMP = {},
 
-    Cure = {},
+    Cure = {
+        Body = 'Baron\'s Saio',
+        Ring1 = 'Saintly Ring',
+        Ring2 = 'Saintly Ring',
+    },
 
     Cure5 = {},
 
@@ -63,7 +87,11 @@ local sets = {
 
     Cursna = {},
 
-    Enhancing = {},
+    Enhancing = {
+        Body = 'Baron\'s Saio',
+        Ring1 = 'Saintly Ring',
+        Ring2 = 'Saintly Ring',
+    },
 
     Stoneskin = {},
 
@@ -71,9 +99,17 @@ local sets = {
 
     Enfeebling = {},
 
-    EnfeeblingMND = {},
+    EnfeeblingMND = {
+        Body = 'Baron\'s Saio',
+        Ring1 = 'Saintly Ring',
+        Ring2 = 'Saintly Ring',
+    },
 
-    EnfeeblingINT = {},
+    EnfeeblingINT = {
+        Body = 'Baron\'s Saio',
+        Ring1 = 'Eremite\'s Ring',
+        Ring2 = 'Eremite\'s Ring',
+    },
 
     EnfeeblingACC = {},
 
@@ -103,7 +139,7 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 23')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 

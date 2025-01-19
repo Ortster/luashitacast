@@ -41,98 +41,71 @@ local korin_obi = false
 local anrin_obi = false
 
 local sets = {
-    Idle = {
-        Main = 'Kodachi +1',
-        Sub = 'Nikkariaoe',
-        Ammo = 'Happy Egg',
-        Head = 'Emperor Hairpin',
-        Neck = 'Peacock Amulet',
-        Ear1 = 'Beetle Earring +1',
-        Ear2 = 'Beetle Earring +1',
-        Body = 'Power Gi',
-        Hands = 'Custom M Gloves',
-        Ring1 = 'Puissance Ring',
-        Ring2 = 'Venerer Ring',
-        Back = 'Nomad\'s Mantle',
-        Waist = 'Warrior\'s Belt +1',
-        Legs = 'Republic Subligar',
-        Feet = 'Fed. Kyahan',
-    },
+    Idle = {},
+
     IdleALT = {},
-    IdleDT = {
-        Main = 'Kodachi +1',
-        Sub = 'Nikkariaoe',
-        Ammo = 'Happy Egg',
-        Head = 'Emperor Hairpin',
-        Neck = 'Peacock Amulet',
-        Ear1 = 'Beetle Earring +1',
-        Ear2 = 'Beetle Earring +1',
-        Body = 'Federation Gi',
-        Hands = 'Custom M Gloves',
-        Ring1 = 'Sattva Ring',
-        Ring2 = 'Venerer Ring',
-        Back = 'Nomad\'s Mantle',
-        Waist = 'Warrior\'s Belt +1',
-        Legs = 'Republic Subligar',
-        Feet = 'Fed. Kyahan',
-    },
+
+    IdleDT = {},
+
     IdleALTDT = {},
+
     Resting = {},
+
     Town = {},
+
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+
+    -- Shell IV provides 23% MDT
+    MDT = {},
+
     FireRes = {},
+
     IceRes = {},
+
     LightningRes = {},
+
     EarthRes = {},
+
     WindRes = {},
+
     WaterRes = {},
+
     Evasion = {},
 
     Precast = {},
-    SIRD = {
-    },
-    Haste = { -- Used for Utsusemi cooldown
-    },
 
-    Hate = {
-        Back = 'Mercen. Mantle',
-        Ring1 = 'Sattva Ring',
-    },
+    SIRD = {},
+
+    -- Used for Utsusemi cooldown
+    Haste = {},
+
+    Hate = {},
+
     NinDebuff = {},
+
     NinElemental = {},
+
     DrkDarkMagic = {},
 
+    TP_LowAcc = {},
+
+    TP_HighAcc = {},
+
+    WS = {},
+
+    WS_BladeJin = {},
+
+    WS_BladeKu = {},
+
+    -- This won't work for automatically swapping shurikens, only other equipment
+    Ranged = {},
+
+    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
-
-    TP_LowAcc = {
-        Main = 'Kodachi +1',
-        Sub = 'Nikkariaoe',
-        Ammo = 'Happy Egg',
-        Head = 'Emperor Hairpin',
-        Neck = 'Peacock Amulet',
-        Ear1 = 'Beetle Earring +1',
-        Ear2 = 'Beetle Earring +1',
-        Body = 'Power Gi',
-        Hands = 'Custom M Gloves',
-        Ring1 = 'Puissance Ring',
-        Ring2 = 'Venerer Ring',
-        Back = 'Nomad\'s Mantle',
-        Waist = 'Warrior\'s Belt +1',
-        Legs = 'Republic Subligar',
-        Feet = 'Fed. Kyahan',
-    },
-    TP_HighAcc = {},
-    WS = {},
-    WS_BladeJin = {},
-    WS_BladeKu = {},
-
-    Ranged = {}, -- This won't work for automatically swapping shurikens, only other equipment
 }
 profile.Sets = sets
 
@@ -151,7 +124,7 @@ local NinDebuffs = T{ 'Kurayami: Ni', 'Hojo: Ni', 'Jubaku: Ichi', 'Dokumori: Ich
 local DrkDebuffs = T{ 'Bind', 'Sleep', 'Poison' }
 local DrkDarkMagic = T{ 'Stun', 'Aspir', 'Drain', 'Absorb-AGI', 'Absorb-VIT' }
 local NinElemental = T{
-    'Hyoton: Ni', 'Katon: Ni', 'Huton: Ni', 'Doton: Ni', 'Raiton: Ni', 'Suiton: Ni', 
+    'Hyoton: Ni', 'Katon: Ni', 'Huton: Ni', 'Doton: Ni', 'Raiton: Ni', 'Suiton: Ni',
     'Hyoton: Ichi', 'Katon: Ichi', 'Huton: Ichi', 'Doton: Ichi', 'Raiton: Ichi', 'Suiton: Ichi',
     'Hyoton: San', 'Katon: San', 'Huton: San', 'Doton: San', 'Raiton: San', 'Suiton: San'
 }

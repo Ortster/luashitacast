@@ -1,6 +1,6 @@
 local profile = {}
 
-local fastCastValue = 0.42 -- 20% from traits 22% from gear listed in Precast set
+local fastCastValue = 0.00 -- 20% from traits 22% from gear listed in Precast set
 
 local ninSJMaxMP = 535 -- The Max MP you have when /nin in your idle set
 local whmSJMaxMP = 613 -- The Max MP you have when /whm in your idle set
@@ -8,8 +8,8 @@ local blmSJMaxMP = 632 -- The Max MP you have when /blm in your idle set
 local drkSJMaxMP = 556 -- The Max MP you have when /drk in your idle set
 
 local blue_cotehardie = false
-local blue_cotehardie_plus_one = true
-local dilation_ring = true
+local blue_cotehardie_plus_one = false
+local dilation_ring = false
 local dilation_ring_slot = 'Ring2'
 
 local sets = {
@@ -659,8 +659,8 @@ profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //dia')
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //stun')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //dia')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //stun')
 end
 
 --[[

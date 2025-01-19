@@ -1,6 +1,6 @@
 local profile = {}
 
-local fastCastValue = 0.04 -- 4% from gear not including carbuncles cuffs or evokers boots
+local fastCastValue = 0.00 -- 4% from gear not including carbuncles cuffs or evokers boots
 
 local carbuncles_cuffs = false
 local evokers_boots = false
@@ -320,11 +320,11 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 2')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 2')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //dia')
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //dia')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //dia')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //dia')
 end
 
 --[[

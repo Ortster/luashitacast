@@ -1,21 +1,21 @@
 local profile = {}
 
-local fastCastValue = 0.07 -- 7% from gear
+local fastCastValue = 0.00 -- 7% from gear
 
-local use_chaos_burgeonet_for_tp_during_souleater = true
+local use_chaos_burgeonet_for_tp_during_souleater = false
 
-local parade_gorget = true
-local fenrirs_stone = true
+local parade_gorget = false
+local fenrirs_stone = false
 
 -- Set to true if you have the obi
-local karin_obi = true
+local karin_obi = false
 local dorin_obi = false
 local suirin_obi = false
 local furin_obi = false
-local hyorin_obi = true
-local rairin_obi = true
-local korin_obi = true
-local anrin_obi = true
+local hyorin_obi = false
+local rairin_obi = false
+local korin_obi = false
+local anrin_obi = false
 
 local sets = {
     Idle = {
@@ -374,11 +374,11 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 4')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //stun')
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //weaponbash')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //stun')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //weaponbash')
 end
 
 --[[

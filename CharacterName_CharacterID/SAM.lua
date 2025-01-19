@@ -3,8 +3,8 @@ local profile = {}
 local fastCastValue = 0.00 -- 0% from gear
 
 -- Replace these with '' if you do not have them
-local myochin_kabuto = 'Myochin Kabuto'
-local saotome_kote = 'Saotome Kote'
+local myochin_kabuto = '' -- 'Myochin Kabuto'
+local saotome_kote = '' -- 'Saotome Kote'
 
 local sets = {
     Idle = {},

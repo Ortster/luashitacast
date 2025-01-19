@@ -1,14 +1,14 @@
 local profile = {}
 
-local fastCastValue = 0.04 -- Only include Fast Cast e.g. Loquacious Earring, Rostrum Pumps
-local fastCastValueSong = 0.37 -- Only include Song Spellcasting Time e.g. Minstrel's Ring, Sha'ir Manteel
+local fastCastValue = 0.00 -- Only include Fast Cast e.g. Loquacious Earring, Rostrum Pumps
+local fastCastValueSong = 0.00 -- Only include Song Spellcasting Time e.g. Minstrel's Ring, Sha'ir Manteel
 
 local ninSJMaxMP = nil -- The Max MP you have when /nin in your idle set
 local whmSJMaxMP = nil -- The Max MP you have when /whm in your idle set
 local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 
-local minstrels_earring = true
+local minstrels_earring = false
 local minstrels_earring_slot = 'Ear2'
 
 local sets = {
@@ -282,7 +282,7 @@ profile.Sets = sets
 
 profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 9')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[

@@ -2,20 +2,20 @@ local profile = {}
 
 local fastCastValue = 0.07 -- 7% from gear
 
-local parade_gorget = true
+local parade_gorget = false
 
-local hercules_ring = true
+local hercules_ring = false
 local hercules_ring_slot = 'Ring1'
 
 -- Replace these with '' if you do not have them
-local gallant_leggings = 'Glt. Leggings +1'
-local valor_leggings = 'Vlr. Leggings +1'
+local gallant_leggings = '' -- 'Glt. Leggings +1'
+local valor_leggings = '' -- 'Vlr. Leggings +1'
 
-local arco_de_velocidad = true
+local arco_de_velocidad = false
 
-local warlocks_mantle = true -- Don't add 2% to fastCastValue to this as it is SJ dependant
+local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is SJ dependant
 
-local shadow_mantle = true
+local shadow_mantle = false
 
 local sets = {
     Idle = {
@@ -498,11 +498,11 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 3')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //flash')
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //shieldbash')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //flash')
+    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //shieldbash')
 end
 
 --[[

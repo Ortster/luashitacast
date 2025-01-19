@@ -2,7 +2,7 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local gaudy_harness = true
+local gaudy_harness = false
 
 -- Replace these with '' if you do not have them
 local muscle_belt = ''
@@ -50,8 +50,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 5')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 2')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[

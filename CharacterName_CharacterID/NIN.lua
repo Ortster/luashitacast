@@ -6,39 +6,39 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local shinobi_ring = true
+local shinobi_ring = false
 local shinobi_ring_slot = 'Ring2'
 
 local koga_tekko = false
-local koga_tekko_plus_one = true
+local koga_tekko_plus_one = false
 
-local uggalepih_pendant = true
+local uggalepih_pendant = false
 
-local fenrirs_stone = true -- Used for Evasion at night
+local fenrirs_stone = false -- Used for Evasion at night
 
 -- Fill this out for which evasion pants to use at night / dusk to dawn
 local night_time_eva_pants = ''
-local dusk_to_dawn_eva_pants = 'Koga Hakama +1'
+local dusk_to_dawn_eva_pants = '' -- 'Koga Hakama +1'
 
 -- Leave as '' if you do not have the staff.
-local fire_staff = 'Vulcan\'s Staff'
-local earth_staff = 'Terra\'s Staff'
-local water_staff = 'Neptune\'s Staff'
-local wind_staff = 'Auster\'s Staff'
-local ice_staff = 'Aquilo\'s Staff'
-local thunder_staff = 'Jupiter\'s Staff'
-local light_staff = 'Apollo\'s Staff'
-local dark_staff = 'Pluto\'s Staff'
+local fire_staff = '' -- 'Fire Staff' or 'Vulcan\'s Staff'
+local earth_staff = '' -- 'Earth Staff' or 'Terra\'s Staff'
+local water_staff = '' -- 'Water Staff' or 'Neptune\'s Staff'
+local wind_staff = '' -- 'Wind Staff' or 'Auster\'s Staff'
+local ice_staff = '' -- 'Ice Staff' or 'Aquilo\'s Staff'
+local thunder_staff = '' -- 'Thunder Staff' or 'Jupiter\'s Staff'
+local light_staff = '' -- 'Light Staff' or 'Apollo\'s Staff'
+local dark_staff = '' -- 'Dark Staff' or 'Pluto\'s Staff'
 
 -- Set to true if you have the obi
-local karin_obi = true
+local karin_obi = false
 local dorin_obi = false
 local suirin_obi = false
 local furin_obi = false
-local hyorin_obi = true
-local rairin_obi = true
-local korin_obi = true
-local anrin_obi = true
+local hyorin_obi = false
+local rairin_obi = false
+local korin_obi = false
+local anrin_obi = false
 
 local sets = {
     Idle = {

@@ -1,25 +1,25 @@
 local profile = {}
 
 local max_hp_in_idle_with_regen_gear_equipped = 1632
-local fastCastValue = 0.02 -- 2% from gear
+local fastCastValue = 0.00 -- 2% from gear
 
 -- Replace these with '' if you do not have them
-local temple_gaiters = 'Temple Gaiters'
-local temple_gloves = 'Temple Gloves'
-local temple_cyclas = 'Tpl. Cyclas +1'
-local temple_crown = 'Tpl. Crown +1'
+local temple_gaiters = '' -- 'Temple Gaiters'
+local temple_gloves = '' -- 'Temple Gloves'
+local temple_cyclas = '' -- 'Tpl. Cyclas +1'
+local temple_crown = '' -- 'Tpl. Crown +1'
 
-local melee_gaiters = 'Melee Gaiters'
-local melee_gloves = 'Mel. Gloves +1'
+local melee_gaiters = '' -- 'Melee Gaiters'
+local melee_gloves = '' -- 'Mel. Gloves +1'
 
 local muscle_belt = ''
 local garden_bangles = ''
-local presidential_hairpin = true
+local presidential_hairpin = false
 local dream_ribbon = false
 
-local kampfer_ring = true
+local kampfer_ring = false
 local kampfer_ring_slot = 'Ring2'
-local kampfer_earring = true
+local kampfer_earring = false
 local kampfer_earring_slot = 'Ear2'
 
 local sets = {
@@ -250,7 +250,7 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 2')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 

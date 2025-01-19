@@ -2,7 +2,7 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local ethereal_earring = true
+local ethereal_earring = false
 local ethereal_earring_slot = 'Ear2'
 
 local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is SJ dependant

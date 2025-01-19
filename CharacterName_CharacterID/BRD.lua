@@ -214,9 +214,15 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
+    local player = gData.GetPlayer()
+    local myLevel = player.MainJobSync;
+    if (myLevel ~= gcinclude.CurrentLevel) then
+        gFunc.EvaluateLevels(profile.Sets, myLevel);
+        gcinclude.CurrentLevel = myLevel;
+    end
+
     gcmage.DoDefault(ninSJMaxMP, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
 
-    local player = gData.GetPlayer()
     if (minstrels_earring and player.HPP <= 25) then
         gFunc.Equip(minstrels_earring_slot, 'Minstrel\'s Earring')
     end

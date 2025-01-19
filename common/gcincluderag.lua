@@ -1,5 +1,7 @@
 local display_messages = true -- set to true if you want chat log messages to appear on any /gc command used such as DT, or KITE gear toggles
 
+local CurrentLevel = 1
+
 local kingdom_aketon = false
 local republic_aketon = false
 local federation_aketon = false

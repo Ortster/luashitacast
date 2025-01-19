@@ -154,6 +154,13 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
+    local player = gData.GetPlayer()
+    local myLevel = player.MainJobSync;
+    if (myLevel ~= gcinclude.CurrentLevel) then
+        gFunc.EvaluateLevels(profile.Sets, myLevel);
+        gcinclude.CurrentLevel = myLevel;
+    end
+
     gcmage.DoDefault(ninSJMaxMP, nil, blmSJMaxMP, rdmSJMaxMP, nil)
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))

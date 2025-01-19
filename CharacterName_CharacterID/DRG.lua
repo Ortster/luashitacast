@@ -160,9 +160,15 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    gcmelee.DoDefault()
-
     local player = gData.GetPlayer()
+    local myLevel = player.MainJobSync;
+    if (myLevel ~= gcinclude.CurrentLevel) then
+        gFunc.EvaluateLevels(profile.Sets, myLevel);
+        gcinclude.CurrentLevel = myLevel;
+    end
+
+    gcmelee.DoDefault()
+    
     local isWHM = player.SubJob == 'WHM'
     local isRDM = player.SubJob == 'RDM'
     local isMage = isWHM or isRDM

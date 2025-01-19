@@ -158,6 +158,13 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
+    local player = gData.GetPlayer()
+    local myLevel = player.MainJobSync;
+    if (myLevel ~= gcinclude.CurrentLevel) then
+        gFunc.EvaluateLevels(profile.Sets, myLevel);
+        gcinclude.CurrentLevel = myLevel;
+    end
+
     gcmage.DoDefault(ninSJNukeMaxMP, whmSJNukeMaxMP, nil, rdmSJNukeMaxMP, nil)
 
     local spikes = gData.GetBuffCount('Blaze Spikes') + gData.GetBuffCount('Shock Spikes') + gData.GetBuffCount('Ice Spikes')

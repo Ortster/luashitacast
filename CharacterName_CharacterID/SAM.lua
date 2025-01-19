@@ -116,6 +116,13 @@ profile.OnUnload = function()
 end
 
 profile.HandleCommand = function(args)
+    local player = gData.GetPlayer()
+    local myLevel = player.MainJobSync;
+    if (myLevel ~= gcinclude.CurrentLevel) then
+        gFunc.EvaluateLevels(profile.Sets, myLevel);
+        gcinclude.CurrentLevel = myLevel;
+    end
+
     gcmelee.DoCommands(args)
 
     if (args[1] == 'horizonmode') then

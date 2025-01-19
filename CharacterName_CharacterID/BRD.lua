@@ -12,271 +12,137 @@ local minstrels_earring = false
 local minstrels_earring_slot = 'Ear2'
 
 local sets = {
-    Idle = {
-        Main = 'Terra\'s Staff',
-        Range = 'Mythic Harp +1',
-        Neck = 'Jeweled Collar',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Royal Cloak',
-        Hands = 'Dst. Mittens +1',
-        Ring1 = 'Merman\'s Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Umbra Cape',
-        Waist = 'Scouter\'s Rope',
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Dst. Leggings +1',
-    },
-    IdleALT = {
-        Main = 'Terra\'s Staff',
-        Range = 'Mythic Harp +1',
-        Neck = 'Checkered Scarf',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Head = 'Crow Beret',
-        Body = 'Crow Jupon',
-        Hands = 'Dst. Mittens +1',
-        Ring1 = 'Merman\'s Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Umbra Cape',
-        Waist = 'Scouter\'s Rope',
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Dst. Leggings +1',
-    },
+    Idle = {},
+
+    IdleALT = {},
+
     IdleMaxMP = {},
-    Resting = {
-        Main = 'Pluto\'s Staff',
-        Head = 'Crow Beret',
-        Neck = 'Checkered Scarf',
-        Ear1 = 'Relaxing Earring',
-        Ear2 = 'Magnetic Earring',
-        Body = 'Errant Hpl.',
-        Back = 'Errant Cape',
-        Legs = 'Baron\'s Slops',
-    },
+
+    Resting = {},
+
     Town = {},
+
     Movement = {},
 
     DT = {},
+
     DTNight = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
-    FireRes = {
-        Main = 'Neptune\'s Staff',
-        Head = 'Green Ribbon +1',
-        Neck = 'Enfeebling Torque',
-        Body = 'Dst. Harness +1',
-        Ear1 = 'Ruby Earring',
-        Ear2 = 'Ruby Earring',
-        Ring1 = 'Ruby Ring',
-        Ring2 = 'Malflame Ring',
-        Feet = 'Suzaku\'s Sune-ate',
-    },
+
+    -- Shell IV provides 23% MDT
+    MDT = {},
+
+    FireRes = {},
+
     IceRes = {},
+
     LightningRes = {},
+
     EarthRes = {},
+
     WindRes = {},
+
     WaterRes = {},
+
     Evasion = {},
 
-    Precast_Songs_HPDown = { -- This set will equip even before precast for songs in case you require HP Down equipment to trigger Minstrel's Ring
-    },
-    Precast = {
-       Ear2 = 'Loquac. Earring',
-       Feet = 'Rostrum Pumps',
-    },
-    Precast_Songs = {
-        Main = 'Tutelary',
-        Sub = 'She-slime Shield',
-        Ammo = 'Happy Egg',
-        Head = 'Genbu\'s Kabuto',
-        Neck = 'Bird Whistle',
-        Ear1 = 'Pigeon Earring',
-        Ear2 = 'Loquac. Earring',
-        Body = 'Sha\'ir Manteel',
-        Hands = 'Seiryu\'s Kote',
-        Ring1 = 'Minstrel\'s Ring',
-        Ring2 = 'Bomb Queen Ring',
-        Back = 'Gigant Mantle',
-        Waist = 'Powerful Rope',
-        Legs = 'Bard\'s Cannions',
-        Feet = 'Rostrum Pumps',
-    },
-    Casting = { -- Default Casting Equipment when using Idle sets
-        Main = 'Terra\'s Staff',
-        Range = 'Mythic Harp +1',
-        Neck = 'Evasion Torque',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Head = 'Darksteel Cap +1',
-        Body = 'Dst. Harness +1',
-        Hands = 'Dst. Mittens +1',
-        Ring1 = 'Merman\'s Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Umbra Cape',
-        Waist = 'Powerful Rope',
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Dst. Leggings +1',
-    },
-    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
-    },
-    Haste = { -- Used only on Haste, Refresh, Blink and Utsusemi casts
-        Body = 'Sha\'ir Manteel',
-        Ear1 = 'Magnetic Earring',
-        Hands = 'Dusk Gloves',
-        Waist = 'Swift Belt',
-        Legs = 'Byakko\'s Haidate',
-        Feet = 'Dusk Ledelsens',
-    },
-    ConserveMP = {
-        Ear2 = 'Magnetic Earring',
-    },
+    -- This set will equip even before precast for songs in case you require HP Down equipment to trigger Minstrel's Ring
+    Precast_Songs_HPDown = {},
 
-    Sing_Default = {
-        Head = 'Bard\'s Roundlet',
-        Neck = 'Wind Torque',
-        Ear1 = 'Singing Earring',
-        Ear2 = 'Musical Earring',
-        Hands = 'Chl. Cuffs +1',
-        Legs = 'Chl. Cannions +1',
-        Back = 'Astute Cape',
-    },
-    Sing_Buff = {
-        Main = 'Chanter\'s Staff',
-        Body = 'Minstrel\'s Coat',
-    },
-    Sing_Debuff = {
-        Body = 'Kirin\'s Osode',
-        Ring1 = 'Heavens Ring',
-        Ring2 = 'Heavens Ring',
-        Waist = 'Corsette +1',
-        Feet = 'Sha\'ir Crackows',
-    },
+    Precast = {},
 
-    Sing_Ballad_Large = {
-        Range = 'Mythic Harp +1',
-    },
-    Sing_Ballad_Small = {
-        Range = 'Horn +1',
-    },
-    Sing_Paeon = {
-        Range = 'Ebony Harp +1',
-        Neck = 'String Torque',
-    },
-    Sing_Mazurka = {
-        Range = 'Ebony Harp +1',
-        Neck = 'String Torque',
-    },
-    Sing_Minuet = {
-        Range = 'Cornette +1',
-    },
-    Sing_March = {
-        Range = 'Faerie Piccolo',
-    },
-    Sing_Madrigal = {
-        Range = 'Traversiere +2',
-    },
-    Sing_Elegy = {
-        Range = 'Horn +1',
-        Main = 'Terra\'s Staff',
-    },
-    Sing_Lullaby = {
-        Range = 'Nursemaid\'s Harp',
-        Main = 'Apollo\'s Staff',
-        Legs = 'Mahatma Slops',
-    },
-    Sing_HordeLullaby_Large = {
-        Range = 'Nursemaid\'s Harp',
-        Main = 'Apollo\'s Staff',
-        Neck = 'String Torque',
-        Legs = 'Mahatma Slops',
-    },
-    Sing_HordeLullaby_Small = {
-        Range = 'Nursemaid\'s Harp',
-        Main = 'Apollo\'s Staff',
-        Neck = 'String Torque',
-        Legs = 'Mahatma Slops',
-    },
-    Sing_SleepRecast = {
-    },
-    Sing_FinaleRequiem = {
-        Range = 'Hamelin Flute',
-        Main = 'Apollo\'s Staff',
-    },
-    Sing_Carol = {
-        Range = 'Crumhorn +1',
-    },
-    Sing_Mambo = {
-        Range = 'Gemshorn +1',
-    },
-    Sing_Prelude = {
-        Range = 'Angel\'s Flute +1',
-    },
-    Sing_Threnody = {
-        Range = 'Sorrowful Harp',
-        Neck = 'String Torque',
-        Legs = 'Mahatma Slops',
-    },
-    Sing_Hymnus = {
-        Range = 'Angel Lyre',
-    },
+    Precast_Songs = {},
 
-    Cure = {
-        Main = 'Apollo\'s Staff',
-        Head = 'Crow Beret',
-        Neck = 'Justice Badge',
-        Ear1 = 'Magnetic Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Crow Jupon',
-        Hands = 'Crow Bracers',
-        Ring1 = 'Aqua Ring',
-        Ring2 = 'Aqua Ring',
-        Back = 'Prism Cape',
-        Waist = 'Penitent\'s Rope',
-        Legs = 'Crow Hose',
-        Feet = 'Crow Gaiters',
-    },
+    -- Default Casting Equipment when using Idle sets
+    Casting = {},
+
+    -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    SIRD = {},
+
+    -- Used only on Haste, Refresh, Blink and Utsusemi casts
+    Haste = {},
+
+    ConserveMP = {},
+
+    Sing_Default = {},
+
+    Sing_Buff = {},
+
+    Sing_Debuff = {},
+
+    Sing_Ballad_Large = {},
+
+    Sing_Ballad_Small = {},
+
+    Sing_Paeon = {},
+
+    Sing_Mazurka = {},
+
+    Sing_Minuet = {},
+
+    Sing_March = {},
+
+    Sing_Madrigal = {},
+
+    Sing_Elegy = {},
+
+    Sing_Lullaby = {},
+
+    Sing_HordeLullaby_Large = {},
+
+    Sing_HordeLullaby_Small = {},
+
+    Sing_SleepRecast = {},
+
+    Sing_FinaleRequiem = {},
+
+    Sing_Carol = {},
+
+    Sing_Mambo = {},
+
+    Sing_Prelude = {},
+
+    Sing_Threnody = {},
+
+    Sing_Hymnus = {},
+
+    Cure = {},
+
     Cursna = {},
 
-    Enhancing = {
-        Ear1 = 'Magnetic Earring',
-    },
-    Stoneskin = {
-        Main = 'Chanter\'s Staff',
-        Head = 'Crow Beret',
-        Neck = 'Stone Gorget',
-        Ear1 = 'Magnetic Earring',
-        Ear2 = 'Geist Earring',
-        Body = 'Kirin\'s Osode',
-        Hands = 'Devotee\'s Mitts',
-        Ring1 = 'Aqua Ring',
-        Ring2 = 'Aqua Ring',
-        Back = 'Prism Cape',
-        Waist = 'Penitent\'s Rope',
-        Legs = 'Mahatma Slops',
-        Feet = 'Suzaku\'s Sune-ate',
-    },
+    Enhancing = {},
+
+    Stoneskin = {},
+
     Spikes = {},
 
     Enfeebling = {},
+
     EnfeeblingMND = {},
+
     EnfeeblingINT = {},
+
     EnfeeblingACC = {},
 
     Divine = {},
+
     Dark = {},
 
     Nuke = {},
+
     NukeACC = {},
+
     NukeDOT = {},
 
+    TP = {},
+
+    TP_NIN = {},
+
+    WS = {},
+
+    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
-
-    TP = {},
-    TP_NIN = {},
-    WS = {},
 }
 profile.Sets = sets
 

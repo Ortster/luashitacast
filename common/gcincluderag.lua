@@ -1,6 +1,8 @@
 local display_messages = true -- set to true if you want chat log messages to appear on any /gc command used such as DT, or KITE gear toggles
 
-local CurrentLevel = 1
+-- Settings for Level Sync Priority Sets
+local CurrentLevel = 0
+local ManualLevel = nil
 
 local kingdom_aketon = false
 local republic_aketon = false
@@ -46,7 +48,7 @@ gcdisplay = gFunc.LoadFile('common\\gcdisplayrag.lua')
 local gcinclude = {}
 
 local Overrides = T{ 'idle','dt','pdt','mdt','fireres','fres','iceres','ires','bres','lightningres','lres','tres','earthres','eres','sres','windres','wires','ares','waterres','wares','wres','evasion','eva' }
-local Commands = T{ 'kite','lock','locktp','lockset','warpme','horizonmode' }
+local Commands = T{ 'kite','lock','locktp','lockset','warpme','horizonmode','level' }
 
 local Towns = T{
     'Tavnazian Safehold','Al Zahbi','Aht Urhgan Whitegate','Nashmau',
@@ -228,6 +230,14 @@ function gcinclude.DoCommands(args)
             gcinclude.LockWeapon()
             gcinclude.UnlockNonWeapon()
         end
+    -- "level" command to set/unset ManualLevel to allow testing of sync sets
+    elseif (args[1] == 'level') then
+        if (args[2] ~= nil) then
+            gcinclude.ManualLevel = tonumber(args[2])
+        else
+            gcinclude.ManualLevel = nil;
+        end
+	    gcdisplay.DisplayLevel = gcinclude.ManualLevel
     end
 end
 

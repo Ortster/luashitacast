@@ -11,7 +11,8 @@ local Cycles = {}
 local fonts = require('fonts')
 
 local gcdisplay = {
-    IdleSet = 'Normal'
+    IdleSet = 'Normal',
+    DisplayLevel = nil,
 }
 
 local fontSettings = {
@@ -124,7 +125,14 @@ function gcdisplay.Load()
         for key, value in pairs(Cycles) do
             display = display .. '   ' .. key .. ': ' .. '|cFF5FFF5F|' .. value.Array[value.Index] .. '|r'
         end
-        display = display .. '   ' .. 'IdleSet' .. ': ' .. '|cFF5FFF5F|' .. gcdisplay.IdleSet .. '|r' .. ' '
+        display = display .. '   ' .. 'IdleSet' .. ': ' .. '|cFF5FFF5F|' .. gcdisplay.IdleSet .. '|r' 
+        
+        if gcdisplay.DisplayLevel ~= nil then
+            display = display .. '   ' .. 'Level Lock' .. ': ' .. '|cFF5FFF5F|' .. gcdisplay.DisplayLevel .. '|r' 
+        end
+        
+        display = display .. ' '
+        
         gcdisplay.FontObject.text = display
     end)
 end

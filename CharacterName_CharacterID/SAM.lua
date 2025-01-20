@@ -118,6 +118,10 @@ end
 profile.HandleCommand = function(args)
     local player = gData.GetPlayer()
     local myLevel = player.MainJobSync;
+    
+    if (gcinclude.ManualLevel ~= nil) then
+        myLevel = gcinclude.ManualLevel;
+    end
     if (myLevel ~= gcinclude.CurrentLevel) then
         gFunc.EvaluateLevels(profile.Sets, myLevel);
         gcinclude.CurrentLevel = myLevel;

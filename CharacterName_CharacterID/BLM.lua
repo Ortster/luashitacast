@@ -2,9 +2,11 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 4% from gear listed in Precast set
 
-local ninSJNukeMaxMP = nil -- The Max MP you have when /nin in your nuking set
-local whmSJNukeMaxMP = nil -- The Max MP you have when /whm in your nuking set
-local rdmSJNukeMaxMP = nil -- The Max MP you have when /rdm in your nuking set
+local ninSJMaxMP = nil -- The Max MP you have when /nin in your idle set
+local whmSJMaxMP = nil -- The Max MP you have when /whm in your idle set
+local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
+
+local nukeExtraThreshold = 850 -- The minimum MP for which NukeExtra and StoneskinExtra set will be used instead of regular sets (to allow additional nukes using max mp sets)
 
 local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is SJ dependant
 local republic_circlet = false
@@ -71,6 +73,8 @@ local sets = {
 
     Stoneskin = {},
 
+    StoneskinExtra = {},
+
     Spikes = {},
 
     Enfeebling = {},
@@ -94,6 +98,8 @@ local sets = {
     NukeACC = {},
 
     NukeDOT = {},
+
+    NukeExtra = {},
 
     MB = {},
 
@@ -141,16 +147,24 @@ profile.HandleWeaponskill = function()
 end
 
 profile.OnLoad = function()
+    gcinclude.SetAlias(T{'extra'})
+    gcdisplay.CreateToggle('Extra', false)
     gcmage.Load()
     profile.SetMacroBook()
 end
 
 profile.OnUnload = function()
     gcmage.Unload()
+    gcinclude.ClearAlias(T{'extra'})
 end
 
 profile.HandleCommand = function(args)
-    gcmage.DoCommands(args)
+    if (args[1] == 'extra') then
+        gcdisplay.AdvanceToggle('Extra')
+        gcinclude.Message('Extra', gcdisplay.GetToggle('Extra'))
+    else
+        gcmage.DoCommands(args)
+    end
 
     if (args[1] == 'horizonmode') then
         profile.HandleDefault()
@@ -169,7 +183,7 @@ profile.HandleDefault = function()
         gcinclude.CurrentLevel = myLevel;
     end
 
-    gcmage.DoDefault(ninSJNukeMaxMP, whmSJNukeMaxMP, nil, rdmSJNukeMaxMP, nil)
+    gcmage.DoDefault(ninSJMaxMP, whmSJMaxMP, nil, rdmSJMaxMP, nil)
 
     local spikes = gData.GetBuffCount('Blaze Spikes') + gData.GetBuffCount('Shock Spikes') + gData.GetBuffCount('Ice Spikes')
     local isPhysical = gcdisplay.IdleSet == 'Normal' or gcdisplay.IdleSet == 'Alternate' or gcdisplay.IdleSet == 'DT'
@@ -193,11 +207,15 @@ end
 local ElementalDebuffs = T{ 'Burn','Rasp','Drown','Choke','Frost','Shock' }
 
 profile.HandleMidcast = function()
-    gcmage.DoMidcast(sets, ninSJNukeMaxMP, whmSJNukeMaxMP, nil, rdmSJNukeMaxMP, nil)
+    gcmage.DoMidcast(sets, ninSJMaxMP, whmSJMaxMP, nukeExtraThreshold, rdmSJMaxMP, nil)
 
+    local player = gData.GetPlayer()
     local action = gData.GetAction()
     if (republic_circlet == true) then
         if (action.Skill == 'Elemental Magic' and gcdisplay.GetCycle('Mode') == 'Potency') then
+            if (gcdisplay.GetToggle('Extra') and player.MP >= nukeExtraThreshold) then
+                do return end
+            end
             if (not ElementalDebuffs:contains(action.Name)) then
                 if (conquest:GetInsideControl()) then
                     print(chat.header('GCMage'):append(chat.message('In Region - Using Republic Circlet')))

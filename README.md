@@ -125,6 +125,7 @@ This will work 99% of the time unless you have added your own logic and therefor
 /hate   - causes your cures, sleeps, blinds, dispels and binds to equip +enmity set on cast.
 /fight  - used to turn off TP set.
           this is automatically used for you when disengaging if your TP is 0.
+/tp     - toggles TP set between a LowAcc and HighAcc set.
 
 [Special Sets]
 These commands and sets were created before /lockset was implemented and do the same thing.
@@ -155,6 +156,7 @@ These commands and sets were created before /lockset was implemented and do the 
 ```
 /fight  - used to turn off TP set.
           this is automatically used for you when disengaging if your TP is 0.
+/tp     - toggles TP set between a LowAcc and HighAcc set.
 ```
 
 ## Additional Commands for BRD:
@@ -163,6 +165,7 @@ These commands and sets were created before /lockset was implemented and do the 
 /sballad - switches to using a wind instrument over string to reduce AOE.
 /fight  - used to turn off TP set.
           this is automatically used for you when disengaging if your TP is 0.
+/tp     - toggles TP set between a LowAcc and HighAcc set.
 ```
 
 ## Additional Commands for BST:
@@ -211,8 +214,6 @@ Do NOT DM or /tell me in-game regarding your setup issues or if you have not bot
 # TODO
 A list of things to do in the future but who knows when I'll get around to them:
 - THF - Automatic TH toggling via Will's isTargetTagged.lua lib
-- RNG - Implement Accuracy Modes for Ranged Attacks
-- PLD - Add Divine Skill set
-- DRG - Add different Jump Accuracy sets
+- Micro-optimizations with job specific overrides for midcast and respecting max mp sets etc. e.g. WHM should not equip Virology ring when at 100% max mp.
 
 Feel free to submit PRs to implement these.

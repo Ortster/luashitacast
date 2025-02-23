@@ -38,8 +38,10 @@ local sets = {
     TP_LowAcc = {},
     TP_HighAcc = {},
     TP_NIN = {},
+    TP_Mjollnir_Haste = {},
 
     WS = {},
+    WS_HighAcc = {},
 
     Charm = {},
     Reward = {},
@@ -169,16 +171,13 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
-    gcmelee.DoFenrirsEarring()
+    gcmelee.DoWS()
 end
 
 profile.OnLoad = function()

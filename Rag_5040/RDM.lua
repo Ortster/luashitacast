@@ -587,24 +587,34 @@ local sets = {
         Sub = 'Genbu\'s Shield',
         Range = 'Lightning Bow +1',
         Ammo = '',
+        Head = 'Dls. Chapeau +1',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Brutal Earring',
+        Ear2 = 'Merman\'s Earring',
+        Body = 'Hydra Doublet',
+        Hands = 'Dusk Gloves +1',
+        Ring1 = 'Toreador\'s Ring',
+        Ring2 = 'Toreador\'s Ring',
+        Back = 'Forager\'s Mantle',
+        Waist = 'Sonic Belt',
+        Legs = 'Nashira Seraweels',
+        Feet = 'Dusk Ledelsens +1',
+    },
+    TP_HighAcc = {
+        Range = 'Lightning Bow +1',
+        Ammo = '',
         Head = 'Optical Hat',
-        -- Head = 'Dls. Chapeau +1',
         Neck = 'Peacock Amulet',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Merman\'s Earring',
         Body = 'Hydra Doublet',
         Hands = 'Hydra Gloves',
-        -- Hands = 'Dusk Gloves +1',
         Ring1 = 'Toreador\'s Ring',
         Ring2 = 'Toreador\'s Ring',
-        -- Back = 'Forager\'s Mantle',
         Back = 'Commander\'s Cape',
         Waist = 'Life Belt',
-        -- Waist = 'Sonic Belt',
         Legs = 'Hydra Brais',
-        -- Legs = 'Nashira Seraweels',
         Feet = 'Hydra Gaiters',
-        -- Feet = 'Dusk Ledelsens +1',
     },
     TP_NIN = {
         Main = 'Martial Knife',
@@ -618,6 +628,7 @@ local sets = {
         Ammo = '',
         -- Ammo = 'Virtue Stone',
     },
+    TP_Mjollnir_Haste = {},
     WS = {
         Head = 'Optical Hat',
         Ear2 = 'Merman\'s Earring',
@@ -626,6 +637,12 @@ local sets = {
         Waist = 'Warwolf Belt',
         Legs = 'Hydra Brais',
         Feet = 'Rutter Sabatons',
+    },
+    WS_HighAcc = {
+        Body = 'Hydra Doublet',
+        Hands = 'Hydra Gloves',
+        Waist = 'Life Belt',
+        Feet = 'Hydra Gaiters',
     },
     WS_Soil = {
         Neck = 'Soil Gorget',
@@ -672,7 +689,6 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
-    -- You may add logic here
 end
 
 profile.HandleItem = function()
@@ -680,17 +696,18 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
     local action = gData.GetAction()
 
     gFunc.EquipSet(sets.WS)
+    if (gcdisplay.GetCycle('TP') == 'HighAcc') then
+        gFunc.EquipSet('WS_HighAcc')
+    end
     gcmage.DoFenrirsEarring()
 
     if (action.Name == 'Savage Blade') or (action.Name == 'Vorpal Blade') or (action.Name == 'Swift Blade') then

@@ -20,7 +20,6 @@ local shadow_mantle = true
 local sets = {
     Idle = {
         Main = 'Durandal',
-        -- Sub = 'Master Shield',
         Sub = 'Palmerin\'s Shield',
         Range = 'Rosenbogen',
         Ammo = '',
@@ -131,7 +130,6 @@ local sets = {
     },
     MDT = { -- Shell IV provides 23% MDT
         Main = 'Durandal',
-        -- Sub = 'Master Shield',
         Sub = 'Palmerin\'s Shield', -- 2
         Range = 'Rosenbogen',
         Ammo = '',
@@ -257,7 +255,7 @@ local sets = {
         Feet = 'Coral Greaves +1', -- 4
     },
     Evasion = {
-        -- Head = 'Bahamut\'s Mask',
+        Head = 'Bahamut\'s Mask',
         -- Hrotti
         -- Crimson Scale Mail
         Legs = 'Bahamut\'s Hose',
@@ -308,8 +306,7 @@ local sets = {
     Hate = {
         Main = 'Durandal',
         Sub = 'Koenig Shield',
-        Head = 'Aegishjalmr',
-        -- Head = 'Bahamut\'s Mask',
+        Head = 'Bahamut\'s Mask',
         Neck = 'Harmonia\'s Torque',
         Ear1 = 'Hades Earring +1',
         Ear2 = { Name = 'Bloodbead Earring', Priority = 100 },
@@ -323,8 +320,8 @@ local sets = {
         Feet = 'Vlr. Leggings +1',
     },
     Hate_Flash = { -- Optional, provided here only if you wish to mix in haste or other stats over max +enmity
-        Main = 'Durandal',
-        Sub = 'Koenig Shield',
+        Main = 'Capricorn Staff',
+        Sub = 'remove',
         Head = 'Homam Zucchetto',
         Neck = 'Harmonia\'s Torque',
         Ear1 = 'Loquac. Earring',
@@ -362,8 +359,7 @@ local sets = {
         Sub = '',
         Range = 'Rosenbogen',
         Ammo = '',
-        Head = 'Aegishjalmr',
-        -- Head = 'Bahamut\'s Mask',
+        Head = 'Bahamut\'s Mask',
         Neck = 'Harmonia\'s Torque',
         Ear1 = 'Hospitaler Earring',
         Ear2 = 'Hades Earring +1',
@@ -383,7 +379,7 @@ local sets = {
         Range = 'Lightning Bow +1',
         Ammo = '',
         Head = 'Faerie Hairpin',
-        Neck = 'Star Necklace',
+        Neck = 'Willpower Torque',
         Ear1 = 'Magnetic Earring', -- 8
         Ear2 = 'Knightly Earring', -- 9
         Body = 'Hydra Haubert',
@@ -393,14 +389,14 @@ local sets = {
         Back = 'Shadow Mantle',
         Waist = 'Silver Obi +1', -- 8
         Legs = 'Hydra Brayettes',
-        Feet = 'Mountain Gaiters', -- 5
+        Feet = 'Hydra Sollerets',
     },
     Cheat_C4HPUp = {
         Main = 'Apollo\'s Staff',
         Sub = '',
         Range = 'Rosenbogen',
         Ammo = '',
-        Head = 'Aegishjalmr',
+        Head = 'Bahamut\'s Mask',
         Neck = 'Harmonia\'s Torque',
         Ear1 = 'Hospitaler Earring',
         Ear2 = 'Hades Earring +1',
@@ -445,6 +441,7 @@ local sets = {
         Feet = 'Homam Gambieras',
     },
     TP_HighAcc = {},
+    TP_Mjollnir_Haste = {},
 
     WS = {
         Head = 'Optical Hat',
@@ -461,6 +458,8 @@ local sets = {
         Legs = 'Vlr. Breeches +1',
         Feet = 'Rutter Sabatons',
     },
+    WS_HighAcc = {},
+
     WS_Spirits = {},
 
     Cover = {
@@ -471,6 +470,7 @@ local sets = {
         Main = 'Apollo\'s Staff',
         Ear1 = 'Hospitaler Earring',
     },
+    Divine = {},
     Rampart = { -- Rampart gives VIT x2 damage shield in era
         Main = 'Durandal',
         Sub = 'Koenig Shield',
@@ -544,17 +544,13 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
-
-    gcmelee.DoFenrirsEarring()
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     if (action.Name == 'Spirits Within') then
@@ -659,6 +655,8 @@ profile.HandleMidcast = function()
 
         if (action.Skill == 'Healing Magic') then
             gFunc.EquipSet(sets.Cure)
+        elseif (action.Skill == 'Divine Magic') then
+            gFunc.EquipSet(sets.Divine)
         end
     else
         if (action.Name == 'Utusemi: Ichi') then

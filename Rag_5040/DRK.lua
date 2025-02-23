@@ -273,7 +273,7 @@ local sets = {
     Hate = {
         Main = 'Octave Club', -- lul
         Sub = 'Koenig Shield', -- 3
-        Head = 'Aegishjalmr', -- 7
+        Head = 'Bahamut\'s Mask',
         Neck = 'Harmonia\'s Torque', -- 3
         Ear1 = 'Hades Earring +1', -- 2
         Ear2 = { Name = 'Bloodbead Earring', Priority = 100 },
@@ -321,6 +321,7 @@ local sets = {
         Legs = 'Homam Cosciales',
         Feet = 'Homam Gambieras',
     },
+    TP_Mjollnir_Haste = {},
 
     WS = {
         Ammo = 'Bomb Core',
@@ -337,6 +338,8 @@ local sets = {
         Legs = 'Onyx Cuisses',
         Feet = 'Chs. Sollerets +1',
     },
+    WS_HighAcc = {},
+
     WS_Guillotine = {},
     WS_SpinningSlash = {},
     WS_CrossReaper = {},
@@ -436,7 +439,7 @@ profile.HandleMidshot = function()
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     if (action.Name == 'Guillotine') then
@@ -451,8 +454,6 @@ profile.HandleWeaponskill = function()
     if (souleater > 0) then
         gFunc.EquipSet(sets.SoulEater)
     end
-
-    gcmelee.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()

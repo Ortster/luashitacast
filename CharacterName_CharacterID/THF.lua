@@ -6,13 +6,13 @@ local ta_rogue_armlets = false
 
 local sets = {
     Idle_Priority = {
-        Main =  { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife', 'Dagger +1' },
+        Main =  { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife', 'Federation Baghnakhs', 'Dagger +1' },
         Sub =   { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife' },
         Range = { 'Rogetsurin' },
         Ammo =  { '' },
         --Ammo =  { 'Civet Sachet', 'Happy Egg' },
-        Head =  { 'Walkure Mask', 'Mrc.Cpt. Headgear', 'Ryl.Ftm. Bandana' },
-        Neck =  { 'Spike Necklace', 'Wing Pendant' },
+        Head =  { 'Walkure Mask', 'Empress Hairpin', 'Ryl.Ftm. Bandana' },
+        Neck =  { 'Peacock Amulet','Spike Necklace', 'Wing Pendant' },
         Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
@@ -20,7 +20,7 @@ local sets = {
         Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
         Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
         Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
-        Waist = { 'Life Belt', 'Tilt Belt', 'Warrior\'s Belt' },
+        Waist = { 'Life Belt', 'Tilt Belt', 'Warrior\'s Belt +1' },
         Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
         Feet =  { 'Bounding Boots' },
     },

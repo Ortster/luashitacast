@@ -63,7 +63,9 @@ local sets = {
 
     ConserveMP = {},
 
-    Sing_Default = {},
+    Sing_Default = {
+        Range = 'Maple Harp +1',
+    },
 
     Sing_Buff = {},
 
@@ -155,8 +157,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 9')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 30')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[

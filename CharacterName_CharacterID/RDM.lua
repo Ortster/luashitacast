@@ -3,7 +3,7 @@ local profile = {}
 local fastCastValue = 0.00 -- 20% from traits 22% from gear listed in Precast set
 
 local ninSJMaxMP = nil -- The Max MP you have when /nin in your idle set
-local whmSJMaxMP = nil -- The Max MP you have when /whm in your idle set
+local whmSJMaxMP = 178 -- The Max MP you have when /whm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 local drkSJMaxMP = nil -- The Max MP you have when /drk in your idle set
 
@@ -21,13 +21,13 @@ local sets = {
         Neck =  { 'Justice Badge' },
         Ear1 =  { 'Energy Earring' },
         Ear2 =  { 'Energy Earring' },
-        Body =  { 'Baron\'s Saio', 'Beetle Harness +1', 'Bone Harness +1' },
+        Body =  { 'Baron\'s Saio', 'Beetle Harness +1', 'Bone Harness +1', 'Ducal Aketon' },
         Hands = { 'Mycophile Cuffs', 'Baron\'s Cuffs', 'Battle Gloves' },
         Ring1 = { 'Eremite\'s Ring' },
         Ring2 = { 'Eremite\'s Ring' },
         Back =  { 'Mist Silk Cape' },
         Waist = { 'Friar\'s Rope' },
-        Legs =  { 'Seer\'s Slacks', 'Windurstian Slops', 'Mithran Loincloth' },
+        Legs =  { 'Seer\'s Slacks', 'Windurstian Slops', 'Dream Pants +1' },
         Feet =  { 'Seer\'s Pumps', 'Light Soleas', 'Mithran Gaiters' },
     },
 

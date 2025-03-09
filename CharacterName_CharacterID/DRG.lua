@@ -12,11 +12,11 @@ local heal_hp_threshold_rdm = 869
 
 local sets = {
     Idle_Priority = {
-        Main =  { 'Gnd.Kgt. Lance', 'Mythril Lance +1', 'Peregrine', 'Ryl.Sqr. Halbred', 'Fuscina' },
+        Main =  { 'Orichalcum Lance', 'Gnd.Kgt. Lance', 'Mythril Lance +1', 'Peregrine', 'Ryl.Sqr. Halbred', 'Fuscina' },
 --      Sub = '',
         Ammo =  { 'Civet Sachet', 'Happy Egg' },
-        Head =  { 'Walkure Mask', 'Mrc.Cpt. Headgear', 'Ryl.Ftm. Bandana' },
-        Neck =  { 'Spike Necklace', 'Wing Pendant' },
+        Head =  { 'Wyvern Helm', 'Walkure Mask', 'Empress Hairpin', 'Ryl.Ftm. Bandana' },
+        Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
         Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Ear2 =  { 'Beastly Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
@@ -26,7 +26,7 @@ local sets = {
         Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
         Waist = { 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
         Legs =  { 'Drachen Brais', 'Republic Subligar', 'Bone Subligar +1' },
-        Feet =  { 'Drachen Greaves', 'Bounding Boots' },
+        Feet =  { 'Bounding Boots' },
     },
     IdleALT = {},
 

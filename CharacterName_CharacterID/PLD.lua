@@ -77,13 +77,19 @@ local sets = {
 
     TP_HighAcc = {},
 
+    TP_Mjollnir_Haste = {},
+
     WS = {},
+
+    WS_HighAcc = {},
 
     WS_Spirits = {},
 
     Cover = {},
 
     Cure = {},
+
+    Divine = {},
 
     -- Rampart gives VIT x2 damage shield in era
     Rampart = {},
@@ -146,17 +152,13 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
-
-    gcmelee.DoFenrirsEarring()
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     if (action.Name == 'Spirits Within') then
@@ -271,6 +273,8 @@ profile.HandleMidcast = function()
 
         if (action.Skill == 'Healing Magic') then
             gFunc.EquipSet(sets.Cure)
+        elseif (action.Skill == 'Divine Magic') then
+            gFunc.EquipSet(sets.Divine)
         end
     else
         if (action.Name == 'Utusemi: Ichi') then

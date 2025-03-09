@@ -47,6 +47,8 @@ local sets = {
 
     WS = {},
 
+    WS_HighAcc = {},
+
     Warcry = {},
 
     Provoke = {},
@@ -80,21 +82,16 @@ end
 
 profile.HandleItem = function()
     gcinclude.DoItem()
-    -- You may add logic here
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
-    gcmelee.DoFenrirsEarring()
-    -- You may add logic here
+    gcmelee.DoWS()
 end
 
 profile.OnLoad = function()
@@ -154,12 +151,10 @@ end
 
 profile.HandlePrecast = function()
     gcmelee.DoPrecast(fastCastValue)
-    -- You may add logic here
 end
 
 profile.HandleMidcast = function()
     gcmelee.DoMidcast(sets)
-    -- You may add logic here
 end
 
 return profile

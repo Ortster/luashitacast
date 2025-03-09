@@ -87,13 +87,19 @@ local sets = {
 
     NinElemental = {},
 
+    NinElemental_Accuracy = {},
+
     DrkDarkMagic = {},
 
     TP_LowAcc = {},
 
     TP_HighAcc = {},
 
+    TP_Mjollnir_Haste = {},
+
     WS = {},
+
+    WS_HighAcc = {},
 
     WS_BladeJin = {},
 
@@ -184,7 +190,6 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
@@ -192,7 +197,8 @@ profile.HandleMidshot = function()
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
+    gcmelee.DoWS()
+
     local action = gData.GetAction()
     if (action.Name == 'Blade: Jin') then
         gFunc.EquipSet(sets.WS_BladeJin)
@@ -207,21 +213,27 @@ profile.HandleWeaponskill = function()
     if (koga_tekko_plus_one and (environment.Time < 7 or environment.Time >= 17)) then
         gFunc.Equip('Hands', 'Kog. Tekko +1')
     end
-
-    gcmelee.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()
+    gcinclude.SetAlias(T{'nuke'})
+    gcdisplay.CreateCycle('Nuke', {[1] = 'Potency', [2] = 'Accuracy',})
     gcmelee.Load()
     profile.SetMacroBook()
 end
 
 profile.OnUnload = function()
     gcmelee.Unload()
+    gcinclude.ClearAlias(T{'nuke'})
 end
 
 profile.HandleCommand = function(args)
-    gcmelee.DoCommands(args)
+    if (args[1] == 'nuke') then
+        gcdisplay.AdvanceCycle('Nuke')
+        gcinclude.Message('Nuke', gcdisplay.GetCycle('Nuke'))
+    else
+        gcmelee.DoCommands(args)
+    end
 
     if (args[1] == 'horizonmode') then
         profile.HandleDefault()
@@ -287,6 +299,9 @@ profile.HandleMidcast = function()
             EquipStaffAndObi(action)
         elseif (NinElemental:contains(action.Name)) then
             gFunc.EquipSet(sets.NinElemental)
+            if (gcdisplay.GetCycle('Nuke') == 'Accuracy') then
+                gFunc.EquipSet(sets.NinElemental_Accuracy)
+            end
             if (action.MppAftercast < 51) and uggalepih_pendant then
                 gFunc.Equip('Neck', 'Uggalepih Pendant')
             end

@@ -47,7 +47,11 @@ local sets = {
 
     TP_HighAcc = {},
 
+    TP_Mjollnir_Haste = {},
+
     WS = {},
+
+    WS_HighAcc = {},
 
     WS_Kaiten = {},
 
@@ -88,22 +92,18 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     if (action.Name == 'Tachi: Kaiten') then
         gFunc.EquipSet(sets.WS_Kaiten)
     end
-
-    gcmelee.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()

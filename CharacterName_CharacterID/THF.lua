@@ -47,8 +47,12 @@ local sets = {
     
     TP_NIN = {},
 
+    TP_Mjollnir_Haste = {},
+
     WS = {},
-    
+
+    WS_HighAcc = {},
+
     WS_Evisceration = {},
     
     WS_SharkBite = {},
@@ -122,7 +126,6 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
@@ -144,7 +147,7 @@ profile.HandleMidshot = function()
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     if (action.Name == 'Evisceration') then
@@ -159,8 +162,6 @@ profile.HandleWeaponskill = function()
             gFunc.Equip('Hands', 'Rogue\'s Armlets +1')
         end
     end
-
-    gcmelee.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()

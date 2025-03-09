@@ -135,9 +135,15 @@ local sets = {
 
     TP = {},
 
+    TP_HighAcc = {},
+
     TP_NIN = {},
 
+    TP_Mjollnir_Haste = {},
+
     WS = {},
+
+    WS_HighAcc = {},
 
     -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
@@ -160,7 +166,6 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
-    -- You may add logic here
 end
 
 profile.HandleItem = function()
@@ -168,15 +173,16 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
     gFunc.EquipSet(sets.WS)
+    if (gcdisplay.GetCycle('TP') == 'HighAcc') then
+        gFunc.EquipSet('WS_HighAcc')
+    end
     gcmage.DoFenrirsEarring()
 end
 

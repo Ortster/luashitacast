@@ -127,7 +127,6 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
-    -- You may add logic here
 end
 
 profile.HandleItem = function()
@@ -135,15 +134,12 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    -- You may add logic here
 end
 
 profile.OnLoad = function()

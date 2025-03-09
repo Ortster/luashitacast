@@ -6,151 +6,80 @@ local ninSJMaxMP = nil -- The Max MP you have when /nin in your idle set
 local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 
-local virology_ring = false
+local virology_ring = true
 local virology_ring_slot = 'Ring2'
 
 local sets = {
-    Idle_Priority = {
-        Main =  { 'Solid Wand', 'Yew Wand +1', 'Willow Wand +1' },
-        Sub =   { 'Mahogany Shield', 'Parana Shield' },
-        Ammo =  { 'Morion Tathlum', 'Happy Egg' },
-        Head =  { 'Silver Hairpin', 'Brass Hairpin +1', 'Copper Hairpin +1' },
-        Neck =  { 'Justice Badge' },
-        Ear1 =  { 'Energy Earring' },
-        Ear2 =  { 'Energy Earring' },
-        Body =  { 'Baron\'s Saio', 'Ducal Aketon' },
-        Hands = { 'Mycophile Cuffs', 'Baron\'s Cuffs', 'Mithran Gauntlets' },
-        Ring1 = { 'Saintly Ring' },
-        Ring2 = { 'Saintly Ring' },
-        Back =  { 'Mist Silk Cape' },
-        Waist = { 'Friar\'s Rope' },
-        Legs =  { 'Savage Loincloth', 'Seer\'s Slacks', 'Windurstian Slops', 'Mithran Loincloth' },
-        Feet =  { 'Seer\'s Pumps', 'Light Soleas', 'Mithran Gaiters' },
-    },
-
+    Idle = {},
     IdleALT = {},
-
     IdleMaxMP = {},
-
-    Resting = {
-        Main = 'Pilgrim\'s Wand',
-        Body = 'Seer\'s Tunic',
-        Legs = 'Baron\'s Slops',
-    },
-
+    Resting = {},
     Town = {},
-
     Movement = {},
 
     DT = {},
-
     DTNight = {},
-
-    -- Shell IV provides 23% MDT
-    MDT = {},
-
+    MDT = { -- Shell IV provides 23% MDT
+    },
     FireRes = {},
-
     IceRes = {},
-
     LightningRes = {},
-
     EarthRes = {},
-
     WindRes = {},
-
     WaterRes = {},
-
     Evasion = {},
 
     Precast = {},
-
-    -- Default Casting Equipment when using Idle sets
-    Casting = {},
-
-    -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
-    SIRD = {},
-
-    -- Used only on Haste, Refresh, Blink and Utsusemi casts
-    Haste = {},
-
+    Casting = { -- Default Casting Equipment when using Idle sets
+    },
+    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    },
+    Haste = { -- Used only on Haste, Refresh, Blink and Utsusemi casts
+    },
     ConserveMP = {},
 
-    Cure = {
-        Body = 'Baron\'s Saio',
-        Ring1 = 'Saintly Ring',
-        Ring2 = 'Saintly Ring',
-    },
-
+    Yellow = {},
+    Cure = {},
     Cure5 = {},
-
-    Regen = {},
-
+    Regen = {
+        Body = 'Cleric\'s Bliaut',
+    },
     Barspell = {},
-
     Cursna = {},
 
-    Enhancing = {
-        Body = 'Baron\'s Saio',
-        Ring1 = 'Saintly Ring',
-        Ring2 = 'Saintly Ring',
-    },
-
+    Enhancing = {},
     Stoneskin = {},
-
     Spikes = {},
 
     Enfeebling = {},
-
-    EnfeeblingMND = {
-        Body = 'Baron\'s Saio',
-        Ring1 = 'Saintly Ring',
-        Ring2 = 'Saintly Ring',
-    },
-
-    EnfeeblingINT = {
-        Body = 'Baron\'s Saio',
-        Ring1 = 'Eremite\'s Ring',
-        Ring2 = 'Eremite\'s Ring',
-    },
-
+    EnfeeblingMND = {},
+    EnfeeblingINT = {},
     EnfeeblingACC = {},
 
     Divine = {},
-
     Banish = {},
-
     Dark = {},
 
     Nuke = {},
-
     NukeACC = {},
-
     NukeDOT = {},
 
-    TP = {},
-
-    TP_HighAcc = {},
-
-    TP_NIN = {},
-
-    TP_Mjollnir_Haste = {},
-
-    WS = {},
-
-    WS_HighAcc = {},
-
-    WS_Randgrith = {},
-
-    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    TP = {},
+    TP_HighAcc = {},
+    TP_NIN = {},
+    TP_Mjollnir_Haste = {},
+    WS = {},
+    WS_HighAcc = {},
+    WS_Randgrith = {},
 }
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 23')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
@@ -207,17 +136,6 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    local player = gData.GetPlayer()
-    local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
-    if (myLevel ~= gcinclude.CurrentLevel) then
-        gFunc.EvaluateLevels(profile.Sets, myLevel);
-        gcinclude.CurrentLevel = myLevel;
-    end
-
     gcmage.DoDefault(ninSJMaxMP, nil, blmSJMaxMP, rdmSJMaxMP, nil)
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))

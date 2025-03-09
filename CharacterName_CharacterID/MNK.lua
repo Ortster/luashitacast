@@ -80,6 +80,8 @@ local sets = {
 
     TP_HighAcc = {},
 
+    TP_Mjollnir_Haste = {},
+
     TP_Focus = {},
 
     SJ_DRG = {},
@@ -88,9 +90,10 @@ local sets = {
 
     WS = {},
 
+    WS_HighAcc = {},
+
     WS_AsuranFists = {},
 
-    WS_AsuranFists_HighAcc = {},
 
     WS_DragonKick = {},
 
@@ -163,24 +166,19 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
-    -- You may add logic here
 end
 
 profile.HandleMidshot = function()
-    -- You may add logic here
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     local player = gData.GetPlayer()
 
     if (action.Name == 'Asuran Fists') then
         gFunc.EquipSet(sets.WS_AsuranFists)
-        if (gcdisplay.IdleSet == 'HighAcc') then
-            gFunc.EquipSet(sets.WS_AsuranFists_HighAcc)
-        end
     elseif (action.Name == 'Dragon Kick') then
         gFunc.EquipSet(sets.WS_DragonKick)
     elseif (action.Name == 'Howling Fist') then
@@ -190,8 +188,6 @@ profile.HandleWeaponskill = function()
     if (player.SubJob == 'THF') then
         gFunc.EquipSet(sets.SJ_THF)
     end
-
-    gcmelee.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()

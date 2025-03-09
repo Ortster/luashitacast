@@ -2,97 +2,58 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local gaudy_harness = false
+local gaudy_harness = true
 
 -- Replace these with '' if you do not have them
 local muscle_belt = ''
 
 local sets = {
-    Idle_Priority = {
-        Main =  { 'Cmb.Cst. Axe', 'Battleaxe +1' },
-        Sub =   { 'Barbaroi Axe', 'Battleaxe +1' },
-        Ammo =  { 'Civet Sachet', 'Happy Egg' },
-                --'Walkure Mask', 'Mrc.Cpt. Headgear',
-        Head =  { 'Shep. Bonnet', 'Ryl.Ftm. Bandana' },
-        Neck =  { 'Spike Necklace', 'Wing Pendant' },
-        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Body =  { 'Scorpion Harness', 'Brigandine', 'Ryl.Sqr. Chainmail', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
-        Hands = { 'Battle Gloves' },
-        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
-        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
-        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
-        Waist = { 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
-        Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
-        Feet =  { 'Bounding Boots' },
-    },
-
+    Idle = {},
     IdleALT = {},
-
     Resting = {},
-
     Town = {},
-
     Movement = {},
 
     DT = {},
-
-    -- Shell IV provides 23% MDT
-    MDT = {},
-
+    MDT = { -- Shell IV provides 23% MDT
+    },
     FireRes = {},
-
     IceRes = {},
-
     LightningRes = {},
-
     EarthRes = {},
-
     WindRes = {},
-
     WaterRes = {},
-
     Evasion = {},
 
     Precast = {},
+    SIRD = {
+    },
+    Haste = { -- Used for Utsusemi cooldown
+    },
 
-    SIRD = {},
-
-    -- Used for Utsusemi cooldown
-    Haste = {},
-
-    TP_LowAcc = {},
-
-    TP_HighAcc = {},
-
-    TP_NIN = {},
-
-    TP_Mjollnir_Haste = {},
-
-    WS = {},
-
-    WS_HighAcc = {},
-
-    Charm = {},
-
-    Reward = {},
-
-    Ready_Physical = {},
-
-    Ready_Magic = {},
-
-    Call_Beast = {},
-
-    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    TP_LowAcc = {},
+    TP_HighAcc = {},
+    TP_NIN = {},
+    TP_Mjollnir_Haste = {},
+
+    WS = {},
+    WS_HighAcc = {},
+
+    Charm = {},
+    Reward = {},
+    Ready_Physical = {},
+    Ready_Magic = {},
+    Call_Beast = {},
 }
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 4')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 5')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 2')
 end
 
 --[[
@@ -245,19 +206,9 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    local player = gData.GetPlayer()
-    local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
-    if (myLevel ~= gcinclude.CurrentLevel) then
-        gFunc.EvaluateLevels(profile.Sets, myLevel);
-        gcinclude.CurrentLevel = myLevel;
-    end
-
     gcmelee.DoDefault()
 
+    local player = gData.GetPlayer()
     if (player.Status == 'Idle' and player.HPP < 50 and muscle_belt ~= '') then
         gFunc.Equip('Waist', muscle_belt)
     end

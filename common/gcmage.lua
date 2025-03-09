@@ -69,6 +69,8 @@ local cure_clogs = false
 local ruckes_rung = false
 local medicine_ring = false
 local medicine_ring_slot = 'Ring1'
+local mjollnir = false
+local asklepios = false -- used for cures with mjollnir when /nin
 
 -- Set to true if you have both Dark Earring and Abyssal earring to turn off Diabolos's Earring override for Dark Magic sets
 local dark_and_abyssal_earrings = false
@@ -95,9 +97,11 @@ local gcmage = {}
 
 local AliasList = T{
     'addmp','setmp','resetmp',
-    'mode', -- RDM / BLM
-    'csstun','hate','vert','fight', -- RDM
-    'yellow','mb','hnm', -- BLM
+    'mode', -- RDM / WHM / BLM
+    'csstun','hate','vert', -- RDM
+    'fight','tp', -- RDM / WHM / BRD
+    'yellow', -- BLM / WHM
+    'mb','hnm', -- BLM
     'lag',
 }
 
@@ -200,8 +204,11 @@ end
 function gcmage.SetVariables()
     local player = gData.GetPlayer()
 
-    if (player.MainJob ~= 'BRD') then
+    if (player.MainJob ~= 'BRD' and player.MainJob ~= 'SMN') then
         gcdisplay.CreateCycle('Mode', {[1] = 'Potency', [2] = 'Accuracy',})
+    end
+    if (player.MainJob ~= 'BLM' and player.MainJob ~= 'SMN') then
+        gcdisplay.CreateCycle('TP', {[1] = 'LowAcc', [2] = 'HighAcc',})
     end
     if (player.MainJob == 'RDM') then
         gcdisplay.CreateToggle('Hate', false)
@@ -210,6 +217,9 @@ function gcmage.SetVariables()
         gcdisplay.CreateToggle('Yellow', true)
         gcdisplay.CreateToggle('MB', false)
         gcdisplay.CreateToggle('HNM', false)
+    end
+    if (player.MainJob == 'WHM') then
+        gcdisplay.CreateToggle('Yellow', false)
     end
 end
 
@@ -242,6 +252,9 @@ function gcmage.DoCommands(args)
     elseif (args[1] == 'mode') then
         gcdisplay.AdvanceCycle('Mode')
         gcinclude.Message('Magic Mode', gcdisplay.GetCycle('Mode'))
+    elseif (args[1] == 'tp') then
+        gcdisplay.AdvanceCycle('TP')
+        gcinclude.Message('TP Mode', gcdisplay.GetCycle('TP'))
     elseif (args[1] == 'lag') then
         lag =  not lag
         gcinclude.Message('[Note: Midcast Delays are disabled if Lag is true] Lag', lag)
@@ -283,13 +296,17 @@ function gcmage.DoCommands(args)
         end
     end
 
+    if (player.MainJob == 'BLM' or player.MainJob == 'WHM') then
+        if (args[1] == 'yellow') then
+            gcdisplay.AdvanceToggle('Yellow')
+            gcinclude.Message('Yellow', gcdisplay.GetToggle('Yellow'))
+        end
+    end
+
     if (player.MainJob == 'BLM') then
         if (args[1] == 'mb') then
             gcdisplay.AdvanceToggle('MB')
             gcinclude.Message('MB', gcdisplay.GetToggle('MB'))
-        elseif (args[1] == 'yellow') then
-            gcdisplay.AdvanceToggle('Yellow')
-            gcinclude.Message('Yellow', gcdisplay.GetToggle('Yellow'))
         elseif (args[1] == 'hnm') then
             gcdisplay.AdvanceToggle('HNM')
             gcinclude.Message('HNM', gcdisplay.GetToggle('HNM'))
@@ -347,6 +364,9 @@ function gcmage.DoDefault(ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP)
                 gcinclude.LockWeapon:once(1)
             elseif (gcdisplay.IdleSet == 'Fight') then
                 gFunc.EquipSet('TP')
+                if (gcdisplay.GetCycle('TP') == 'HighAcc') then
+                    gFunc.EquipSet('TP_HighAcc')
+                end
                 if (environment.WeatherElement ~= 'Dark') and tp_diabolos_earring then
                     gFunc.Equip(tp_diabolos_earring_slot, 'Diabolos\'s Earring')
                 end
@@ -355,6 +375,9 @@ function gcmage.DoDefault(ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP)
                 end
                 if (player.SubJob == 'NIN') then
                     gFunc.EquipSet('TP_NIN')
+                end
+                if gData.GetBuffCount(580) > 0 then -- Horizon Mjollnir Haste Buff
+                    gFunc.EquipSet('TP_Mjollnir_Haste')
                 end
                 if (player.MainJob == 'RDM' and tp_fencers_ring and player.HPP <= 75 and player.TP <= 1000) then
                     gFunc.Equip(tp_fencers_ring_slot, 'Fencer\'s Ring')
@@ -456,12 +479,13 @@ function gcmage.DoPrecast(fastCastValue)
             do return end
         end
 
-        if (action.Skill == 'Elemental Magic' and player.MainJob == 'BLM' and gcdisplay.GetToggle('Yellow') == true) then
-            if (not ElementalDebuffs:contains(action.Name)) then
-                gFunc.EquipSet('Yellow')
-                if (gcdisplay.GetToggle('HNM') == true) then
-                    gFunc.EquipSet('YellowHNM')
-                end
+        local blmYellow = action.Skill == 'Elemental Magic' and player.MainJob == 'BLM' and gcdisplay.GetToggle('Yellow') == true and not ElementalDebuffs:contains(action.Name)
+        local whmYellow = action.Skill == 'Healing Magic' and player.MainJob == 'WHM' and gcdisplay.GetToggle('Yellow') == true and CureSpells:contains(action.Name)
+
+        if (blmYellow or whmYellow) then
+            gFunc.EquipSet('Yellow')
+            if (gcdisplay.GetToggle('HNM') == true) then
+                gFunc.EquipSet('YellowHNM')
             end
         end
     end
@@ -487,7 +511,7 @@ function gcmage.SetupMidcastDelay(fastCastValue)
         end
     end
     if (action.Type == 'Bard Song' and string.match(action.Name, 'Prelude')) then
-        castTime = 8000
+        castTime = 4000
     end
     if (action.Skill == 'Divine Magic' and action.Name == 'Banish III') then
         castTime = 3000
@@ -504,23 +528,24 @@ function gcmage.SetupMidcastDelay(fastCastValue)
         do return end
     end
 
-    if (action.Skill == 'Elemental Magic' and player.MainJob == 'BLM' and gcdisplay.GetToggle('Yellow') == true) then
-        if (not ElementalDebuffs:contains(action.Name)) then
-            local function delayYellow()
-                gFunc.ForceEquipSet('Yellow')
-                if (gcdisplay.GetToggle('HNM') == true) then
-                    gFunc.ForceEquipSet('YellowHNM')
-                end
+    local blmYellow = action.Skill == 'Elemental Magic' and player.MainJob == 'BLM' and gcdisplay.GetToggle('Yellow') == true and not ElementalDebuffs:contains(action.Name)
+    local whmYellow = action.Skill == 'Healing Magic' and player.MainJob == 'WHM' and gcdisplay.GetToggle('Yellow') == true and CureSpells:contains(action.Name)
+
+    if (blmYellow or whmYellow) then
+        local function delayYellow()
+            gFunc.ForceEquipSet('Yellow')
+            if (gcdisplay.GetToggle('HNM') == true) then
+                gFunc.ForceEquipSet('YellowHNM')
             end
-            local yellowDelay = castDelay - 1
-            if (yellowDelay <= 0) then
-                gFunc.EquipSet('Yellow')
-                if (gcdisplay.GetToggle('HNM') == true) then
-                    gFunc.EquipSet('YellowHNM')
-                end
-            else
-                delayYellow:once(yellowDelay)
+        end
+        local yellowDelay = castDelay - 1
+        if (yellowDelay <= 0) then
+            gFunc.EquipSet('Yellow')
+            if (gcdisplay.GetToggle('HNM') == true) then
+                gFunc.EquipSet('YellowHNM')
             end
+        else
+            delayYellow:once(yellowDelay)
         end
     end
     -- print(chat.header('DEBUG'):append(chat.message('Cast delay is ' .. castDelay)))
@@ -553,7 +578,9 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
     end
 
     if (chainspell == 0 and not lag) then
-        gcmage.SetupInterimEquipSet(sets)
+        if not (player.MainJob == 'BLM' and gcdisplay.GetToggle('Extra') and player.MP >= blmSJMMP) then
+            gcmage.SetupInterimEquipSet(sets)
+        end
     end
 
     if (action.Skill == 'Enhancing Magic') then
@@ -561,7 +588,7 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
     elseif (action.Skill == 'Healing Magic') then
         gcmage.EquipHealing(maxMP, sets, chainspell)
     elseif (action.Skill == 'Elemental Magic') then
-        gcmage.EquipElemental(maxMP)
+        gcmage.EquipElemental(maxMP, blmSJMMP)
     elseif (action.Skill == 'Enfeebling Magic') then
         gcmage.EquipEnfeebling()
     elseif (action.Skill == 'Dark Magic') then
@@ -700,8 +727,10 @@ function gcmage.EquipHealing(maxMP, sets, chainspell)
             gFunc.Equip(water_ring_slot, 'Water Ring')
         end
     end
-    if (player.MainJob == 'WHM' and medicine_ring and player.HPP <= 75 and player.TP <= 1000) then
-        gFunc.Equip(medicine_ring_slot, 'Medicine Ring')
+    if (player.MainJob == 'WHM' and medicine_ring and CureSpells:contains(action.Name) and player.TP <= 1000) then
+        if (player.HPP <= 75 or gcdisplay.GetToggle('Yellow') == true) then
+            gFunc.Equip(medicine_ring_slot, 'Medicine Ring')
+        end
     end
     if (gcdisplay.GetToggle('Hate') == true) then
         gFunc.EquipSet('Hate')
@@ -724,7 +753,7 @@ function gcmage.EquipHealing(maxMP, sets, chainspell)
     end
 end
 
-function gcmage.EquipElemental(maxMP)
+function gcmage.EquipElemental(maxMP, blmNukeExtra)
     local action = gData.GetAction()
     local player = gData.GetPlayer()
     local environment = gData.GetEnvironment()
@@ -733,6 +762,10 @@ function gcmage.EquipElemental(maxMP)
     if (gcdisplay.GetToggle('HNM') == true) then
         gFunc.EquipSet('NukeHNM')
     end
+    if (player.MainJob == 'BLM' and gcdisplay.GetToggle('Extra') and player.MP >= blmNukeExtra) then
+        gFunc.EquipSet('NukeExtra')
+    end
+
     if (ElementalDebuffs:contains(action.Name)) then
         gFunc.EquipSet('NukeDOT')
         if (player.SubJob == "BLM" and wizards_earring) then
@@ -887,6 +920,7 @@ end
 function gcmage.EquipStaff()
     local action = gData.GetAction()
     local environment = gData.GetEnvironment()
+    local player = gData.GetPlayer()
 
     if (action.Skill ~= 'Enhancing Magic' and not ElementalDebuffs:contains(action.Name) and not string.match(action.Name, 'Utsusemi')) then
         local staff = ElementalStaffTable[action.Element]
@@ -896,6 +930,12 @@ function gcmage.EquipStaff()
 
         if (DiabolosPoleSpells:contains(action.Name)) then
             if (environment.WeatherElement == 'Dark' and diabolos_pole) then gFunc.Equip('Main', 'Diabolos\'s Pole') end
+        end
+        if (player.MainJob == 'WHM' and mjollnir and CureSpells:contains(action.Name)) then
+            gFunc.Equip('Main', 'Mjollnir')
+            if (player.SubJob == 'NIN' and asklepios) then
+                gFunc.Equip('Sub', 'Asklepios')
+            end
         end
     end
 end

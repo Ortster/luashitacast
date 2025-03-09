@@ -2,108 +2,65 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local ta_rogue_armlets = false
+local ta_rogue_armlets = true
 
 local sets = {
-    Idle_Priority = {
-        Main =  { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife', 'Dagger +1' },
-        Sub =   { 'Bone Knife +1', 'Federation Knife', 'Mercenary\'s Knife' },
-        Range = { 'Rogetsurin' },
-        Ammo =  { '' },
-        --Ammo =  { 'Civet Sachet', 'Happy Egg' },
-        Head =  { 'Walkure Mask', 'Mrc.Cpt. Headgear', 'Ryl.Ftm. Bandana' },
-        Neck =  { 'Spike Necklace', 'Wing Pendant' },
-        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
-        Hands = { 'Battle Gloves' },
-        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
-        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
-        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
-        Waist = { 'Life Belt', 'Tilt Belt', 'Warrior\'s Belt' },
-        Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
-        Feet =  { 'Bounding Boots' },
-    },
-    
+    Idle = {},
     IdleALT = {},
-    
     Resting = {},
-    
     Town = {},
-    
     Movement = {},
 
     DT = {},
-    
-    -- Shell IV provides 23% MDT
-    MDT = {},
-    
+    MDT = { -- Shell IV provides 23% MDT
+    },
     FireRes = {},
-    
     IceRes = {},
-    
     LightningRes = {},
-    
     EarthRes = {},
-    
     WindRes = {},
-    
     WaterRes = {},
-    
     Evasion = {},
 
     Precast = {},
-    
-    SIRD = {},
-    
-    -- Used for Utsusemi cooldown
-    Haste = {},
+    SIRD = {
+    },
+    Haste = { -- Used for Utsusemi cooldown
+    },
+
+    LockSet1 = {},
+    LockSet2 = {},
+    LockSet3 = {},
 
     TP_LowAcc = {},
-    
     TP_HighAcc = {},
-    
     TP_NIN = {},
-
     TP_Mjollnir_Haste = {},
 
     WS = {},
-
     WS_HighAcc = {},
 
     WS_Evisceration = {},
-    
     WS_SharkBite = {},
 
     SA = {},
-    
     TA = {},
-    
     SATA = {},
 
     Flee = {},
-    
     Hide = {},
-    
     Steal = {},
-    
     Mug = {},
 
     TH = {},
 
     Ranged = {},
-    
     Ranged_INT = {},
-    
-    -- Custom Sets - Level Sync Sets For Example
-    LockSet1 = {},
-    LockSet2 = {},
-    LockSet3 = {},
 }
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 6')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
@@ -149,12 +106,7 @@ end
 profile.HandleMidshot = function()
     gFunc.EquipSet(sets.Ranged)
 
-    local equipment = gData.GetEquipment()
-    local ammo = 'None'
-    if (equipment.Ammo ~= nil ) then
-        ammo = equipment.Ammo.Name
-    end
-
+    local ammo = ((gData.GetEquipment())['Ammo'])['Name']
     if (ammo == 'Bloody Bolt') then
         gFunc.EquipSet(sets.Ranged_INT)
     end
@@ -208,17 +160,6 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    local player = gData.GetPlayer()
-    local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
-    if (myLevel ~= gcinclude.CurrentLevel) then
-        gFunc.EvaluateLevels(profile.Sets, myLevel);
-        gcinclude.CurrentLevel = myLevel;
-    end
-
     gcmelee.DoDefault()
 
     local player = gData.GetPlayer()

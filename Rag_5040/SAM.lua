@@ -3,62 +3,45 @@ local profile = {}
 local fastCastValue = 0.00 -- 0% from gear
 
 -- Replace these with '' if you do not have them
-local myochin_kabuto = '' -- 'Myochin Kabuto'
-local saotome_kote = '' -- 'Saotome Kote'
+local myochin_kabuto = 'Myochin Kabuto'
+local saotome_kote = 'Saotome Kote'
 
 local sets = {
     Idle = {},
-
     IdleALT = {},
-
     Resting = {},
-
     Town = {},
-
     Movement = {},
 
     DT = {},
-
-    -- Shell IV provides 23% MDT
-    MDT = {},
-
+    MDT = { -- Shell IV provides 23% MDT
+    },
     FireRes = {},
-
     IceRes = {},
-
     LightningRes = {},
-
     EarthRes = {},
-
     WindRes = {},
-
     WaterRes = {},
-
     Evasion = {},
 
     Precast = {},
+    SIRD = {
+    },
+    Haste = { -- Used for Utsusemi cooldown
+    },
 
-    SIRD = {},
-
-    -- Used for Utsusemi cooldown
-    Haste = {},
-
-    TP_LowAcc = {},
-
-    TP_HighAcc = {},
-
-    TP_Mjollnir_Haste = {},
-
-    WS = {},
-
-    WS_HighAcc = {},
-
-    WS_Kaiten = {},
-
-    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    TP_LowAcc = {},
+    TP_HighAcc = {},
+    TP_Mjollnir_Haste = {},
+
+    WS = {},
+    WS_HighAcc = {},
+
+    WS_Kaiten = {},
 }
 profile.Sets = sets
 
@@ -116,17 +99,6 @@ profile.OnUnload = function()
 end
 
 profile.HandleCommand = function(args)
-    local player = gData.GetPlayer()
-    local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
-    if (myLevel ~= gcinclude.CurrentLevel) then
-        gFunc.EvaluateLevels(profile.Sets, myLevel);
-        gcinclude.CurrentLevel = myLevel;
-    end
-
     gcmelee.DoCommands(args)
 
     if (args[1] == 'horizonmode') then

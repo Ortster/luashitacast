@@ -20,7 +20,7 @@ These luas were designed to be used in HorizonXI and therefore features such as 
 - Paste the **contents only** of the luashitacast-master folder (or luashitacast-1.0.0 etc.) into ..\\Game\\**config**\\addons\\luashitacast\\
 - Note that **config** in the path. there may not be a luashitacast directory there if you have never used it before - just create one.
 - Rename the Rag_5040 folder to [Your_Character_Name]_[Your_Character_ID]
-- [Your_Character_ID] may be obtained from another plugin such as MobDB.
+- [Your_Character_ID] may be obtained from another plugin such as MobDB or by creating a blank lua using /lac newlua and then replacing the created folder.
 - Edit Equipment Sets in [JOB].lua.
 - Edit Elemental Staves (NQ vs HQ), Obis and some conditional gear in gcmage.lua if you are using these luas for mage jobs.
 - Edit Fenrir's Earring in gcmelee.lua if you are using these luas for melee jobs.
@@ -107,8 +107,15 @@ This will work 99% of the time unless you have added your own logic and therefor
                   /addmp will still work as per normal in conjunction with this.
                   type /setmp without a number to display the current value.
 /resetmp        - resets addmp and setmp values to 0
+
+[RDM / WHM / BLM]
 /mode           - toggles Elemental & Enfeebling Magic between Potency (Normal) and
                   Accuracy sets.
+
+[RDM / WHM / BRD]
+/fight          - used to turn off TP set.
+                  this is automatically used for you when disengaging if your TP is 0.
+/tp             - toggles TP set between a LowAcc and HighAcc set.
 ```
 
 ## Additional Commands for All Melee Jobs:
@@ -123,8 +130,6 @@ This will work 99% of the time unless you have added your own logic and therefor
 ```
 [Regular Toggles]
 /hate   - causes your cures, sleeps, blinds, dispels and binds to equip +enmity set on cast.
-/fight  - used to turn off TP set.
-          this is automatically used for you when disengaging if your TP is 0.
 
 [Special Sets]
 These commands and sets were created before /lockset was implemented and do the same thing.
@@ -141,20 +146,26 @@ These commands and sets were created before /lockset was implemented and do the 
 /yellow - equips gear to lower HP before finishing casts to trigger Sorcerer's Ring.
           This is on by default.
 /mb     - equips gear that gives bonuses to magic burst damage when casting nukes.
+/extra  - Uses NukeExtra and StoneskinExtra sets when above a given MP threshold.
+          Threshold is defined by the varable: "nukeExtraThreshold".
+          This is intended for nuking with a MaxMP set giving an extra -ga3 or T4 nuke
+          per max MP bar.
+          Override sets such as MDT/PDT/FireRes etc. will not work in InterimMidcast
+          with this enabled.
+          This command is not intended to be used in conjunction with Accuracy /mode
+          or /hnm sets etc.
 ```
 
-## Additional Commands for WHM
+## Additional Commands for WHM:
 ```
-/fight  - used to turn off TP set.
-          this is automatically used for you when disengaging if your TP is 0.
+/yellow - equips gear to lower HP before finishing casts to trigger Medicine Ring.
+          This is off by default.
 ```
 
 ## Additional Commands for BRD:
 ```
 /shorde  - switches to using the default foe lullaby set to reduce AOE in favour of Acc.
 /sballad - switches to using a wind instrument over string to reduce AOE.
-/fight  - used to turn off TP set.
-          this is automatically used for you when disengaging if your TP is 0.
 ```
 
 ## Additional Commands for BST:
@@ -199,3 +210,10 @@ All of the following toggles set what jug Call Beast will use.
 Feel free to DM me on Discord for if you encounter bugs or have feature requests or functionality is missing. I am easily found in the HorizonXI or Ashita Discords.
 
 Do NOT DM or /tell me in-game regarding your setup issues or if you have not bothered to read through this README and did not follow the instructions written. You will be ignored.
+
+# TODO
+A list of things to do in the future but who knows when I'll get around to them:
+- THF - Automatic TH toggling via Will's isTargetTagged.lua lib
+- Micro-optimizations with job specific overrides for midcast and respecting max mp sets etc. e.g. WHM should not equip Virology ring when at 100% max mp.
+
+Feel free to submit PRs to implement these.

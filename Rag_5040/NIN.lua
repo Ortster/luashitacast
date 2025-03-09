@@ -6,112 +6,138 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local shinobi_ring = false
+local shinobi_ring = true
 local shinobi_ring_slot = 'Ring2'
 
 local koga_tekko = false
-local koga_tekko_plus_one = false
+local koga_tekko_plus_one = true
 
-local uggalepih_pendant = false
+local uggalepih_pendant = true
 
-local fenrirs_stone = false -- Used for Evasion at night
+local fenrirs_stone = true -- Used for Evasion at night
 
 -- Fill this out for which evasion pants to use at night / dusk to dawn
 local night_time_eva_pants = ''
-local dusk_to_dawn_eva_pants = '' -- 'Koga Hakama +1'
+local dusk_to_dawn_eva_pants = 'Koga Hakama +1'
 
 -- Leave as '' if you do not have the staff.
-local fire_staff = '' -- 'Fire Staff' or 'Vulcan\'s Staff'
-local earth_staff = '' -- 'Earth Staff' or 'Terra\'s Staff'
-local water_staff = '' -- 'Water Staff' or 'Neptune\'s Staff'
-local wind_staff = '' -- 'Wind Staff' or 'Auster\'s Staff'
-local ice_staff = '' -- 'Ice Staff' or 'Aquilo\'s Staff'
-local thunder_staff = '' -- 'Thunder Staff' or 'Jupiter\'s Staff'
-local light_staff = '' -- 'Light Staff' or 'Apollo\'s Staff'
-local dark_staff = '' -- 'Dark Staff' or 'Pluto\'s Staff'
+local fire_staff = 'Vulcan\'s Staff'
+local earth_staff = 'Terra\'s Staff'
+local water_staff = 'Neptune\'s Staff'
+local wind_staff = 'Auster\'s Staff'
+local ice_staff = 'Aquilo\'s Staff'
+local thunder_staff = 'Jupiter\'s Staff'
+local light_staff = 'Apollo\'s Staff'
+local dark_staff = 'Pluto\'s Staff'
 
 -- Set to true if you have the obi
-local karin_obi = false
+local karin_obi = true
 local dorin_obi = false
 local suirin_obi = false
 local furin_obi = false
-local hyorin_obi = false
-local rairin_obi = false
-local korin_obi = false
-local anrin_obi = false
+local hyorin_obi = true
+local rairin_obi = true
+local korin_obi = true
+local anrin_obi = true
 
 local sets = {
-    Idle = {},
-
+    Idle = {
+        Main = 'Kodachi +1',
+        Sub = 'Nikkariaoe',
+        Ammo = 'Happy Egg',
+        Head = 'Emperor Hairpin',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Beetle Earring +1',
+        Ear2 = 'Beetle Earring +1',
+        Body = 'Power Gi',
+        Hands = 'Custom M Gloves',
+        Ring1 = 'Puissance Ring',
+        Ring2 = 'Venerer Ring',
+        Back = 'Nomad\'s Mantle',
+        Waist = 'Warrior\'s Belt +1',
+        Legs = 'Republic Subligar',
+        Feet = 'Fed. Kyahan',
+    },
     IdleALT = {},
-
-    IdleDT = {},
-
+    IdleDT = {
+        Main = 'Kodachi +1',
+        Sub = 'Nikkariaoe',
+        Ammo = 'Happy Egg',
+        Head = 'Emperor Hairpin',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Beetle Earring +1',
+        Ear2 = 'Beetle Earring +1',
+        Body = 'Federation Gi',
+        Hands = 'Custom M Gloves',
+        Ring1 = 'Sattva Ring',
+        Ring2 = 'Venerer Ring',
+        Back = 'Nomad\'s Mantle',
+        Waist = 'Warrior\'s Belt +1',
+        Legs = 'Republic Subligar',
+        Feet = 'Fed. Kyahan',
+    },
     IdleALTDT = {},
-
     Resting = {},
-
     Town = {},
-
     Movement = {},
 
     DT = {},
-
-    -- Shell IV provides 23% MDT
-    MDT = {},
-
+    MDT = { -- Shell IV provides 23% MDT
+    },
     FireRes = {},
-
     IceRes = {},
-
     LightningRes = {},
-
     EarthRes = {},
-
     WindRes = {},
-
     WaterRes = {},
-
     Evasion = {},
 
     Precast = {},
+    SIRD = {
+    },
+    Haste = { -- Used for Utsusemi cooldown
+    },
 
-    SIRD = {},
-
-    -- Used for Utsusemi cooldown
-    Haste = {},
-
-    Hate = {},
-
+    Hate = {
+        Back = 'Mercen. Mantle',
+        Ring1 = 'Sattva Ring',
+    },
     NinDebuff = {},
-
     NinElemental = {},
-
     NinElemental_Accuracy = {},
-
     DrkDarkMagic = {},
 
-    TP_LowAcc = {},
-
-    TP_HighAcc = {},
-
-    TP_Mjollnir_Haste = {},
-
-    WS = {},
-
-    WS_HighAcc = {},
-
-    WS_BladeJin = {},
-
-    WS_BladeKu = {},
-
-    -- This won't work for automatically swapping shurikens, only other equipment
-    Ranged = {},
-
-    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    TP_LowAcc = {
+        Main = 'Kodachi +1',
+        Sub = 'Nikkariaoe',
+        Ammo = 'Happy Egg',
+        Head = 'Emperor Hairpin',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Beetle Earring +1',
+        Ear2 = 'Beetle Earring +1',
+        Body = 'Power Gi',
+        Hands = 'Custom M Gloves',
+        Ring1 = 'Puissance Ring',
+        Ring2 = 'Venerer Ring',
+        Back = 'Nomad\'s Mantle',
+        Waist = 'Warrior\'s Belt +1',
+        Legs = 'Republic Subligar',
+        Feet = 'Fed. Kyahan',
+    },
+    TP_HighAcc = {},
+    TP_Mjollnir_Haste = {},
+
+    WS = {},
+    WS_HighAcc = {},
+
+    WS_BladeJin = {},
+    WS_BladeKu = {},
+
+    Ranged = {}, -- This won't work for automatically swapping shurikens, only other equipment
 }
 profile.Sets = sets
 
@@ -241,19 +267,9 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    local player = gData.GetPlayer()
-    local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
-    if (myLevel ~= gcinclude.CurrentLevel) then
-        gFunc.EvaluateLevels(profile.Sets, myLevel);
-        gcinclude.CurrentLevel = myLevel;
-    end
-
     gcmelee.DoDefault()
 
+    local player = gData.GetPlayer()
     local environment = gData.GetEnvironment()
 
     if (player.Status == 'Engaged') then

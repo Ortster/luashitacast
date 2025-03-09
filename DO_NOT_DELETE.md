@@ -249,3 +249,27 @@
 - DRG - Adds a non-mage breath set
 - Melee - Adds cast delay handling for Hasso and Seigan
 - DRK - Adds fenrir's stone
+
+### v1.3.30
+- BLM - Implements /extra command toggle, NukeExtra and StoneskinExtra sets to be able to nuke with a max mp-ish set.
+
+### v1.3.31
+- WHM - Add Virology Ring
+
+### v1.4.0
+- WHM - Implements a Yellow toggle for Medicine Ring
+- WHM - Implements Mjollnir / Asklepios
+- WHM/RDM/BRD - Implements TP LowAcc and HighAcc sets
+- All Jobs - Implements a Mjollnir Haste Buff set
+- RNG - Changes Ranged_ATK set to EagleEyeShot and actually implements Ranged_ATK as a toggle to change midshot equipment
+- NIN - Adds Nuke Accuracy modes
+- PLD - Add Divine Magic set
+- All Melee - Adds WS_HighAcc set
+- DRG - Implements accuracy modes for jumps
+
+### v1.4.1
+- WHM - Fixed Virology Ring typo
+
+### v1.4.2
+- BRD - Updated Preludes to 4000 because Horizon can't get their client DATs right still...
+- SMN - Remove pointless toggles from SMN

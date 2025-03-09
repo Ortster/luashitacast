@@ -65,7 +65,11 @@ local sets = {
 
     TP_HighAcc = {},
 
+    TP_Mjollnir_Haste = {},
+
     WS = {},
+
+    WS_HighAcc = {},
 
     WS_Guillotine = {},
 
@@ -157,7 +161,7 @@ profile.HandleMidshot = function()
 end
 
 profile.HandleWeaponskill = function()
-    gFunc.EquipSet(sets.WS)
+    gcmelee.DoWS()
 
     local action = gData.GetAction()
     if (action.Name == 'Guillotine') then
@@ -172,8 +176,6 @@ profile.HandleWeaponskill = function()
     if (souleater > 0) then
         gFunc.EquipSet(sets.SoulEater)
     end
-
-    gcmelee.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()

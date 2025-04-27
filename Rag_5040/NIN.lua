@@ -13,6 +13,7 @@ local koga_tekko = false
 local koga_tekko_plus_one = true
 
 local uggalepih_pendant = true
+local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is SJ dependant
 
 local fenrirs_stone = true -- Used for Evasion at night
 
@@ -302,11 +303,27 @@ profile.HandleDefault = function()
 end
 
 profile.HandlePrecast = function()
-    gcmelee.DoPrecast(fastCastValue)
+    local player = gData.GetPlayer()
+    if (player.SubJob == 'RDM' and warlocks_mantle) then
+        gcmelee.DoPrecast(fastCastValue + 0.02)
+        gFunc.Equip('Back', 'Warlock\'s Mantle')
+    else
+        gcmelee.DoPrecast(fastCastValue)
+    end
 end
 
 profile.HandleMidcast = function()
     gcmelee.DoMidcast(sets)
+
+    local player = gData.GetPlayer()
+    local environment = gData.GetEnvironment()
+
+    if (shinobi_ring and player.HPP <= 75 and player.TP <= 1000) then
+        gFunc.Equip(shinobi_ring_slot, 'Shinobi Ring')
+    end
+    if (koga_tekko_plus_one and (environment.Time < 7 or environment.Time >= 17)) then
+        gFunc.Equip('Hands', 'Kog. Tekko +1') -- You can comment this out if you have Dusk Gloves +1 and would prefer +22 HP over Ninja Tool Expertise.
+    end
 
     local action = gData.GetAction()
     if (action.Skill == 'Ninjutsu') then

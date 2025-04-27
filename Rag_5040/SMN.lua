@@ -14,7 +14,7 @@ local sets = {
         Ear2 = 'Magnetic Earring',
         Ammo = 'Hedgehog Bomb',
         Head = 'Summoner\'s Horn',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Body = 'Yinyang Robe',
         Hands = 'Nashira Gages',
         Ring1 = 'Sattva Ring',
@@ -46,9 +46,12 @@ local sets = {
         Feet = 'Herald\'s Gaiters',
     },
 
+    Perpetuation = { -- There is no point in using this set over an Idle set except for equipping Penance Robe
+    },
+
     DT = {
         Main = 'Terra\'s Staff',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
         Ear2 = 'Merman\'s Earring',
         Hands = 'Merman\'s Bangles',
@@ -58,7 +61,7 @@ local sets = {
     },
     DTNight = {
         Main = 'Terra\'s Staff',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
         Ear2 = 'Merman\'s Earring',
         Hands = 'Merman\'s Bangles',
@@ -69,7 +72,7 @@ local sets = {
     MDT = { -- Shell IV provides 23% MDT
         Main = 'Terra\'s Staff',
         Head = 'Green Ribbon +1',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring', -- 2
         Ear2 = 'Merman\'s Earring', -- 2
         Hands = 'Merman\'s Bangles', -- 3
@@ -82,7 +85,7 @@ local sets = {
         Ear1 = 'Cmn. Earring', -- 11
         Ear2 = 'Cmn. Earring', -- 11
         Head = 'Green Ribbon +1', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Hands = 'Merman\'s Bangles',
         Feet = 'Power Sandals', -- 7
         Back = 'Hexerei Cape',
@@ -95,7 +98,7 @@ local sets = {
         Ear1 = 'Diamond Earring', -- 10
         Ear2 = 'Omn. Earring', -- 11
         Head = 'Green Ribbon +1', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Hands = 'Merman\'s Bangles',
         Back = 'Aurora Mantle', -- 7
         Waist = 'Fire Belt', -- 20
@@ -105,7 +108,7 @@ local sets = {
     LightningRes = {
         Main = 'Terra\'s Staff', -- 20
         Head = 'Green Ribbon +1', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Back = 'Hexerei Cape',
         Ear1 = 'Robust Earring', -- 11
         Ear2 = 'Robust Earring', -- 11
@@ -118,7 +121,7 @@ local sets = {
         Ring2 = 'Maldust Ring', -- 10
         Main = 'Auster\'s Staff', -- 20
         Head = 'Green Ribbon +1', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Hands = 'Merman\'s Bangles',
         Back = 'Hexerei Cape',
         Ear1 = 'Robust Earring', -- 11
@@ -130,7 +133,7 @@ local sets = {
         Ring2 = 'Malgust Ring', -- 10
         Main = 'Aquilo\'s Staff', -- 20
         Head = 'Green Ribbon +1', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Back = 'Aurora Mantle', -- 7
         Hands = 'Mage\'s Cuffs', -- 5
         Ear1 = 'Diamond Earring', -- 10
@@ -141,7 +144,7 @@ local sets = {
     WaterRes = {
         Main = 'Jupiter\'s Staff', -- 20
         Head = 'Green Ribbon +1', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Hands = 'Merman\'s Bangles',
         Ear1 = 'Cmn. Earring', -- 11
         Ear2 = 'Cmn. Earring', -- 11
@@ -158,8 +161,8 @@ local sets = {
         Ring1 = { Name = 'Bomb Queen Ring', Priority = 100 },
     },
     Casting = { -- Default Casting Equipment when using Idle sets
-        Main = 'Hermit\'s Wand', -- 25
-        Sub = 'Hermit\'s Wand', -- 25
+        Main = 'Eremite\'s Wand', -- 25
+        Sub = 'Eremite\'s Wand', -- 25
         Ammo = 'Hedgehog Bomb',
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
@@ -175,8 +178,8 @@ local sets = {
         Feet = { Name = 'Mountain Gaiters', Priority = 100 }, -- 5
     },
     SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
-        Main = 'Hermit\'s Wand', -- 25
-        Sub = 'Hermit\'s Wand', -- 25
+        Main = 'Eremite\'s Wand', -- 25
+        Sub = 'Eremite\'s Wand', -- 25
         Ammo = 'Hedgehog Bomb',
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
@@ -202,10 +205,11 @@ local sets = {
     ConserveMP = {
         Ammo = 'Dream Sand',
         Ear2 = 'Magnetic Earring',
+        Back = 'Maledictor\'s Shawl',
     },
 
     Cure = {
-        Ammo = 'Hedgehog Bomb', -- 1
+        Ammo = 'Dream Sand',
         Head = 'Hydra Beret', -- 8
         Neck = 'Benign Necklace', -- 2
         Ear1 = 'Novia Earring', -- 7
@@ -316,6 +320,17 @@ local sets = {
     },
     BP_Hybrid = {
     },
+
+    TP = {
+        Ring1 = 'Jelly Ring',
+    },
+    TP_HighAcc = {
+        Ring1 = { Name = 'Bomb Queen Ring', Priority = 100 },
+    },
+    TP_NIN = {},
+    TP_Mjollnir_Haste = {},
+    WS = {},
+    WS_HighAcc = {},
 }
 profile.Sets = sets
 
@@ -357,6 +372,11 @@ profile.HandleMidshot = function()
 end
 
 profile.HandleWeaponskill = function()
+    gFunc.EquipSet(sets.WS)
+    if (gcdisplay.GetCycle('TP') == 'HighAcc') then
+        gFunc.EquipSet('WS_HighAcc')
+    end
+    gcmage.DoFenrirsEarring()
 end
 
 profile.OnLoad = function()
@@ -417,6 +437,16 @@ end
 
 profile.HandleMidcast = function()
     gcmage.DoMidcast(sets, cureMP, cureMP, cureMP, cureMP)
+
+    local action = gData.GetAction()
+    if (string.match(action.Name, 'Spirit')) then
+        if (carbuncles_cuffs) then
+            gFunc.Equip('Hands', 'Carbuncle\'s Cuffs')
+        end
+        if (evokers_boots) then
+            gFunc.Equip('Feet', 'Evoker\'s Boots')
+        end
+    end
 end
 
 return profile

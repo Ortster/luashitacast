@@ -19,7 +19,7 @@ local sets = {
         Main = 'Terra\'s Staff',
         Ammo = 'Tiphia Sting',
         Head = 'Genie Tiara',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
         Ear2 = 'Merman\'s Earring',
         Body = { Name = 'Src. Coat +1', Priority = 100 },
@@ -71,7 +71,7 @@ local sets = {
     DT = {
         Main = 'Terra\'s Staff',
         Head = 'Genie Tiara',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
         Ear2 = 'Merman\'s Earring',
         Body = { Name = 'Src. Coat +1', Priority = 100 },
@@ -86,7 +86,7 @@ local sets = {
     DTNight = {
         Main = 'Terra\'s Staff',
         Head = 'Genie Tiara',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
         Ear2 = 'Merman\'s Earring',
         Body = { Name = 'Src. Coat +1', Priority = 100 },
@@ -101,22 +101,22 @@ local sets = {
     MDT = { -- Shell IV provides 23% MDT
         Main = 'Terra\'s Staff',
         Head = 'Black Ribbon',
-        Neck = 'Jeweled Collar',
+        Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring', -- 2
         Ear2 = 'Merman\'s Earring', -- 2
         Body = { Name = 'Src. Coat +1', Priority = 100 },
         Hands = 'Merman\'s Bangles', -- 3
         Ring1 = 'Merman\'s Ring', -- 4 -- Using this over Shadow Ring for consistency
-        Ring2 = 'Sattva Ring', -- 5
+        Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
         Back = { Name = 'Hexerei Cape', Priority = 100 }, -- 3
-        Waist = 'Sorcerer\'s Belt',
+        Waist = { Name = 'Sorcerer\'s Belt', Priority = 100 },
         Legs = 'Igqira Lappas',
         Feet = 'Mountain Gaiters',
     },
     FireRes = {
         Main = 'Neptune\'s Staff', -- 20
         Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
         Ear2 = 'Cmn. Earring', -- 11
         Hands = 'Merman\'s Bangles',
@@ -130,7 +130,7 @@ local sets = {
     IceRes = {
         Main = 'Vulcan\'s Staff', -- 20
         Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
         Ear2 = 'Omn. Earring', -- 11
         Hands = 'Merman\'s Bangles',
@@ -144,7 +144,7 @@ local sets = {
     LightningRes = {
         Main = 'Terra\'s Staff', -- 20
         Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
         Ear2 = 'Robust Earring', -- 11
         Hands = 'Merman\'s Bangles',
@@ -158,7 +158,7 @@ local sets = {
     EarthRes = {
         Main = 'Auster\'s Staff', -- 20
         Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
         Ear2 = 'Robust Earring', -- 11
         Hands = 'Merman\'s Bangles',
@@ -172,7 +172,7 @@ local sets = {
     WindRes = {
         Main = 'Aquilo\'s Staff', -- 20
         Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
         Ear2 = 'Omn. Earring', -- 11
         Hands = 'Mage\'s Cuffs', -- 5
@@ -186,7 +186,7 @@ local sets = {
     WaterRes = {
         Main = 'Jupiter\'s Staff', -- 20
         Head = 'Black Ribbon', -- 10
-        Neck = 'Jeweled Collar', -- 10
+        Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
         Ear2 = 'Cmn. Earring', -- 11
         Hands = 'Merman\'s Bangles',
@@ -204,8 +204,8 @@ local sets = {
         Feet = 'Rostrum Pumps',
     },
     Casting = {
-        Main = 'Hermit\'s Wand', -- 25
-        Sub = 'Hermit\'s Wand', -- 25
+        Main = 'Eremite\'s Wand', -- 25
+        Sub = 'Eremite\'s Wand', -- 25
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
         Ear1 = 'Merman\'s Earring',
@@ -214,8 +214,8 @@ local sets = {
         Feet = 'Wizard\'s Sabots', -- 20
     },
     SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
-        Main = 'Hermit\'s Wand', -- 25
-        Sub = 'Hermit\'s Wand', -- 25
+        Main = 'Eremite\'s Wand', -- 25
+        Sub = 'Eremite\'s Wand', -- 25
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
         Ear1 = 'Merman\'s Earring',
@@ -251,11 +251,12 @@ local sets = {
         Ammo = 'Dream Sand',
         Ear2 = 'Magnetic Earring',
         Body = 'Igqira Weskit',
+        Back = 'Maledictor\'s Shawl',
         Feet = 'Src. Sabots +1',
     },
 
     Cure = {
-        Ammo = 'Hedgehog Bomb', -- 1
+        Ammo = 'Dream Sand',
         Head = 'Hydra Beret', -- 8
         Neck = 'Benign Necklace', -- 2
         Ear1 = 'Novia Earring', -- 7
@@ -267,7 +268,7 @@ local sets = {
         Back = 'Errant Cape', -- 5
         Waist = 'Penitent\'s Rope', -- 3
         Legs = 'Hydra Brais', -- 6
-        Feet = 'Hydra Gaiters', -- 3
+        Feet = 'Hydra Gaiters', -- 5
     },
     Cursna = {
         Back = 'Altruistic Cape',
@@ -408,13 +409,13 @@ local sets = {
         Ear1 = 'Novio Earring',
         Ear2 = 'Moldavite Earring',
         Body = 'Igqira Weskit',
-        Hands = 'Zenith Mitts +1',
+        Hands = { Name = 'Zenith Mitts +1', Priority = -100 },
         Ring1 = 'Snow Ring',
         Ring2 = 'Omniscient Ring',
         Back = 'Prism Cape',
         Waist = 'Sorcerer\'s Belt',
         Legs = 'Mahatma Slops',
-        Feet = 'Src. Sabots +1',
+        Feet = { Name = 'Src. Sabots +1', Priority = 1 },
     },
     NukeHNM = {
         Ammo = 'Phtm. Tathlum',
@@ -471,6 +472,8 @@ local sets = {
     },
     MB = {
         Ammo = 'Dream Sand',
+        Hands = 'Src. Gloves +1',
+        Back = 'Maledictor\'s Shawl',
     },
 
     LockSet1 = { -- 40 Cap

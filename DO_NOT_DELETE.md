@@ -273,3 +273,25 @@
 ### v1.4.2
 - BRD - Updated Preludes to 4000 because Horizon can't get their client DATs right still...
 - SMN - Remove pointless toggles from SMN
+
+### v1.4.3
+- PLD - Make Enfeebling and Enhancing spells not equip enmity set
+
+### v1.4.4
+- THF - Implements auto TH tracking
+
+### v1.4.5
+- Melee - Fixed broken Precast
+
+### v1.4.6
+- NIN - Add Warlock Mantle
+- NIN - Use Shinobi Ring on casts by default (primarily for Utsusemi)
+- SMN - Fix Light Spirit using carbuncle gear
+- SMN - Implements TP modes for SMN
+- SMN - Implements an optional Perpetuation set for Penance Robe
+
+### v1.4.7
+- BRD - Allow Ranged swaps for melee (Horizon+)
+- NIN - Add Koga Tekko +1 to utsusemi / default casting gear
+- SMN - Keep Carbuncle's Cuffs / Evoker's Boots equipped on midcast due to Horizon wonkiness with spirits
+- MNK - Fix Kampfer Ring / Earring usage from being overridden by DT set

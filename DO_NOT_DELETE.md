@@ -295,3 +295,19 @@
 - NIN - Add Koga Tekko +1 to utsusemi / default casting gear
 - SMN - Keep Carbuncle's Cuffs / Evoker's Boots equipped on midcast due to Horizon wonkiness with spirits
 - MNK - Fix Kampfer Ring / Earring usage from being overridden by DT set
+
+### v1.4.8
+- PLD - Fix Enhancing Magic set usage
+- NIN - Add Enhancing / Cure set
+- THF - Add nil check for /ra when not using bows / xbow
+
+### v1.4.9
+- WHM - Use Cure5 set for Curaga IV
+- THF - Fix behaviour of automatic TH tagging
+- Mages - Blink on Ability use with displayhead
+
+### v1.4.10
+- DRK - Fix Tanking Sets
+- PLD - Remove /lock calls out of Shield Bash
+- Increases interim set buffer times to 0.4s from 0.25s for higher consistency in lagged zones
+- BRD - Remove Minstrel's Earring

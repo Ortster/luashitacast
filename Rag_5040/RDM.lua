@@ -12,6 +12,8 @@ local blue_cotehardie_plus_one = true
 local dilation_ring = true
 local dilation_ring_slot = 'Ring2'
 
+local displayheadOnAbility = true
+
 local sets = {
     Idle = {
         Main = 'Terra\'s Staff',
@@ -477,7 +479,6 @@ local sets = {
         Neck = 'Dark Torque',
         Ear1 = 'Abyssal Earring',
         Ear2 = 'Dark Earring',
-        Body = 'Mahatma Hpl.',
         Body = 'Nashira Manteel',
         Hands = 'Blood Fng. Gnt.',
         Ring1 = 'Snow Ring',
@@ -690,6 +691,9 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
+    if (displayheadOnAbility) then
+        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
+    end
 end
 
 profile.HandleItem = function()

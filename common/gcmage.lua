@@ -521,8 +521,8 @@ function gcmage.SetupMidcastDelay(fastCastValue)
     if (action.Skill == 'Divine Magic' and action.Name == 'Banish III') then
         castTime = 3000
     end
-    local minimumBuffer = 0.25 -- Can be lowered to 0.1 if you want
-    local packetDelay = 0.25 -- Change this to 0.4 if you do not use PacketFlow
+    local minimumBuffer = 0.4 -- Can be lowered to 0.1 if you want
+    local packetDelay = 0.4 -- Change this to 0.4 if you do not use PacketFlow
     local castDelay = ((castTime * (1 - fastCastValue)) / 1000) - minimumBuffer
     if (castDelay >= packetDelay) then
         gFunc.SetMidDelay(castDelay)
@@ -716,7 +716,7 @@ function gcmage.EquipHealing(maxMP, sets, chainspell)
     local me = AshitaCore:GetMemoryManager():GetParty():GetMemberName(0)
 
     gFunc.EquipSet('Cure')
-    if (action.Name == 'Cure V') then
+    if (action.Name == 'Cure V' or action.Name == 'Curaga IV') then
         gFunc.EquipSet('Cure5')
     end
     if (player.SubJob == "WHM" and healers_earring) then

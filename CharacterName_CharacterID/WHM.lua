@@ -9,6 +9,8 @@ local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 local virology_ring = false
 local virology_ring_slot = 'Ring2'
 
+local displayheadOnAbility = true
+
 local sets = {
     Idle = {},
 
@@ -127,6 +129,9 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
+    if (displayheadOnAbility) then
+        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
+    end
 end
 
 profile.HandleItem = function()

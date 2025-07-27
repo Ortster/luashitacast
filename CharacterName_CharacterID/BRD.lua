@@ -8,8 +8,7 @@ local whmSJMaxMP = nil -- The Max MP you have when /whm in your idle set
 local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 
-local minstrels_earring = false
-local minstrels_earring_slot = 'Ear2'
+local displayheadOnAbility = true
 
 local sets = {
     Idle = {},
@@ -166,6 +165,9 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
+    if (displayheadOnAbility) then
+        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
+    end
 end
 
 profile.HandleItem = function()
@@ -232,10 +234,6 @@ profile.HandleDefault = function()
     end
 
     gcmage.DoDefault(ninSJMaxMP, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
-
-    if (minstrels_earring and player.HPP <= 25) then
-        gFunc.Equip(minstrels_earring_slot, 'Minstrel\'s Earring')
-    end
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end

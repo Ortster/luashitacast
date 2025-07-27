@@ -109,8 +109,8 @@ profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 
-    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //flash')
-    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //shieldbash')
+    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //shieldbash')
+    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //flash')
 end
 
 --[[
@@ -138,7 +138,7 @@ profile.HandleAbility = function()
         if (shadow_mantle and environment.DayElement == 'Dark') then
             gFunc.Equip('Back', 'Shadow Mantle')
         end
-    elseif (action.Name == 'Shield Bash' and valor_gauntlets ~= '') then
+    elseif (action.Name == 'Shield Bash') then
         gFunc.EquipSet(sets.ShieldBash)
     elseif (action.Name == 'Sentinel' and valor_leggings ~= '') then
         gFunc.Equip('Legs', valor_leggings)
@@ -260,28 +260,27 @@ profile.HandleMidcast = function()
     local action = gData.GetAction()
     local me = AshitaCore:GetMemoryManager():GetParty():GetMemberName(0)
 
-    if (action.Skill ~= 'Ninjutsu' and action.Skill ~= 'Enfeebling' and action.Skill ~= 'Enhancing') then
-        local sentinel = gData.GetBuffCount('Sentinel')
-        if (sentinel >= 1) then
-            gFunc.EquipSet(sets.Haste)
-        else
-            gFunc.EquipSet(sets.Hate)
-            if (action.Name == 'Flash') then
+    if (action.Skill == 'Healing Magic') then
+        gFunc.EquipSet(sets.Cure)
+    elseif (action.Skill == 'Divine Magic') then
+        if (action.Name == 'Flash') then
+            local sentinel = gData.GetBuffCount('Sentinel')
+            if (sentinel >= 1) then
+                gFunc.EquipSet(sets.Haste)
+            else
+                gFunc.EquipSet(sets.Hate)
                 gFunc.EquipSet(sets.Hate_Flash)
             end
-        end
-
-        if (action.Skill == 'Healing Magic') then
-            gFunc.EquipSet(sets.Cure)
-        elseif (action.Skill == 'Divine Magic') then
+        else
             gFunc.EquipSet(sets.Divine)
         end
-    else
+    elseif (action.Skill == 'Ninjutsu') then
+        gFunc.EquipSet(sets.Haste)
         if (action.Name == 'Utusemi: Ichi') then
             gFunc.EquipSet(sets.Haste_Ichi)
-        elseif (action.Name == 'Stoneskin' or action.Name == 'Phalanx') then
-            gFunc.EquipSet(sets.Enhancing)
         end
+    elseif (action.Skill == 'Enhancing Magic') then
+        gFunc.EquipSet(sets.Enhancing)
     end
 
     if (target.Name == me) then

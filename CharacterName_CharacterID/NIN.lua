@@ -337,6 +337,10 @@ profile.HandleMidcast = function()
             gFunc.EquipSet(sets.DrkDarkMagic)
         end
         EquipStaffAndObi(action)
+    elseif (action.Skill == 'Enhancing Magic') then
+        gFunc.EquipSet(sets.Enhancing)
+    elseif (action.Skill == 'Healing Magic') then
+        gFunc.EquipSet(sets.Cure)
     end
 end
 

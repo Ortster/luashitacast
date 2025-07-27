@@ -4,10 +4,10 @@ local max_hp_in_idle_with_regen_gear_equipped = 663
 local fastCastValue = 0.00 -- 2% from gear
 
 -- Replace these with '' if you do not have them
-local temple_gaiters = '' -- 'Temple Gaiters'
-local temple_gloves = '' -- 'Temple Gloves'
-local temple_cyclas = '' -- 'Tpl. Cyclas +1'
-local temple_crown = '' -- 'Tpl. Crown +1'
+local temple_gaiters = 'Temple Gaiters'
+local temple_gloves = 'Temple Gloves'
+local temple_cyclas = 'Temple Cyclas' -- 'Tpl. Cyclas +1'
+local temple_crown = 'Temple Crown' -- 'Tpl. Crown +1'
 
 local melee_gaiters = '' -- 'Melee Gaiters'
 local melee_gloves = '' -- 'Mel. Gloves +1'
@@ -24,19 +24,19 @@ local kampfer_earring_slot = 'Ear2'
 
 local sets = {
     Idle_Priority = {
-        Main =  { 'Boreas Cesti', 'Fed. Baghnakhs' },
-        Ammo =  { 'Civet Sachet', 'Happy Egg' },
-        Head =  { 'Empress Hairpin', 'Cmp. Eye Circlet' },
-        Neck =  { 'Spike Necklace', 'Wing Pendant' },
-        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Body =  { 'Mrc.Cpt. Doublet', 'Power Gi' },
-        Hands = { 'Battle Gloves' },
-        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
-        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
-        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
-        Waist = { 'Brown Belt', 'Purple Belt' },
-        Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
+        Main =  { 'T.M. Hooks +2', 'Tekko Kagi', 'Boreas Cesti', 'Fed. Baghnakhs' },
+        Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
+        Head =  { 'Temple Crown', 'Empress Hairpin', 'Cmp. Eye Circlet' },
+        Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
+        Ear1 =  { --[['Brutal Earring',]]'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Body =  { 'Scorpion Harness', 'Mrc.Cpt. Doublet', 'Power Gi' },
+        Hands = { 'Temple Gloves', 'Battle Gloves' },
+        Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Brown Belt', 'Purple Belt' }, --'Black Belt' 
+        Legs =  { 'Temple Hose', 'Republic Subligar', 'Bone Subligar +1' },
         Feet =  { 'Fed. Kyahan', 'Light Soleas' },
     },
 
@@ -88,15 +88,32 @@ local sets = {
 
     SJ_THF = {},
 
-    WS = {},
+    WS = {
+      --Main = 'Destroyers',
+      --Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
+      --Head =  { 'Empress Hairpin', 'Cmp. Eye Circlet' },
+      --Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
+      --Ear1 =  { --[['Brutal Earring',]]'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+      --Ear2 =  { 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+      --Body = 'Shura Togi',
+      --Hands = 'Mel. Gloves +1',
+      --Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+      --Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+      --Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+      --Waist = { 'Purple Belt' }, --'Black Belt' 'Brown Belt'
+      --Legs = 'Shura Haidate',
+      --Feet = 'Shura Sune-Ate',
+	},
 
     WS_HighAcc = {},
 
+    -- ACC
     WS_AsuranFists = {},
 
-
+    -- STR / VIT
     WS_DragonKick = {},
 
+    -- STR
     WS_HowlingFist = {},
 
     Jump = {},
@@ -105,7 +122,23 @@ local sets = {
 
     ChiBlast = {},
 
-    HundredFists = {},
+    -- ACC
+    HundredFists = {
+      --Main = 'Faith Baghnakhs',
+      --Ammo = 'Virtue Stone',
+      --Head = 'Optical Hat',
+      --Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
+      --Ear1 =  { --[['Brutal Earring',]]'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+      --Ear2 =  { 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+      --Body = 'Shura Togi',
+      --Hands = 'Mel. Gloves +1',
+      --Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+      --Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+      --Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+      --Waist = { 'Purple Belt' }, --'Black Belt' 'Brown Belt'
+      --Legs = 'Melee Hose',
+      --Feet = 'Wulong Shoes',
+    },
 
     -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
@@ -117,6 +150,7 @@ profile.Sets = sets
 profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 5')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/lockstyleset 199');
 end
 
 --[[

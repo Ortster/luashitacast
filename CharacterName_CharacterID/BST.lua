@@ -9,20 +9,22 @@ local muscle_belt = ''
 
 local sets = {
     Idle_Priority = {
-        Main =  { 'Cmb.Cst. Axe', 'Battleaxe +1' },
-        Sub =   { 'Barbaroi Axe', 'Battleaxe +1' },
-        Ammo =  { 'Civet Sachet', 'Happy Egg' },
+        Main =  { 'Darksteel Axe +1', 'Viking Axe', 'Cmb.Cst. Axe', 'Battleaxe +1' },
+        -- Darksteel +1 (at 56+)
+        Sub =   { 'Viking Axe', 'Barbaroi Axe', 'Battleaxe +1' },
+        -- Viking Axe (at 56+)
+        Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
                 --'Walkure Mask', 'Mrc.Cpt. Headgear',
         Head =  { 'Shep. Bonnet', 'Ryl.Ftm. Bandana' },
         Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
-        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Ear2 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear1 =  { 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Beastly Earring', 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Body =  { 'Scorpion Harness', 'Shep. Doublet', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
         Hands = { 'Battle Gloves' },
-        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
-        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
-        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
-        Waist = { 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
+        Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Swift Belt', 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
         Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
         Feet =  { 'Bounding Boots' },
     },

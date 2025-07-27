@@ -10,27 +10,51 @@ local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is 
 local heal_hp_threshold_whm = 859
 local heal_hp_threshold_rdm = 869
 
+--[[
+bourdonasse - blunt damage (skellingtons)
+barone cosciales
+Barone Corazza
+
+ohat, dusk feet is probably the "smartest" order
+warwolf belt
+]]
+
+
 local sets = {
     Idle_Priority = {
         Main =  { 'Orichalcum Lance', 'Gnd.Kgt. Lance', 'Mythril Lance +1', 'Peregrine', 'Ryl.Sqr. Halbred', 'Fuscina' },
 --      Sub = '',
-        Ammo =  { 'Civet Sachet', 'Happy Egg' },
+        Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
         Head =  { 'Wyvern Helm', 'Walkure Mask', 'Empress Hairpin', 'Ryl.Ftm. Bandana' },
         Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
-        Ear1 =  { 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Ear2 =  { 'Beastly Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear1 =  { --[['Brutal Earring',]]'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Beastly Earring', 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
         Hands = { 'Drachen Fng. Gnt.', 'Battle Gloves' },
-        Ring1 = { 'Woodsman Ring', 'Deft Ring +1', 'Balance Ring +1' },
-        Ring2 = { 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
-        Back =  { 'Amemet Mantle', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
-        Waist = { 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
+        Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Swift Belt', 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
         Legs =  { 'Drachen Brais', 'Republic Subligar', 'Bone Subligar +1' },
         Feet =  { 'Bounding Boots' },
     },
     IdleALT = {},
 
-    Resting = {},
+    Resting = {
+        --Ammo = 'Happy Egg',
+      --Head = 'Darksteel Cap',
+        --Neck = 'Peacock Amulet',
+        --Ear1 = 'Spike Earring', -- get a Sanative earring(hp recovered while healing +4) 
+       -- Ear2 = 'Beastly Earring',
+      --Body = 'Barone Corazza',
+      --Hands = 'Darksteel Mittens',
+      --Ring1 = 'Victory Ring',
+      --Ring2 = 'Victory Ring',
+      --  Back = 'Amemet Mantle +1',
+      --  Waist = 'Life Belt',
+      --Legs = 'Darksteel Subligar',
+      --  Feet = 'Dst. Leggings', -- use wyrm greaves(wyvern hp recovered while healing +6) to get your pets hp back faster when kneeling. 
+    },
 
     Town = {},
 
@@ -62,17 +86,71 @@ local sets = {
     -- Used for Utsusemi cooldown
     Haste = {},
 
-    TP_LowAcc = {},
+    TP_LowAcc = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Beastly Earring',
+        Body = 'Scorpion Harness',
+        Hands = 'Dusk Gloves',
+        Ring1 = 'Toreador\'s Ring',
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+        Waist = 'Swift Belt',
+        Legs = 'Drachen Brais',
+        Feet = 'Bounding Boots',
+    },
 
-    TP_HighAcc = {},
+    TP_HighAcc = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Beastly Earring',
+        Body = 'Scorpion Harness',
+        Hands = 'Dusk Gloves',
+        Ring1 = 'Toreador\'s Ring',
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+        Waist = 'Swift Belt',
+        Legs = 'Drachen Brais',
+        Feet = 'Bounding Boots',
+    },
 
-    TP_Mjollnir_Haste = {},
+    -- throw on everything that has HP+  Listed items will be best HP gear 
+    MaxHP = {
+        Ammo = 'Happy Egg',
+        Head = 'Drachen Armet', -- A Defensive wyvern will use Healing Breath when HP is at 50% or less.
+        --Neck = 'Ajase Beads',
+        --Ear1 = 'Spike Earring', -- cassie earring hp +50
+        --Ear2 = 'Spike Earring', -- bloodbead earring hp +25
+        --Body = 'Drachen Mail', -- carnage aketon hp+85
+        --Hands = 'Drachen Fng. Gnt.', -- Alkyoneus's Bracelets hp+40
+        --Ring1 = 'Toreador\'s Ring', -- Bomb Queen Ring hp+75
+        --Ring2 = 'Victory Ring', -- bloodbead ring hp+50
+        --Back = 'Amemet Mantle +1', -- Gigant Mantle hp+80
+        --Waist = 'Life Belt', -- Forest Sash hp+30
+        Legs = 'Drachen Brais', -- (wyvern hp+10%)
+        --Feet = 'Drachen Greaves', -- Homam Gambieras hp+31 
+    },
 
-    MaxHP = {},
+    -- Heal / Steady Wing based on WyvMaxHP
+    BreathBonus = {
+        Head = 'Drachen Armet',
+        Legs = 'Drachen Brais', -- (wyvern hp+10%)
+      --Head = 'Wym. Armet +1', -- +66.7% Healing Breath bonus
+      --Body = 'Wyvern Mail', -- (wyvern hp+65)
+      --Hands = 'Ostreger Mitts', -- (wyvern hp+10) 
+      --Legs = 'Drn. Brais +1', -- (wyvern hp+15%)
+      --Feet = 'Homam Gambieras', -- (wyvern hp+50)
+    },
 
-    BreathBonus = {},
-
-    BreathBonus_NonMage = {},
+    -- For Damage Bonus when /DD, only helm
+    BreathBonus_NonMage = {
+        Head = 'Drachen Armet',
+      --Head = 'Wym. Armet +1', -- Elemental Breath roughly a 16.5% increase.
+    },
 
     Stoneskin = {},
 
@@ -81,30 +159,136 @@ local sets = {
     LockSet2 = {},
     LockSet3 = {},
 
-    ['Ancient Circle'] = {},
-    ['Jump'] = {
---      Feet =  'Drachen Greaves',
+    ['Ancient Circle'] = {
+        Legs = 'Drachen Brais',
     },
-    ['High Jump'] = {},
-    ['High Jump Accuracy'] = {},
+    
+    ['Jump'] = {
+        Ammo = 'Tiphia Sting', -- bis unless elvaan. RSE ammo str+2
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Merman\'s Earring',
+        Body = 'Scorpion Harness', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
+        Hands = 'Dusk Gloves', -- any thing with +att, +str, +dex, +vit. upgrade to Hecatomb mittens(str +7, Dex +4) 
+        Ring1 = 'Toreador\'s Ring', -- acc is good. throw in Rajas ring in a slot when you have it. can swap in Dex+5 ring as well for slightly less acc but +2-3% crit to do dex modifier 
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+        Waist = 'Life Belt', --swap to warwolf belt(str +5, Dex +5, Vit +5)
+        Legs = 'Barone Cosciales', -- not a bad choice. can use Drachen legs +1(acc +9) if you need more acc. 
+        Feet = 'Drachen Greaves', -- upgrade to the +1's(dex +5, enhances jump attack bonus from 10 to 15)
+    },
+    
+    ['High Jump'] = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Merman\'s Earring',
+        Body = 'Scorpion Harness', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
+        Hands = 'Dusk Gloves',
+        Ring1 = 'Toreador\'s Ring', -- upgrade to vaulter's ring(+10% att when high jump)
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+        Waist = 'Life Belt', --swap to warwolf belt(str +5, Dex +5, Vit +5)
+        Legs = 'Barone Cosciales', -- good piece. other choice is Wyrm brais(enmity shead increased from 50% to 60%)
+        Feet = 'Bounding Boots', -- these only help jump and not high jump. Use anything with +att, +str, +dex. upgrade to hecatomb feet(str +6, Dex +3)
+    },
+    
     ['Super Jump'] = {},
-    ['Call Wyvern'] = {},
-    ['Spirit Link'] = {},
+    
+    ['Call Wyvern'] = {
+      --Body = 'Wyrm Mail',
+    },
+    
+    ['Spirit Link'] = {
+        Legs = 'Drachen Brais', -- (wyvern hp+10%)
+      --Body = 'Wyvern Mail', -- (wyvern hp+65)
+      --Hands = 'Ostreger Mitts', -- (wyvern hp+10) 
+      --Legs = 'Drn. Brais +1', -- (wyvern hp+15%)
+      --Feet = 'Homam Gambieras', -- (wyvern hp+50)
+    },
 
     WS = {},
     WS_HighAcc = {},
 
-    ['Penta Thrust'] = {},
-    ['Wheeling Thrust'] = {},
-    ['Impulse Drive'] = {},
-    ['Skewer'] = {},
-    ['Geirskogul'] = {},
+    -- Acc WS
+    ['Penta Thrust'] = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Beastly Earring',
+        Body = 'Scorpion Harness',
+        Hands = 'Dusk Gloves',
+        Ring1 = 'Toreador\'s Ring',
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+        Waist = 'Life Belt',
+        Legs = 'Drachen Brais',
+        Feet = 'Bounding Boots',
+    },
+    
+    -- STR WS
+    ['Wheeling Thrust'] = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Spike Necklace',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Beastly Earring',
+        Body = 'Drachen Mail',
+        Hands = 'Dusk Gloves',
+      --Ring1 = 'Victory Ring',
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+      --Waist = 'Warwolf Belt',
+        Legs = 'Barone Cosciales',
+      --Feet = 'Barone Gambieras',
+    },
+    
+    -- STR WS
+    ['Impulse Drive'] = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Spike Necklace',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Beastly Earring',
+        Body = 'Drachen Mail',
+        Hands = 'Dusk Gloves',
+      --Ring1 = 'Victory Ring',
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+      --Waist = 'Warwolf Belt',
+        Legs = 'Barone Cosciales',
+      --Feet = 'Barone Gambieras',
+    },
+    
+    -- STR WS
+    ['Skewer'] = {
+        Ammo = 'Tiphia Sting',
+        Head = 'Wyvern Helm',
+        Neck = 'Spike Necklace',
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Beastly Earring',
+        Body = 'Drachen Mail',
+        Hands = 'Dusk Gloves',
+      --Ring1 = 'Victory Ring',
+        Ring2 = 'Rajas Ring',
+        Back = 'Amemet Mantle +1',
+      --Waist = 'Warwolf Belt',
+        Legs = 'Barone Cosciales',
+      --Feet = 'Barone Gambieras',
+    },
+    
+    ['Geirskogul'] = {
+    },
 }
 profile.Sets = sets
 
 profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/lockstyleset 200');
 end
 
 --[[

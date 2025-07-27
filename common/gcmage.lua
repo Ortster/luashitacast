@@ -45,7 +45,7 @@ local healers_earring = false
 local healers_earring_slot = 'Ear2'
 
 -- RDM Specific
-local tp_fencers_ring = true
+local tp_fencers_ring = false
 local tp_fencers_ring_slot = 'Ring1'
 
 -- BLM Specific

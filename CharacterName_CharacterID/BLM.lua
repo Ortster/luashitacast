@@ -14,6 +14,8 @@ local republic_circlet = false
 local opuntia_hoop = false
 local opuntia_hoop_slot = 'Ring1'
 
+local displayheadOnAbility = true
+
 local sets = {
     Idle_Priority = {
         Main =  { 'Solid Wand', 'Yew Wand +1', 'Willow Wand +1' },
@@ -161,6 +163,9 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 profile.HandleAbility = function()
+    if (displayheadOnAbility) then
+        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
+    end
 end
 
 profile.HandleItem = function()

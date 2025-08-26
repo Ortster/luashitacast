@@ -211,7 +211,9 @@ local sets = {
         Head = 'Bahamut\'s Mask',
         -- Hrotti
         -- Crimson Scale Mail
+        Body = 'Dst. Harness +1',
         Legs = 'Bahamut\'s Hose',
+        Ring1 = 'Shadow Ring',
         Ring2 = { Name = 'Sattva Ring', Priority = 100 },
     },
 
@@ -563,9 +565,6 @@ profile.HandlePrecast = function()
         cheatDelay = gcmelee.DoPrecast(fastCastValue)
     end
 
-    if (cheatDelay < 0) then
-        cheatDelay = 0
-    end
     local function delayCheat()
         if (target.Name == me) then
             if (action.Name == 'Cure III') then
@@ -576,7 +575,12 @@ profile.HandlePrecast = function()
         end
     end
 
-    delayCheat:once(cheatDelay)
+    if (cheatDelay <= 0) then
+        cheatDelay = 0
+        delayCheat()
+    else
+        delayCheat:once(cheatDelay)
+    end
 end
 
 profile.HandleMidcast = function()

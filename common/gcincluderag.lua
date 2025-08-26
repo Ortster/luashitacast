@@ -20,7 +20,7 @@ local load_stylist = false -- set to true to just load stylist on game start. th
 -- Add additional equipment here that you want to automatically lock when equipping
 local LockableEquipment = {
     ['Main'] = T{'Warp Cudgel', 'Rep. Signet Staff', 'Kgd. Signet Staff', 'Fed. Signet Staff', 'Treat Staff II', 'Trick Staff II'},
-    ['Sub'] = T{},
+    ['Sub'] = T{'Warp Cudgel'},
     ['Range'] = T{},
     ['Ammo'] = T{},
     ['Head'] = T{'Reraise Hairpin', 'Dream Hat +1'},
@@ -93,7 +93,7 @@ local OverrideNameTable = {
     ['eva'] = 'Evasion'
 }
 
-local isMage = T{ 'RDM','BLM','WHM','SMN','BRD' }
+local isMageJobs = T{ 'RDM','BLM','WHM','SMN','BRD' }
 
 local lastIdleSet = 'Normal'
 
@@ -107,7 +107,7 @@ function gcinclude.Load()
 
     local function delayLoad()
         local delayedPlayer = gData.GetPlayer()
-        if (not isMage:contains(delayedPlayer.MainJob)) then
+        if (not isMageJobs:contains(delayedPlayer.MainJob)) then
             gcdisplay.CreateToggle('LockTP', false)
         end
 
@@ -185,14 +185,11 @@ function gcinclude.DoCommands(args)
     end
 
     local player = gData.GetPlayer()
+    local isMage = isMageJobs:contains(player.MainJob)
 
     if (isOverride) then
-        if (gcdisplay.IdleSet == 'Fight') then
-            print(chat.header('Ashitacast'):append(chat.message('Overriding in Fight mode is currently unsupported. Type /fight to disable Fight mode.')))
-        else
-            gcinclude.ToggleIdleSet(OverrideNameTable[args[1]])
-            gcinclude.Message('IdleSet', gcdisplay.IdleSet)
-        end
+        gcinclude.ToggleIdleSet(OverrideNameTable[args[1]])
+        gcinclude.Message('IdleSet', gcdisplay.IdleSet)
     elseif (args[1] == 'kite') then
         gcdisplay.AdvanceToggle('Kite')
         gcinclude.Message('Kite', gcdisplay.GetToggle('Kite'))
@@ -210,23 +207,23 @@ function gcinclude.DoCommands(args)
         gcdisplay.AdvanceToggle('Lock')
         gcinclude.Message('Equip Lock', gcdisplay.GetToggle('Lock'))
         if (not gcdisplay.GetToggle('Lock')) then
-            if (gcdisplay.IdleSet == 'Fight' or gcdisplay.GetToggle('LockTP')) then
+            if (isMage and (gcdisplay.GetCycle('TP') == 'LowAcc' or gcdisplay.GetCycle('TP') == 'HighAcc')) then
+                gcinclude.UnlockNonWeapon()
+            elseif (gcdisplay.GetToggle('LockTP')) then
                 gcinclude.UnlockNonWeapon()
             else
                 AshitaCore:GetChatManager():QueueCommand(-1, '/lac enable all')
-                if (not isMage:contains(player.MainJob)) then gcdisplay.CreateToggle('LockTP', false) end
+                if (not isMage) then gcdisplay.CreateToggle('LockTP', false) end
             end
         else
             AshitaCore:GetChatManager():QueueCommand(-1, '/lac disable all')
-            if (not isMage:contains(player.MainJob)) then gcdisplay.CreateToggle('LockTP', false) end
+            if (not isMage) then gcdisplay.CreateToggle('LockTP', false) end
         end
-    elseif (args[1] == 'locktp') then
+    elseif (args[1] == 'locktp' and not isMage) then
         gcdisplay.AdvanceToggle('LockTP')
         gcinclude.Message('Weapons Lock', gcdisplay.GetToggle('LockTP'))
         if (not gcdisplay.GetToggle('LockTP')) then
-            if (gcdisplay.IdleSet ~= 'Fight') then
-                AshitaCore:GetChatManager():QueueCommand(-1, '/lac enable all')
-            end
+            AshitaCore:GetChatManager():QueueCommand(-1, '/lac enable all')
             gcdisplay.CreateToggle('Lock', false)
         else
             gcdisplay.CreateToggle('Lock', false)
@@ -309,6 +306,26 @@ function gcinclude.DoDefaultOverride(isMelee)
             end
         end
     end
+    if (gcdisplay.IdleSet == 'Evasion') then gFunc.EquipSet('Evasion') end
+
+    if ((player.IsMoving == true)
+        and (
+            gcdisplay.IdleSet == 'Normal'
+            or gcdisplay.IdleSet == 'Alternate'
+            or gcdisplay.IdleSet == 'DT'
+            or gcdisplay.IdleSet == 'Evasion'
+        )
+    ) then
+        if (isMageJobs:contains(player.MainJob) and (gcdisplay.GetCycle('TP') == 'LowAcc' or gcdisplay.GetCycle('TP') == 'HighAcc')) then
+            if (environment.Time >= 6 and environment.Time < 18) then
+                gFunc.EquipSet('DT')
+            else
+                gFunc.EquipSet('DTNight')
+            end
+        end
+        gFunc.EquipSet('Movement')
+    end
+
     if (gcdisplay.IdleSet == 'MDT') then gFunc.EquipSet('MDT') end
     if (gcdisplay.IdleSet == 'FireRes') then gFunc.EquipSet('FireRes') end
     if (gcdisplay.IdleSet == 'IceRes') then gFunc.EquipSet('IceRes') end
@@ -316,7 +333,6 @@ function gcinclude.DoDefaultOverride(isMelee)
     if (gcdisplay.IdleSet == 'EarthRes') then gFunc.EquipSet('EarthRes') end
     if (gcdisplay.IdleSet == 'WindRes') then gFunc.EquipSet('WindRes') end
     if (gcdisplay.IdleSet == 'WaterRes') then gFunc.EquipSet('WaterRes') end
-    if (gcdisplay.IdleSet == 'Evasion') then gFunc.EquipSet('Evasion') end
     if (gcdisplay.GetToggle('Kite') == true) then gFunc.EquipSet('Movement') end
 
     if (player.Status == 'Resting') then
@@ -329,23 +345,6 @@ function gcinclude.DoDefaultOverride(isMelee)
         end
     else
         restTimestampRecorded = false
-    end
-
-    if ((player.IsMoving == true)
-        and (
-            gcdisplay.IdleSet == 'Normal'
-            or gcdisplay.IdleSet == 'Alternate'
-            or gcdisplay.IdleSet == 'DT'
-            or gcdisplay.IdleSet == 'Fight'
-            or gcdisplay.IdleSet == 'LowAcc'
-            or gcdisplay.IdleSet == 'HighAcc'
-            or gcdisplay.IdleSet == 'Evasion'
-        )
-    ) then
-        gFunc.EquipSet('Movement')
-    elseif (gcdisplay.IdleSet == 'Fight' and player.Status ~= 'Engaged') then
-        gFunc.EquipSet('DT')
-        gFunc.EquipSet('Movement')
     end
 end
 
@@ -387,7 +386,9 @@ function gcinclude.BuildLockableSet(equipment)
             ) then
                 lockableSet['Hands'] = 'Displaced'
             elseif (item.Name == 'Mandra. Suit') then
+                lockableSet['Hands'] = 'Displaced'
                 lockableSet['Legs'] = 'Displaced'
+                lockableSet['Feet'] = 'Displaced'
             elseif (slot == 'Main') then
                 lockableSet['Sub'] = 'Displaced'
             end

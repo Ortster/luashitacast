@@ -167,7 +167,7 @@ end
 
 profile.OnLoad = function()
     gcinclude.SetAlias(T{'th'})
-    gcdisplay.CreateCycle('TH', {[1] = 'auto', [2] = 'on', [3] = 'off'})
+    gcdisplay.CreateCycle('TH', {[1] = 'Auto', [2] = 'On', [3] = 'Off'})
     gcmelee.Load()
     profile.SetMacroBook()
     profile.WatchTreasureHunter()
@@ -245,7 +245,7 @@ profile.HandleMidcast = function()
 end
 
 profile.NeedTH = function()
-    if (gcdisplay.GetCycle('TH') == 'auto') then
+    if (gcdisplay.GetCycle('TH') == 'Auto') then
         local targetId
         local actionTarget = gData.GetActionTarget()
 
@@ -267,7 +267,7 @@ profile.NeedTH = function()
         return false
     end
 
-    return gcdisplay.GetCycle('TH') == 'on'
+    return gcdisplay.GetCycle('TH') == 'On'
 end
 
 profile.WatchTreasureHunter = function()

@@ -3,6 +3,7 @@ local profile = {}
 local fastCastValue = 0.00 -- 0% from gear
 
 local ta_rogue_armlets = true
+local evasion_master_casters_mitts = false
 
 local sets = {
     Idle = {},
@@ -60,8 +61,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -176,6 +177,10 @@ profile.HandleDefault = function()
     end
 
     gcmelee.DoDefaultOverride()
+
+    if (conquest:GetOutsideControl() and evasion_master_casters_mitts and gcdisplay.IdleSet == 'Evasion') then
+        gFunc.Equip('Hands', 'Mst.Cst. Mitts')
+    end
 
     local sa = gData.GetBuffCount('Sneak Attack')
     local ta = gData.GetBuffCount('Trick Attack')

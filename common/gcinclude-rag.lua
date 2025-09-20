@@ -43,7 +43,8 @@ Everything below can be ignored.
 --------------------------------
 ]]
 
-gcdisplay = gFunc.LoadFile('common\\gcdisplayrag.lua')
+gcdisplay = gFunc.LoadFile('common\\gcdisplay-rag.lua')
+conquest = gFunc.LoadFile('common\\conquest.lua')
 
 local gcinclude = {}
 
@@ -314,6 +315,8 @@ function gcinclude.DoDefaultOverride(isMelee)
             or gcdisplay.IdleSet == 'Alternate'
             or gcdisplay.IdleSet == 'DT'
             or gcdisplay.IdleSet == 'Evasion'
+            or gcdisplay.IdleSet == 'LowAcc'
+            or gcdisplay.IdleSet == 'HighAcc'
         )
     ) then
         if (isMageJobs:contains(player.MainJob) and (gcdisplay.GetCycle('TP') == 'LowAcc' or gcdisplay.GetCycle('TP') == 'HighAcc')) then

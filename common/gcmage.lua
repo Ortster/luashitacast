@@ -90,8 +90,7 @@ Everything below can be ignored.
 --------------------------------
 ]]
 
-gcinclude = gFunc.LoadFile('common\\gcincluderag.lua')
-conquest = gFunc.LoadFile('common\\conquest.lua')
+gcinclude = gFunc.LoadFile('common\\gcinclude-rag.lua')
 
 local gcmage = {}
 
@@ -222,7 +221,7 @@ function gcmage.SetVariables()
     end
 end
 
-function gcmage.DoCommands(args)
+function gcmage.DoCommands(args, sets)
     if not (AliasList:contains(args[1])) then
         gcinclude.DoCommands(args)
         do return end
@@ -256,9 +255,21 @@ function gcmage.DoCommands(args)
         gcinclude.Message('TP Mode', gcdisplay.GetCycle('TP'))
 
         if (gcdisplay.GetCycle('TP') ~= 'Off') then
-            gcinclude.LockWeapon:once(1)
+            local tpset = sets.TP
+            if (gcdisplay.GetCycle('TP') == 'HighAcc') then
+                tpset = gFunc.Combine(tpset, sets.TP_HighAcc)
+            end
+            if (player.SubJob == 'NIN') then
+                tpset = gFunc.Combine(tpset, sets.TP_NIN)
+            end
+            gcinclude.UnlockWeapon()
+            local function forcetpset()
+                gFunc.LockSet(tpset, 0.5)
+            end
+            forcetpset:once(0.5)
+            gcinclude.LockWeapon:once(0.8)
         else
-            gcinclude.UnlockWeapon:once(1)
+            gcinclude.UnlockWeapon()
         end
     elseif (args[1] == 'lag') then
         lag =  not lag
@@ -384,7 +395,7 @@ function gcmage.DoDefault(ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP)
     end
 
     if (player.MainJob == 'RDM' or player.MainJob == 'WHM' or player.MainJob == 'BRD' or player.MainJob == 'SMN') then
-        if (gcdisplay.GetCycle('TP') ~= 'Off') then
+        if (gcdisplay.GetCycle('TP') ~= 'Off' and player.Status == 'Engaged') then
             gFunc.EquipSet('TP')
             if (gcdisplay.GetCycle('TP') == 'HighAcc') then
                 gFunc.EquipSet('TP_HighAcc')
@@ -437,7 +448,9 @@ function gcmage.DoPrecast(fastCastValue)
     local action = gData.GetAction()
     local player = gData.GetPlayer()
 
-    if (chainspell > 0) then
+    gFunc.EquipSet('Precast')
+
+    if (chainspell > 0 or lag) then
         if (gcdisplay.GetToggle('Hate') == true) then
             gFunc.EquipSet('Hate')
 
@@ -452,11 +465,6 @@ function gcmage.DoPrecast(fastCastValue)
                 end
             end
         end
-    elseif (not lag) then
-        gFunc.EquipSet('Precast')
-        gcmage.SetupMidcastDelay(fastCastValue)
-    else
-        gFunc.EquipSet('Precast')
 
         local weakened = gData.GetBuffCount('Weakness')
         if (weakened >= 1) then
@@ -472,12 +480,16 @@ function gcmage.DoPrecast(fastCastValue)
                 gFunc.EquipSet('YellowHNM')
             end
         end
+    else
+        gcmage.SetupMidcastDelay(fastCastValue)
     end
 end
 
 function gcmage.SetupMidcastDelay(fastCastValue)
     local player = gData.GetPlayer()
     local action = gData.GetAction()
+    local target = gData.GetActionTarget()
+    local me = AshitaCore:GetMemoryManager():GetParty():GetMemberName(0)
     local castTime = action.CastTime
     if (player.SubJob == "RDM") then
         fastCastValue = fastCastValue + 0.15 -- Fast Cast Trait
@@ -501,10 +513,31 @@ function gcmage.SetupMidcastDelay(fastCastValue)
         castTime = 3000
     end
     local minimumBuffer = 0.4 -- Can be lowered to 0.1 if you want
-    local packetDelay = 0.4 -- Change this to 0.4 if you do not use PacketFlow
+    local packetDelay = 0.25 -- Change this to 0.4 if you do not use PacketFlow
     local castDelay = ((castTime * (1 - fastCastValue)) / 1000) - minimumBuffer
     if (castDelay >= packetDelay) then
         gFunc.SetMidDelay(castDelay)
+    end
+
+    local function delayCheat()
+        if (gcdisplay.GetToggle('Hate') == true) then
+            if (target.Name == me) then
+                if (action.Name == 'Cure III') then
+                    gFunc.ForceEquipSet('Cheat_C3HPDown')
+                    gFunc.ForceEquipSet('Cheat_HPUp')
+                elseif (action.Name == 'Cure IV') then
+                    gFunc.ForceEquipSet('Cheat_C4HPDown')
+                    gFunc.ForceEquipSet('Cheat_HPUp')
+                end
+            end
+        end
+    end
+
+    local cheatDelay = castDelay - 0.4
+    if (cheatDelay <= 0) then
+        delayCheat()
+    else
+        delayCheat:once(cheatDelay)
     end
 
     local weakened = gData.GetBuffCount('Weakness')
@@ -522,7 +555,7 @@ function gcmage.SetupMidcastDelay(fastCastValue)
                 gFunc.ForceEquipSet('YellowHNM')
             end
         end
-        local yellowDelay = castDelay - 1
+        local yellowDelay = castDelay - 0.4
         if (yellowDelay <= 0) then
             gFunc.EquipSet('Yellow')
             if (gcdisplay.GetToggle('HNM') == true) then
@@ -570,7 +603,7 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
     if (action.Skill == 'Enhancing Magic') then
         gcmage.EquipEnhancing()
     elseif (action.Skill == 'Healing Magic') then
-        gcmage.EquipHealing(maxMP, sets, chainspell)
+        gcmage.EquipHealing(maxMP)
     elseif (action.Skill == 'Elemental Magic') then
         gcmage.EquipElemental(maxMP, blmSJMMP)
     elseif (action.Skill == 'Enfeebling Magic') then
@@ -579,6 +612,7 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
         gcmage.EquipDark(maxMP)
     elseif (action.Skill == 'Divine Magic') then
         gFunc.EquipSet('Divine')
+        gcmage.EquipObi(action)
     elseif (action.Skill == 'Summoning') then
         lastSummoningElement = action.Element
     end
@@ -687,7 +721,7 @@ function gcmage.EquipEnhancing()
     end
 end
 
-function gcmage.EquipHealing(maxMP, sets, chainspell)
+function gcmage.EquipHealing(maxMP)
     local player = gData.GetPlayer()
     local action = gData.GetAction()
     local environment = gData.GetEnvironment()
@@ -701,11 +735,7 @@ function gcmage.EquipHealing(maxMP, sets, chainspell)
     if (player.SubJob == "WHM" and healers_earring) then
         gFunc.Equip(healers_earring_slot, 'Healer\'s Earring')
     end
-    if (action.Element == environment.WeatherElement) or (action.Element == environment.DayElement) then
-        if (action.Element == 'Light') and korin_obi then
-            gFunc.Equip('Waist', 'Korin Obi')
-        end
-    end
+    gcmage.EquipObi(action)
     if (environment.DayElement == 'Water') and water_ring and player.MPP <= 85 then
         if (maxMP == 0 or player.MP < maxMP * 0.85) then
             gFunc.Equip(water_ring_slot, 'Water Ring')
@@ -720,14 +750,8 @@ function gcmage.EquipHealing(maxMP, sets, chainspell)
         gFunc.EquipSet('Hate')
         if (target.Name == me) then
             if (action.Name == 'Cure III') then
-                if (chainspell == 0) then
-                    gFunc.ForceEquipSet(sets.Cheat_C3HPDown)
-                end
                 gFunc.EquipSet('Cheat_HPUp')
             elseif (action.Name == 'Cure IV') then
-                if (chainspell == 0) then
-                    gFunc.ForceEquipSet(sets.Cheat_C4HPDown)
-                end
                 gFunc.EquipSet('Cheat_HPUp')
             end
         end
@@ -781,14 +805,11 @@ function gcmage.EquipElemental(maxMP, blmNukeExtra)
         end
         if (gcdisplay.GetToggle('MB') == true) then
             gFunc.EquipSet('MB')
-        end
-        if (ObiCheck(action)) then
-            local obi = NukeObiTable[action.Element]
-            local obiOwned = NukeObiOwnedTable[action.Element]
-            if (obiOwned) then
-                gFunc.Equip('Waist', obi)
+            if (gcdisplay.GetToggle('HNM') == true) then
+                gFunc.EquipSet('MBHNM')
             end
         end
+        gcmage.EquipObi(action)
         if (action.Element == environment.DayElement) and sorcerers_tonban ~= '' and (player.MainJob == 'BLM') then
             gFunc.Equip('Legs', sorcerers_tonban)
         end
@@ -796,18 +817,6 @@ function gcmage.EquipElemental(maxMP, blmNukeExtra)
             gFunc.Equip(sorcerers_ring_slot, 'Sorcerer\'s Ring')
         end
     end
-end
-
-function ObiCheck(action)
-    local element = action.Element
-    local environment = gData.GetEnvironment()
-    local weakElement = WeakElementTable[element]
-
-    if environment.WeatherElement == element then
-        return environment.Weather:match('x2') or environment.DayElement ~= weakElement
-    end
-
-    return environment.DayElement == element and environment.WeatherElement ~= weakElement
 end
 
 function gcmage.EquipEnfeebling()
@@ -851,13 +860,7 @@ function gcmage.EquipEnfeeblingACC(action)
     if ((player.MainJob ~= 'WHM') and conquest:GetOutsideControl()) and master_casters_bracelets then
         gFunc.Equip('Hands', 'Mst.Cst. Bracelets')
     end
-    if (ObiCheck(action)) then
-        local obi = NukeObiTable[action.Element]
-        local obiOwned = NukeObiOwnedTable[action.Element]
-        if (obiOwned) then
-            gFunc.Equip('Waist', obi)
-        end
-    end
+    gcmage.EquipObi(action)
 end
 
 function gcmage.EquipDark(maxMP)
@@ -892,13 +895,7 @@ function gcmage.EquipDark(maxMP)
         gFunc.Equip(diabolos_earring_slot, 'Diabolos\'s Earring')
     end
 
-    if (ObiCheck(action)) then
-        local obi = NukeObiTable[action.Element]
-        local obiOwned = NukeObiOwnedTable[action.Element]
-        if (obiOwned) then
-            gFunc.Equip('Waist', obi)
-        end
-    end
+    gcmage.EquipObi(action)
 end
 
 function gcmage.EquipStaff()
@@ -922,6 +919,28 @@ function gcmage.EquipStaff()
             end
         end
     end
+end
+
+function gcmage.EquipObi(action)
+    if (ObiCheck(action)) then
+        local obi = NukeObiTable[action.Element]
+        local obiOwned = NukeObiOwnedTable[action.Element]
+        if (obiOwned) then
+            gFunc.Equip('Waist', obi)
+        end
+    end
+end
+
+function ObiCheck(action)
+    local element = action.Element
+    local environment = gData.GetEnvironment()
+    local weakElement = WeakElementTable[element]
+
+    if environment.WeatherElement == element then
+        return environment.Weather:match('x2') or environment.DayElement ~= weakElement
+    end
+
+    return environment.DayElement == element and environment.WeatherElement ~= weakElement
 end
 
 function gcmage.DoAbility()

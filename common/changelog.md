@@ -328,3 +328,26 @@
 
 ### v1.4.15
 - Fixes broken /lock and /locktp logic in v1.4.14
+
+### v1.4.16
+- Adds obi usage to divine magic and fixes weather vs day checking for healing magic
+
+### v1.5.0
+- Renames or moves some of the core common files: gcdisplayrag.lua, gcincluderag.lua, actionpacket.lua, changelog.
+- Shortens timers between forceEquips for Cure Cheats on RDM, PLD, and Yellow set equip on BLM. 
+
+### v1.5.1
+- BLM - Add MBHNM set for nuking with a choice of magic burst gear vs -enmity on HNMs.
+- NIN - Add Flash for /PLD.
+- PLD - Force PLD to always just use Hate > Haste > Hate_Flash sets on Flash.
+
+### v1.5.2
+- THF - Add Mst.Cst. Bracelets for Evasion set.
+- RDM/WHM/SMN/BRD - Re-Add idling in Idle / IdleALT sets if not engaged but in TP modes.
+
+### v1.5.3
+- RDM/WHM/SMN/BRD - Allow weapons to be equipped correctly for tp modes.
+
+### v1.5.4
+- THF - Fix Mst.Cst. Mitts usage on THF
+- Melee - Fix broken Movement set usage

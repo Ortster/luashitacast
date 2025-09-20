@@ -320,8 +320,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 9')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -381,7 +381,7 @@ profile.HandleCommand = function(args)
         gcdisplay.AdvanceToggle('SleepRecast')
         gcinclude.Message('SleepRecast', gcdisplay.GetToggle('SleepRecast'))
     else
-        gcmage.DoCommands(args)
+        gcmage.DoCommands(args, sets)
     end
 
     if (args[1] == 'horizonmode') then

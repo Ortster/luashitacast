@@ -143,7 +143,9 @@ local sets = {
         Feet = 'Blood Greaves', -- 21
     },
     LightningRes = { -- 138
-        Sub = 'Nms. Shield +1', -- 15
+        Main = 'Terra\'s Staff', -- 20
+        Sub = '',
+        -- Sub = 'Nms. Shield +1', -- 15
         Range = 'Lightning Bow +1', -- 7
         Ammo = '',
         Head = 'Black Ribbon', -- 12
@@ -274,7 +276,7 @@ local sets = {
         Legs = { Name = 'Hydra Brayettes', Priority = -100 },
         Feet = 'Vlr. Leggings +1',
     },
-    Hate_Flash = { -- Optional, provided here only if you wish to mix in haste or other stats over max +enmity
+    Hate_Flash = { -- Technically optional since Hate and Haste gear will be equipped by default
         Main = { Name = 'Capricorn Staff', Priority = -1 },
         Sub = 'remove',
         Head = 'Homam Zucchetto',
@@ -376,7 +378,7 @@ local sets = {
         Neck = 'Fortitude Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Merman\'s Earring',
-        Body = 'Haubergeon',
+        Body = 'Haubergeon +1',
         Hands = 'Dusk Gloves +1',
         Ring1 = 'Toreador\'s Ring',
         Ring2 = 'Toreador\'s Ring',
@@ -393,7 +395,7 @@ local sets = {
         Neck = 'Soil Gorget',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Merman\'s Earring',
-        Body = 'Haubergeon',
+        Body = 'Haubergeon +1',
         -- Hands = 'Alkyoneus\'s Brc.',
         Hands = 'Tarasque Mitts +1',
         Ring1 = 'Toreador\'s Ring',
@@ -444,11 +446,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 3')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
-
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //shieldbash')
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //flash')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -569,14 +568,15 @@ profile.HandlePrecast = function()
         if (target.Name == me) then
             if (action.Name == 'Cure III') then
                 gFunc.ForceEquipSet(sets.Cheat_C3HPDown)
+                gFunc.ForceEquipSet(sets.Cheat_C3HPUp)
             elseif (action.Name == 'Cure IV') then
                 gFunc.ForceEquipSet(sets.Cheat_C4HPDown)
+                gFunc.ForceEquipSet(sets.Cheat_C4HPUp)
             end
         end
     end
 
     if (cheatDelay <= 0) then
-        cheatDelay = 0
         delayCheat()
     else
         delayCheat:once(cheatDelay)
@@ -594,13 +594,9 @@ profile.HandleMidcast = function()
         gFunc.EquipSet(sets.Cure)
     elseif (action.Skill == 'Divine Magic') then
         if (action.Name == 'Flash') then
-            local sentinel = gData.GetBuffCount('Sentinel')
-            if (sentinel >= 1) then
-                gFunc.EquipSet(sets.Haste)
-            else
-                gFunc.EquipSet(sets.Hate)
-                gFunc.EquipSet(sets.Hate_Flash)
-            end
+            gFunc.EquipSet(sets.Hate)
+            gFunc.EquipSet(sets.Haste)
+            gFunc.EquipSet(sets.Hate_Flash)
         else
             gFunc.EquipSet(sets.Divine)
         end

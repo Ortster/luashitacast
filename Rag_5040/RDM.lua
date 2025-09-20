@@ -249,7 +249,7 @@ local sets = {
     },
     Casting = { -- Default Casting Equipment when using Idle sets
         Main = 'Eremite\'s Wand', -- 25
-        Sub = 'Eremite\'s Wand', -- 25
+        Sub = 'Genbu\'s Shield',
         Ammo = 'Hedgehog Bomb',
         Ammo = '',
         Head = 'Nashira Turban', -- 10
@@ -261,13 +261,13 @@ local sets = {
         Ring1 = 'Jelly Ring',
         Ring2 = 'Sattva Ring',
         Back = 'Umbra Cape',
-        Waist = 'Druid\'s Rope', -- 10
+        Waist = 'Silver Obi +1', -- 8
         Legs = 'Dst. Subligar +1',
         Feet = 'Mountain Gaiters', -- 5
     },
     SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
         Main = 'Eremite\'s Wand', -- 25
-        Sub = 'Eremite\'s Wand', -- 25
+        Sub = 'Genbu\'s Shield',
         Ammo = 'Hedgehog Bomb',
         Ammo = '',
         Head = 'Nashira Turban', -- 10
@@ -279,7 +279,7 @@ local sets = {
         Ring1 = 'Jelly Ring',
         Ring2 = 'Sattva Ring',
         Back = 'Umbra Cape',
-        Waist = 'Druid\'s Rope', -- 10
+        Waist = 'Silver Obi +1', -- 8
         Legs = 'Dst. Subligar +1',
         Feet = 'Mountain Gaiters', -- 5
     },
@@ -315,7 +315,7 @@ local sets = {
     },
     Cheat_C3HPDown = {
         Main = 'Eremite\'s Wand', -- 25
-        Sub = 'Eremite\'s Wand', -- 25
+        Sub = 'Genbu\'s Shield',
         Ammo = 'Tiphia Sting',
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
@@ -326,13 +326,13 @@ local sets = {
         Ring1 = 'Serket Ring',
         Ring2 = 'Sattva Ring',
         Back = 'Umbra Cape',
-        Waist = 'Druid\'s Rope', -- 10
+        Waist = 'Silver Obi +1', -- 8
         Legs = 'Dst. Subligar +1',
         Feet = 'Mountain Gaiters', -- 5
     },
     Cheat_C4HPDown = {
         Main = 'Eremite\'s Wand', -- 25
-        Sub = 'Eremite\'s Wand', -- 25
+        Sub = 'Genbu\'s Shield',
         Ammo = 'Tiphia Sting',
         Head = 'Zenith Crown +1',
         Neck = 'Willpower Torque', -- 5
@@ -348,6 +348,8 @@ local sets = {
         Feet = 'Mahatma Pigaches',
     },
     Cheat_HPUp = {
+        Main = 'Apollo\'s Staff',
+        Sub = 'remove',
         Ammo = 'Happy Egg',
         Head = 'Rival Ribbon', -- 2
         Neck = 'Harmonia\'s Torque', -- 3
@@ -429,6 +431,8 @@ local sets = {
         Back = 'Prism Cape',
         Waist = 'Penitent\'s Rope',
         Legs = 'Mahatma Slops',
+        Hands = 'Nashira Gages',
+        Feet = 'Nashira Crackows',
     },
     EnfeeblingMND = {
         Ammo = 'Hedgehog Bomb',
@@ -607,7 +611,7 @@ local sets = {
         Ammo = '',
         Head = 'Optical Hat',
         Hands = 'Hydra Gloves',
-        Back = 'Commander\'s Cape',
+        -- Back = 'Commander\'s Cape',
         Waist = 'Life Belt',
         Legs = 'Hydra Brais',
         Feet = 'Hydra Gaiters',
@@ -618,7 +622,7 @@ local sets = {
         -- Main = 'Justice Sword',
         -- Main = 'Blau Dolch',
         Sub = 'Octave Club',
-        Ear1 = 'Merman\'s Earring',
+        Ear1 = 'Brutal Earring',
         Ear2 = 'Stealth Earring',
         Range = 'Lightning Bow +1',
         Ammo = '',
@@ -669,11 +673,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
-
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //dia')
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //stun')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -737,7 +738,7 @@ profile.OnUnload = function()
 end
 
 profile.HandleCommand = function(args)
-    gcmage.DoCommands(args)
+    gcmage.DoCommands(args, sets)
 
     if (args[1] == 'horizonmode') then
         profile.HandleDefault()

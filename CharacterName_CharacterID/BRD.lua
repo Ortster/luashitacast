@@ -192,7 +192,7 @@ profile.OnLoad = function()
     gcinclude.SetAlias(T{'sballad','shorde','srecast'})
     gcdisplay.CreateToggle('SmallBallad', false)
     gcdisplay.CreateToggle('SmallHorde', false)
-    gcdisplay.CreateToggle('SleepRecast', false)
+    gcdisplay.CreateToggle('SleepRecast', true)
     gcmage.Load()
     profile.SetMacroBook()
 end
@@ -213,7 +213,7 @@ profile.HandleCommand = function(args)
         gcdisplay.AdvanceToggle('SleepRecast')
         gcinclude.Message('SleepRecast', gcdisplay.GetToggle('SleepRecast'))
     else
-        gcmage.DoCommands(args)
+        gcmage.DoCommands(args, sets)
     end
 
     if (args[1] == 'horizonmode') then
@@ -267,7 +267,7 @@ profile.HandleMidcast = function()
             gFunc.EquipSet(sets.Sing_Debuff)
             gFunc.EquipSet(sets.Sing_Lullaby)
             if (gcdisplay.GetToggle('SleepRecast')) then
-                gFunc.EquipSet(sets.Sing_SleepRecast)
+                gFunc.EquipSet(sets.Sing_Recast)
             end
         elseif string.match(action.Name, 'Horde Lullaby') then
             gFunc.EquipSet(sets.Sing_Debuff)
@@ -276,16 +276,21 @@ profile.HandleMidcast = function()
                 gFunc.EquipSet(sets.Sing_HordeLullaby_Small)
             end
             if (gcdisplay.GetToggle('SleepRecast')) then
-                gFunc.EquipSet(sets.Sing_SleepRecast)
+                gFunc.EquipSet(sets.Sing_Recast)
             end
-        elseif (action.Name == 'Magic Finale') or string.match(action.Name, 'Requiem') then
+        elseif (action.Name == 'Magic Finale') then
             gFunc.EquipSet(sets.Sing_Debuff)
-            gFunc.EquipSet(sets.Sing_FinaleRequiem)
+            gFunc.EquipSet(sets.Sing_Finale)
+        elseif string.match(action.Name, 'Requiem') then
+            gFunc.EquipSet(sets.Sing_Debuff)
+            gFunc.EquipSet(sets.Sing_Requiem)
         elseif string.match(action.Name, 'Carol') then
             gFunc.EquipSet(sets.Sing_Buff)
             gFunc.EquipSet(sets.Sing_Carol)
         elseif string.match(action.Name, 'Ballad') then
             gFunc.EquipSet(sets.Sing_Buff)
+            gFunc.EquipSet(sets.Haste)
+            gFunc.EquipSet(sets.Sing_Recast)
             gFunc.EquipSet(sets.Sing_Ballad_Large)
             if (gcdisplay.GetToggle('SmallBallad')) then
                 gFunc.EquipSet(sets.Sing_Ballad_Small)
@@ -307,6 +312,8 @@ profile.HandleMidcast = function()
             gFunc.EquipSet(sets.Sing_Prelude)
         elseif string.match(action.Name, 'Hymnus') then
             gFunc.EquipSet(sets.Sing_Buff)
+            gFunc.EquipSet(sets.Haste)
+            gFunc.EquipSet(sets.Sing_Recast)
             gFunc.EquipSet(sets.Sing_Hymnus)
         elseif (action.Name == 'Chocobo Mazurka') then
             gFunc.EquipSet(sets.Sing_Buff)
@@ -314,6 +321,12 @@ profile.HandleMidcast = function()
         elseif string.match(action.Name, 'Paeon') then
             gFunc.EquipSet(sets.Sing_Buff)
             gFunc.EquipSet(sets.Sing_Paeon)
+        elseif string.match(action.Name, 'Etude') then
+            gFunc.EquipSet(sets.Sing_Buff)
+            gFunc.EquipSet(sets.Sing_Etude)
+        elseif string.match(action.Name, 'Minne') then
+            gFunc.EquipSet(sets.Sing_Buff)
+            gFunc.EquipSet(sets.Sing_Minne)
         end
     end
 end

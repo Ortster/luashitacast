@@ -164,7 +164,7 @@ profile.HandleCommand = function(args)
         gcdisplay.AdvanceToggle('Extra')
         gcinclude.Message('Extra', gcdisplay.GetToggle('Extra'))
     else
-        gcmage.DoCommands(args)
+        gcmage.DoCommands(args, sets)
     end
 
     if (args[1] == 'horizonmode') then

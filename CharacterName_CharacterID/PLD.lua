@@ -241,14 +241,15 @@ profile.HandlePrecast = function()
         if (target.Name == me) then
             if (action.Name == 'Cure III') then
                 gFunc.ForceEquipSet(sets.Cheat_C3HPDown)
+                gFunc.ForceEquipSet(sets.Cheat_C3HPUp)
             elseif (action.Name == 'Cure IV') then
                 gFunc.ForceEquipSet(sets.Cheat_C4HPDown)
+                gFunc.ForceEquipSet(sets.Cheat_C4HPUp)
             end
         end
     end
 
     if (cheatDelay <= 0) then
-        cheatDelay = 0
         delayCheat()
     else
         delayCheat:once(cheatDelay)
@@ -266,13 +267,9 @@ profile.HandleMidcast = function()
         gFunc.EquipSet(sets.Cure)
     elseif (action.Skill == 'Divine Magic') then
         if (action.Name == 'Flash') then
-            local sentinel = gData.GetBuffCount('Sentinel')
-            if (sentinel >= 1) then
-                gFunc.EquipSet(sets.Haste)
-            else
-                gFunc.EquipSet(sets.Hate)
-                gFunc.EquipSet(sets.Hate_Flash)
-            end
+            gFunc.EquipSet(sets.Hate)
+            gFunc.EquipSet(sets.Haste)
+            gFunc.EquipSet(sets.Hate_Flash)
         else
             gFunc.EquipSet(sets.Divine)
         end

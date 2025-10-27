@@ -133,16 +133,16 @@ profile.HandleDefault = function()
 
     gcmelee.DoDefault()
 
+    local aggressor = gData.GetBuffCount('Aggressor')
+    if (aggressor == 1 and gcdisplay.IdleSet == 'LowAcc') then
+        gFunc.EquipSet(sets.TP_Aggressor)
+    end
+
     if (player.SubJob == 'SAM') then
         gFunc.EquipSet(sets.SAM)
     end
     if (gcdisplay.GetToggle('DW') and player.Status == 'Engaged') then
         gFunc.EquipSet(sets.DW)
-    end
-
-    local aggressor = gData.GetBuffCount('Aggressor')
-    if (aggressor == 1 and gcdisplay.IdleSet == 'LowAcc') then
-        gFunc.EquipSet(sets.TP_Aggressor)
     end
 
     gcmelee.DoDefaultOverride()

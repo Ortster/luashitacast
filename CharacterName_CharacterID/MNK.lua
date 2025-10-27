@@ -281,9 +281,6 @@ profile.HandleDefault = function()
         if (player.HP < max_hp_in_idle_with_regen_gear_equipped) then
             local environment = gData.GetEnvironment()
 
-            if (muscle_belt ~= '') then
-                gFunc.Equip('Waist', muscle_belt)
-            end
             if (garden_bangles ~= '' and environment.Time >= 6 and environment.Time < 18) then
                 gFunc.Equip('hands', garden_bangles)
             end

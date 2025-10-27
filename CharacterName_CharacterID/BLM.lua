@@ -147,11 +147,8 @@ local sets = {
 profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 24')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
-
-    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 //stun')
-    --AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 //dia')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -198,7 +195,7 @@ profile.HandleCommand = function(args)
         gcdisplay.AdvanceToggle('Extra')
         gcinclude.Message('Extra', gcdisplay.GetToggle('Extra'))
     else
-        gcmage.DoCommands(args)
+        gcmage.DoCommands(args, sets)
     end
 
     if (args[1] == 'horizonmode') then

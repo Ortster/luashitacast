@@ -9,7 +9,7 @@ local cureMP = 895 -- Cure set max MP
 
 local sets = {
     Idle_Priority = {
-        Main =  { 'Solid Wand', 'Yew Wand +1', 'Willow Wand +1', "Maple Wand +1" },
+        Main =  { 'Solid Wand', 'Yew Wand +1', 'Willow Wand +1', 'Maple Wand +1' },
         Sub =   { 'Mahogany Shield', 'Parana Shield' },
         Ammo =  { 'Morion Tathlum', 'Happy Egg' },
         Head =  { 'Silver Hairpin', 'Brass Hairpin +1', 'Copper Hairpin +1' },
@@ -173,7 +173,7 @@ profile.OnUnload = function()
 end
 
 profile.HandleCommand = function(args)
-    gcmage.DoCommands(args)
+    gcmage.DoCommands(args, sets)
 
     if (args[1] == 'horizonmode') then
         profile.HandleDefault()

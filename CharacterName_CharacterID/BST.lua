@@ -11,7 +11,7 @@ local sets = {
     Idle_Priority = {
         Main =  { 'Darksteel Axe +1', 'Viking Axe', 'Cmb.Cst. Axe', 'Battleaxe +1' },
         -- Darksteel +1 (at 56+)
-        Sub =   { 'Viking Axe', 'Barbaroi Axe', 'Battleaxe +1' },
+        Sub =   { 'Tungi', 'Darksteel Axe +1', 'Viking Axe', 'Barbaroi Axe', 'Battleaxe +1' },
         -- Viking Axe (at 56+)
         Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
                 --'Walkure Mask', 'Mrc.Cpt. Headgear',

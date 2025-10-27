@@ -6,7 +6,7 @@ local ninSJMaxMP = 640 -- The Max MP you have when /nin in your idle set
 local whmSJMaxMP = 718 -- The Max MP you have when /whm in your idle set
 local rdmSJMaxMP = 699 -- The Max MP you have when /rdm in your idle set
 
-local nukeExtraThreshold = 850 -- The minimum MP for which NukeExtra and StoneskinExtra set will be used instead of regular sets (to allow additional nukes using max mp sets)
+local nukeExtraThreshold = 850 -- The minimum MP for which NukeExtra StoneskinExtra, and PhalanxExtra set will be used instead of regular sets (to allow additional nukes using max mp sets)
 
 local warlocks_mantle = true -- Don't add 2% to fastCastValue to this as it is SJ dependant
 local republic_circlet = false
@@ -117,7 +117,7 @@ local sets = {
     },
     FireRes = {
         Main = 'Neptune\'s Staff', -- 20
-        Head = 'Black Ribbon', -- 10
+        Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
         Ear2 = 'Cmn. Earring', -- 11
@@ -131,21 +131,21 @@ local sets = {
     },
     IceRes = {
         Main = 'Vulcan\'s Staff', -- 20
-        Head = 'Black Ribbon', -- 10
+        Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
         Ear2 = 'Omn. Earring', -- 11
         Hands = 'Merman\'s Bangles',
         Ring1 = 'Omniscient Ring', -- 10
         Ring2 = 'Malfrost Ring', -- 10
-        Back = 'Aurora Mantle', -- 7
+        Back = 'Aurora Mantle +1', -- 8
         Waist = 'Fire Belt', -- 20
         Legs = 'Igqira Lappas',
         Feet = 'Mountain Gaiters',
     },
     LightningRes = {
         Main = 'Terra\'s Staff', -- 20
-        Head = 'Black Ribbon', -- 10
+        Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
         Ear2 = 'Robust Earring', -- 11
@@ -159,7 +159,7 @@ local sets = {
     },
     EarthRes = {
         Main = 'Auster\'s Staff', -- 20
-        Head = 'Black Ribbon', -- 10
+        Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
         Ear2 = 'Robust Earring', -- 11
@@ -173,21 +173,21 @@ local sets = {
     },
     WindRes = {
         Main = 'Aquilo\'s Staff', -- 20
-        Head = 'Black Ribbon', -- 10
+        Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
         Ear2 = 'Omn. Earring', -- 11
         Hands = 'Mage\'s Cuffs', -- 5
         Ring1 = 'Emerald Ring', -- 9
         Ring2 = 'Malgust Ring', -- 10
-        Back = 'Aurora Mantle', -- 7
+        Back = 'Aurora Mantle +1', -- 8
         Waist = 'Ice Belt', -- 20
         Legs = 'Igqira Lappas',
         Feet = 'Mountain Gaiters',
     },
     WaterRes = {
         Main = 'Jupiter\'s Staff', -- 20
-        Head = 'Black Ribbon', -- 10
+        Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
         Ear2 = 'Cmn. Earring', -- 11
@@ -214,6 +214,8 @@ local sets = {
         Ear2 = 'Magnetic Earring', -- 8
         Waist = 'Silver Obi +1', -- 8
         Feet = 'Wizard\'s Sabots', -- 20
+        Ammo = 'Tiphia Sting',
+        Back = 'Umbra Cape',
     },
     SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
         Main = 'Eremite\'s Wand', -- 25
@@ -224,8 +226,11 @@ local sets = {
         Ear2 = 'Magnetic Earring', -- 8
         Waist = 'Silver Obi +1', -- 8
         Feet = 'Wizard\'s Sabots', -- 20
+        Ammo = 'Tiphia Sting',
+        Back = 'Umbra Cape',
     },
     Yellow = { -- This will override Precast if /lag is turned on or the spell casting time is too short. e.g. Tier 1: "Stone"
+        Ammo = 'Dream Sand',
         Head = 'Zenith Crown +1',
         Ear1 = 'Loquac. Earring',
         Ear2 = 'Magnetic Earring',
@@ -309,24 +314,41 @@ local sets = {
     },
     StoneskinExtra = {
         Main = 'Kirin\'s Pole',
-        Ammo = 'Hedgehog Bomb',
-        Head = 'Zenith Crown +1',
+        Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
+        Head = { Name = 'Zenith Crown +1', Priority = 100 },
         Neck = 'Stone Gorget',
-        Ear1 = 'Loquac. Earring',
+        Ear1 = { Name = 'Loquac. Earring', Priority = 100 },
         Ear2 = 'Cmn. Earring',
         Body = 'Mahatma Hpl.',
         Hands = 'Dvt. Mitts +1',
+        Ring1 = { Name = 'Serket Ring', Priority = 100 },
+        Ring2 = 'Communion Ring',
+        Back = { Name = 'Errant Cape', Priority = 100 },
+        Waist = { Name = 'Hierarch Belt', Priority = 100 },
+        Legs = 'Mahatma Slops',
+        Feet = { Name = 'Mahatma Pigaches', Priority = 100 },
+    },
+    PhalanxExtra = {
+        Main = 'Eremite\'s Wand',
+        Sub = 'Genbu\'s Shield',
+        Ammo = 'Hedgehog Bomb',
+        Head = 'Zenith Crown +1',
+        Neck = 'Enhancing Torque',
+        Ear1 = 'Loquac. Earring',
+        Ear2 = 'Magnetic Earring',
+        Body = 'Hydra Doublet',
+        Hands = 'Src. Gloves +1',
         Ring1 = 'Aqua Ring',
         Ring2 = 'Communion Ring',
-        Back = 'Errant Cape',
+        Back = 'Merciful Cape',
         Waist = 'Hierarch Belt',
-        Legs = 'Mahatma Slops',
-        Feet = 'Mahatma Pigaches',
+        Legs = 'Src. Tonban +1',
+        Feet = 'Src. Sabots +1',
     },
     Spikes = {
         Main = 'Kirin\'s Pole',
         Ammo = 'Phtm. Tathlum',
-        Head = 'Demon Helm +1',
+        Head = 'Maat\'s Cap',
         Neck = 'Enhancing Torque',
         Ear1 = 'Novio Earring',
         Ear2 = 'Moldavite Earring',
@@ -407,7 +429,7 @@ local sets = {
 
     Nuke = {
         Ammo = 'Phtm. Tathlum',
-        Head = 'Demon Helm +1',
+        Head = 'Maat\'s Cap',
         Neck = 'Prudence Torque',
         Ear1 = 'Novio Earring',
         Ear2 = 'Moldavite Earring',
@@ -422,18 +444,18 @@ local sets = {
     },
     NukeHNM = {
         Ammo = 'Phtm. Tathlum',
-        Head = 'Wzd. Petasos +1',
+        Head = 'Wzd. Petasos +1', -- 4
         Neck = 'Prudence Torque',
         Ear1 = 'Novio Earring',
-        Ear2 = 'Novia Earring',
-        Body = 'Mahatma Hpl.',
-        Hands = 'Wzd. Gloves +1',
+        Ear2 = 'Novia Earring', -- 7
+        Body = 'Mahatma Hpl.', -- 4
+        Hands = 'Wzd. Gloves +1', -- 2
         Ring1 = 'Snow Ring',
         Ring2 = 'Omniscient Ring',
-        Back = 'Errant Cape',
-        Waist = 'Penitent\'s Rope',
-        Legs = 'Mahatma Slops',
-        Feet = 'Src. Sabots +1',
+        Back = 'Errant Cape', -- 5
+        Waist = 'Penitent\'s Rope', -- 3
+        Legs = 'Mahatma Slops', -- 4
+        Feet = 'Src. Sabots +1', -- 3
     },
     NukeACC = {
         Head = 'Src. Petasos +1',
@@ -445,7 +467,7 @@ local sets = {
     NukeDOT = {
         Main = 'Kirin\'s Pole',
         Ammo = 'Phtm. Tathlum',
-        Head = 'Demon Helm +1',
+        Head = 'Maat\'s Cap',
         Neck = 'Prudence Torque',
         Ear1 = 'Abyssal Earring',
         Ear2 = 'Omn. Earring',

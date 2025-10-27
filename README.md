@@ -178,12 +178,23 @@ All of the following toggles set what jug Call Beast will use.
 /rabbit
 /mandy
 /flytrap
+
+Alternatively, use /nextpet to cycle through them.
 ```
 
 ## Additional Commands for THF:
 ```
 /th - Forces you to equip TH gear when TP-ing in case you have a tinfoil hat.
       Will also force you to equip TH gear when using a ranged attack and ability.
+
+All of the following toggles set what bolt ammo will be used.
+/aacid
+/asleep
+/abloody
+/ablind
+/avenom
+
+Alternatively, use /ammo to cycle through them.
 ```
 
 ## Additional Commands for PLD:
@@ -218,5 +229,6 @@ A list of things to do in the future but who knows when I'll get around to them:
 - Refactor everything back out to actual sets on the JOB.lua files so that level sync and Packer validate would potentially work properly.
 - Micro-optimizations with job specific overrides for midcast and respecting max mp sets etc. e.g. WHM should not equip Virology ring when at 100% max mp.
 - Gate all Horizon specific changes behind a setting.
+- Add Virtue Stone Weapon checks (unneccessary until ToAU where mobs can strip gear)
 
 Feel free to submit PRs to implement these.

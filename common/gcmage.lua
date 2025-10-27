@@ -397,20 +397,20 @@ function gcmage.DoDefault(ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP)
     if (player.MainJob == 'RDM' or player.MainJob == 'WHM' or player.MainJob == 'BRD' or player.MainJob == 'SMN') then
         if (gcdisplay.GetCycle('TP') ~= 'Off' and player.Status == 'Engaged') then
             gFunc.EquipSet('TP')
-            if (gcdisplay.GetCycle('TP') == 'HighAcc') then
-                gFunc.EquipSet('TP_HighAcc')
-            end
             if (environment.WeatherElement ~= 'Dark') and tp_diabolos_earring then
                 gFunc.Equip(tp_diabolos_earring_slot, 'Diabolos\'s Earring')
             end
             if (fenrirs_earring and (environment.Time >= 6 and environment.Time < 18)) then
                 gFunc.Equip(fenrirs_earring_slot, 'Fenrir\'s Earring')
             end
-            if (player.SubJob == 'NIN') then
-                gFunc.EquipSet('TP_NIN')
-            end
             if gData.GetBuffCount(580) > 0 then -- Horizon Mjollnir Haste Buff
                 gFunc.EquipSet('TP_Mjollnir_Haste')
+            end
+            if (gcdisplay.GetCycle('TP') == 'HighAcc') then
+                gFunc.EquipSet('TP_HighAcc')
+            end
+            if (player.SubJob == 'NIN') then
+                gFunc.EquipSet('TP_NIN')
             end
             if (player.MainJob == 'RDM' and tp_fencers_ring and player.HPP <= 75 and player.TP <= 1000) then
                 gFunc.Equip(tp_fencers_ring_slot, 'Fencer\'s Ring')
@@ -601,7 +601,7 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
     end
 
     if (action.Skill == 'Enhancing Magic') then
-        gcmage.EquipEnhancing()
+        gcmage.EquipEnhancing(blmSJMMP)
     elseif (action.Skill == 'Healing Magic') then
         gcmage.EquipHealing(maxMP)
     elseif (action.Skill == 'Elemental Magic') then
@@ -710,14 +710,23 @@ function gcmage.SetupInterimEquipSet(sets)
     end
 end
 
-function gcmage.EquipEnhancing()
+function gcmage.EquipEnhancing(blmNukeExtra)
+    local player = gData.GetPlayer()
     local action = gData.GetAction()
 
     gFunc.EquipSet('Enhancing')
     if (action.Name == 'Stoneskin') then
         gFunc.EquipSet('Stoneskin')
+
+        if (player.MainJob == 'BLM' and gcdisplay.GetToggle('Extra') and player.MP >= blmNukeExtra) then
+            gFunc.EquipSet('StoneskinExtra')
+        end
     elseif (SpikeSpells:contains(action.Name)) then
         gFunc.EquipSet('Spikes')
+    elseif (action.Name == 'Phalanx') then
+        if (player.MainJob == 'BLM' and gcdisplay.GetToggle('Extra') and player.MP >= blmNukeExtra) then
+            gFunc.EquipSet('PhalanxExtra')
+        end
     end
 end
 
@@ -909,7 +918,7 @@ function gcmage.EquipStaff()
             gFunc.Equip('Main', staff)
         end
 
-        if (DiabolosPoleSpells:contains(action.Name)) then
+        if (player.MainJob == 'BLM' and DiabolosPoleSpells:contains(action.Name)) then
             if (environment.WeatherElement == 'Dark' and diabolos_pole) then gFunc.Equip('Main', 'Diabolos\'s Pole') end
         end
         if (player.MainJob == 'WHM' and mjollnir and CureSpells:contains(action.Name)) then

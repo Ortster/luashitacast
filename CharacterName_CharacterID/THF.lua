@@ -2,7 +2,7 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear
 
-local ta_rogue_armlets = false
+local evasion_master_casters_mitts = false
 
 local sets = {
     Idle_Priority = {
@@ -113,6 +113,23 @@ Everything below can be ignored.
 --------------------------------
 ]]
 
+local ammo = T{'aacid','asleep','abloody','ablind','avenom'}
+
+local AmmoTable1 = {
+    [1] = 'Acid',
+    [2] = 'Sleep',
+    [3] = 'Bloody',
+    [4] = 'Blind',
+    [5] = 'Venom',
+}
+local AmmoTable2 = {
+    ['acid'] = 1,
+    ['sleep'] = 2,
+    ['bloody'] = 3,
+    ['blind'] = 4,
+    ['venom'] = 5,
+}
+
 local saOverride = 0
 local taOverride = 0
 local taggedMobs = {}
@@ -146,6 +163,7 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+	gFunc.EquipSet(sets[gcdisplay.GetCycle('Ammo')]);
 end
 
 profile.HandleMidshot = function()
@@ -169,12 +187,25 @@ profile.HandleWeaponskill = function()
         gFunc.EquipSet(sets.WS_Evisceration)
     elseif (action.Name == 'Shark Bite') then
         gFunc.EquipSet(sets.WS_SharkBite)
+    elseif (action.Name == 'Dancing Edge') then
+        gFunc.EquipSet(sets.WS_DancingEdge)
+    elseif (action.Name == 'Mercy Stroke') then
+        gFunc.EquipSet(sets.WS_MercyStroke)
     end
 
+    local sa = gData.GetBuffCount('Sneak Attack')
     local ta = gData.GetBuffCount('Trick Attack')
-    if (ta > 0) or (os.clock() < taOverride) then
-        if (ta_rogue_armlets) then
-            gFunc.Equip('Hands', 'Rogue\'s Armlets +1')
+
+    if (sa == 1 and ta == 1) or (os.clock() < saOverride and os.clock() < taOverride) then
+        if (action.Name == 'Shark Bite') then
+            gFunc.EquipSet(sets.WS_SATA_SharkBite)
+        end
+    elseif (ta == 1) or (os.clock() < taOverride) then
+        gFunc.EquipSet(sets.WS_TA)
+        if (action.Name == 'Shark Bite') then
+            gFunc.EquipSet(sets.WS_TA_SharkBite)
+        elseif (action.Name == 'Mercy Stroke') then
+            gFunc.EquipSet(sets.WS_TA_MercyStroke)
         end
     end
 
@@ -184,6 +215,9 @@ profile.HandleWeaponskill = function()
 end
 
 profile.OnLoad = function()
+    gcinclude.SetAlias(ammo)
+    gcdisplay.CreateCycle('Ammo', AmmoTable1)
+    gcinclude.SetAlias(T{'ammo'})
     gcinclude.SetAlias(T{'th'})
     gcdisplay.CreateCycle('TH', {[1] = 'Auto', [2] = 'On', [3] = 'Off'})
     gcmelee.Load()
@@ -193,6 +227,8 @@ end
 
 profile.OnUnload = function()
     gcmelee.Unload()
+    gcinclude.ClearAlias(ammo)
+    gcinclude.ClearAlias(T{'ammo'})
     gcinclude.ClearAlias(T{'th'})
     ashita.events.unregister('packet_in', 'watch_treasure_hunter');
 end
@@ -201,6 +237,12 @@ profile.HandleCommand = function(args)
     if (args[1] == 'th') then
         gcdisplay.AdvanceCycle('TH')
         gcinclude.Message('TH', gcdisplay.GetCycle('TH'))
+    elseif (args[1] == 'ammo') then
+        gcdisplay.AdvanceCycle('Ammo')
+        gcinclude.Message('Ammo', gcdisplay.GetCycle('Ammo'))
+    elseif (ammo:contains(args[1])) then
+        gcdisplay.SetCycleIndex('Ammo', AmmoTable2[args[1]:sub(2)])
+        gcinclude.Message('Ammo', gcdisplay.GetCycle('Ammo'))
     else
         gcmelee.DoCommands(args)
     end
@@ -255,6 +297,7 @@ end
 
 profile.HandlePrecast = function()
     gcmelee.DoPrecast(fastCastValue)
+	gFunc.EquipSet(sets[gcdisplay.GetCycle('Ammo')]);
 end
 
 profile.HandleMidcast = function()

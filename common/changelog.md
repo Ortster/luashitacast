@@ -351,3 +351,33 @@
 ### v1.5.4
 - THF - Fix Mst.Cst. Mitts usage on THF
 - Melee - Fix broken Movement set usage
+
+### v1.5.5
+- Melee - Add Aftermath set
+- Melee - Adjust TP set hierarchy to follow top down equipment evaluation
+
+### v1.5.6
+- BST - Add /pet command to cycle through pets
+- THF - Add /ammo command to cycle through bolt types and /bolt commands to go immediately to a specific bolt
+
+### v1.5.7
+- THF - Prefixes bolt commands with 'a' as /sleep is used by ashita.
+
+### v1.5.8
+- BLM - Implements StoneskinExtra and PhalanxExtra logic that was meant to already have been added in v1.3.30.
+
+### v1.5.9
+- BRD - Default SleepRecast toggle on BRD to true.
+- BRD - Split out Requiem and Finale sets.
+- BRD - Add explicit Etude and Minne sets.
+
+### v1.5.10
+- Mages - Only use Diabolos' Pole on BLM
+- BRD - Rename Sing_SleepRecast to Sing_Recast
+- BRD - Force usage of Haste and Sing_Recast sets on stat insensitive songs Ballad and Hymnus
+
+### v1.5.11
+- THF - Implements idealized WS for THF explicitly alongside gear examples
+
+### v1.5.12
+- BST - Change /pet command to /nextpet

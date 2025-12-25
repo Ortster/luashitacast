@@ -1,28 +1,36 @@
 local profile = {}
 
-local fastCastValue = 0.07 -- 7% from gear
+local fastCastValue = 0.07 -- 7% from gear listed in Precast set
 
-local parade_gorget = true
-
-local hercules_ring = false
-local hercules_ring_slot = 'Ring1'
-
--- Replace these with '' if you do not have them
-local gallant_leggings = 'Glt. Leggings +1'
-local valor_leggings = 'Vlr. Leggings +1'
-
-local arco_de_velocidad = true
-
-local warlocks_mantle = true -- Don't add 2% to fastCastValue to this as it is SJ dependant
-
-local shadow_mantle = true
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local parade_gorget = {
+    Neck = 'Parade Gorget',
+}
+local hercules_ring = {
+    -- Ring1 = 'Hercules\' Ring',
+}
+local gallant_leggings = {
+    Legs = 'Glt. Leggings +1',
+}
+local valor_leggings = {
+    Legs = 'Vlr. Leggings +1',
+}
+local arco_de_velocidad = {
+    Range = 'Arco de Velocidad',
+}
+local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
+    Back = 'Warlock\'s Mantle',
+}
+local shadow_mantle = {
+    Back = 'Shadow Mantle',
+}
 
 local sets = {
     Idle = { -- 1415
         Main = 'Tutelary',
         Sub = 'Aegis',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'displaced',
         Body = 'Royal Cloak',
         Neck = 'Jeweled Collar +1',
@@ -42,7 +50,7 @@ local sets = {
         Main = 'Tutelary',
         Sub = 'Aegis',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Darksteel Cap +1', -- 2
         Body = 'Dst. Harness +1', -- 4
         Neck = { Name = 'Shield Torque', Priority = 100 },
@@ -89,7 +97,7 @@ local sets = {
         Main = 'Tutelary',
         Sub = 'Aegis',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Darksteel Cap +1', -- 2
         Body = 'Dst. Harness +1', -- 4
         Neck = { Name = 'Shield Torque', Priority = 100 },
@@ -103,16 +111,17 @@ local sets = {
         Legs = { Name = 'Dst. Subligar +1', Priority = 10 }, -- 3
         Feet = { Name = 'Glt. Leggings +1', Priority = 90 },
     },
-    MDT = { -- Shell IV provides 23% MDT
+    MDT = {
         Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring', -- 2
         Ear2 = { Name = 'Cassie Earring', Priority = 100 },
         Ring1 = 'Shadow Ring',
         Ring2 = { Name = 'Sattva Ring', Priority = 100 }, -- 5
+        Back = 'Resentment Cape',
     },
     FireRes = { -- 137
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
@@ -128,7 +137,7 @@ local sets = {
     },
     IceRes = { -- 135
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
@@ -144,10 +153,10 @@ local sets = {
     },
     LightningRes = { -- 138
         Main = 'Terra\'s Staff', -- 20
-        Sub = '',
+        Sub = 'displaced',
         -- Sub = 'Nms. Shield +1', -- 15
         Range = 'Lightning Bow +1', -- 7
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
@@ -163,7 +172,7 @@ local sets = {
     },
     EarthRes = { -- 143
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
@@ -179,7 +188,7 @@ local sets = {
     },
     WindRes = { -- 118
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
@@ -195,7 +204,7 @@ local sets = {
     },
     WaterRes = { -- 128
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
@@ -209,7 +218,7 @@ local sets = {
         Legs = 'Blood Cuisses', -- 21
         Feet = 'Coral Greaves +1', -- 4
     },
-    Evasion = {
+    Evasion = { -- Breath Damage Taken set
         Head = 'Bahamut\'s Mask',
         -- Hrotti
         -- Crimson Scale Mail
@@ -223,7 +232,7 @@ local sets = {
         Ear1 = 'Loquac. Earring',
         Legs = { Name = 'Homam Cosciales', Priority = 120 },
     },
-    SIRD = { -- 1441
+    SIRD = { -- 1441 -- Only used for Idle sets and not while Override sets are active
         Main = 'Tutelary',
         Sub = 'Aegis',
         Head = { Name = 'Koenig Schaller', Priority = 30 },
@@ -296,7 +305,7 @@ local sets = {
         Main = 'Durandal',
         Sub = 'Aegis',
         Range = 'Lightning Bow +1',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Darksteel Cap +1', -- 2
         Body = 'Hydra Haubert',
         Neck = 'Willpower Torque', -- 5
@@ -312,9 +321,9 @@ local sets = {
     },
     Cheat_C3HPUp = { -- 1430 (223)
         Main = 'Apollo\'s Staff',
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Bahamut\'s Mask',
         Neck = 'Harmonia\'s Torque',
         Ear1 = 'Hospitaler Earring',
@@ -332,7 +341,7 @@ local sets = {
         Main = 'Durandal',
         Sub = 'Aegis',
         Range = 'Lightning Bow +1',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Faerie Hairpin',
         Neck = 'Willpower Torque',
         Ear1 = { Name = 'Magnetic Earring', Priority = 120 }, -- 8
@@ -348,9 +357,9 @@ local sets = {
     },
     Cheat_C4HPUp = { -- 1514 (441 +1)
         Main = 'Apollo\'s Staff',
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Bahamut\'s Mask',
         Neck = 'Harmonia\'s Torque',
         Ear1 = 'Hospitaler Earring',
@@ -370,10 +379,6 @@ local sets = {
     LockSet3 = {},
 
     TP_LowAcc = {
-        Main = 'Joyeuse',
-        Sub = 'Aegis',
-        Range = 'Lightning Bow +1',
-        Ammo = '',
         Head = 'Homam Zucchetto',
         Neck = 'Fortitude Torque',
         Ear1 = 'Brutal Earring',
@@ -397,7 +402,6 @@ local sets = {
         Ear1 = 'Brutal Earring',
         Ear2 = 'Merman\'s Earring',
         Body = 'Haubergeon +1',
-        -- Hands = 'Alkyoneus\'s Brc.',
         Hands = 'Tarasque Mitts +1',
         Ring1 = 'Toreador\'s Ring',
         Ring2 = 'Toreador\'s Ring',
@@ -436,7 +440,7 @@ local sets = {
         Main = { Name = 'Durandal', Priority = -1 },
         Sub = 'Koenig Shield',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Koenig Schaller',
         Neck = 'Fortitude Torque',
         Ear1 = { Name = 'Robust Earring', Priority = -1 },
@@ -470,8 +474,16 @@ local sets = {
         Legs = 'Glt. Breeches +1',
         Feet = 'Vlr. Leggings +1',
     },
+
+    Weapon_Loadout_1 = {
+        Main = 'Joyeuse',
+        Sub = 'Aegis',
+        Range = 'Lightning Bow +1',
+        Ammo = 'displaced',
+    },
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -486,7 +498,18 @@ Everything below can be ignored.
 
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 
+sets.parade_gorget = parade_gorget
+sets.hercules_ring = hercules_ring
+sets.gallant_leggings = gallant_leggings
+sets.valor_leggings = valor_leggings
+sets.arco_de_velocidad = arco_de_velocidad
+sets.warlocks_mantle = warlocks_mantle
+sets.shadow_mantle = shadow_mantle
+profile.Sets = gcmelee.AppendSets(sets)
+
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local action = gData.GetAction()
 
     if (action.Name == 'Chivalry') then
@@ -495,18 +518,18 @@ profile.HandleAbility = function()
 
     gFunc.EquipSet(sets.Hate)
 
-    if (action.Name == 'Holy Circle' and gallant_leggings ~= '') then
-        gFunc.Equip('Legs', gallant_leggings)
+    if (action.Name == 'Holy Circle') then
+        gFunc.EquipSet(sets.gallant_leggings)
     elseif (action.Name == 'Rampart') then
         gFunc.EquipSet(sets.Rampart)
         local environment = gData.GetEnvironment()
-        if (shadow_mantle and environment.DayElement == 'Dark') then
-            gFunc.Equip('Back', 'Shadow Mantle')
+        if (environment.DayElement == 'Dark') then
+            gFunc.EquipSet('shadow_mantle')
         end
     elseif (action.Name == 'Shield Bash') then
         gFunc.EquipSet(sets.ShieldBash)
-    elseif (action.Name == 'Sentinel' and valor_leggings ~= '') then
-        gFunc.Equip('Legs', valor_leggings)
+    elseif (action.Name == 'Sentinel') then
+        gFunc.EquipSet(sets.valor_leggings)
     elseif (action.Name == 'Cover') then
         gFunc.EquipSet(sets.Cover)
     end
@@ -559,19 +582,17 @@ profile.HandleDefault = function()
         gFunc.EquipSet(sets.Cover)
     end
 
-    if (arco_de_velocidad) then
-        local environment = gData.GetEnvironment()
-        if (environment.Time >= 6 and environment.Time < 18 and player.HPP < 100) then
-            gFunc.Equip('Range', 'Arco de Velocidad')
-        end
+    local environment = gData.GetEnvironment()
+    if (environment.Time >= 6 and environment.Time < 18 and player.HPP < 100) then
+        gFunc.EquipSet('arco_de_velocidad')
     end
 
-    if (parade_gorget and player.HPP >= 85) then
-        gFunc.Equip('Neck', 'Parade Gorget')
+    if (player.HPP >= 85) then
+        gFunc.EquipSet('parade_gorget')
     end
 
-    if (hercules_ring and player.HPP <= 50) then
-        gFunc.Equip(hercules_ring_slot, 'Hercules\' Ring')
+    if (player.HPP <= 50) then
+        gFunc.EquipSet('hercules_ring')
     end
 
     gcmelee.DoDefaultOverride()
@@ -585,9 +606,9 @@ profile.HandlePrecast = function()
     local me = AshitaCore:GetMemoryManager():GetParty():GetMemberName(0)
 
     local cheatDelay = 0
-    if (player.SubJob == "RDM" and warlocks_mantle) then
+    if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
         cheatDelay = gcmelee.DoPrecast(fastCastValue + 0.02)
-        gFunc.Equip('Back', 'Warlock\'s Mantle')
+        gFunc.EquipSet('warlocks_mantle')
     else
         cheatDelay = gcmelee.DoPrecast(fastCastValue)
     end

@@ -1,11 +1,22 @@
 local profile = {}
 
-local fastCastValue = 0.00 -- 0% from gear
+local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
-local gaudy_harness = true
+local max_hp_in_idle_with_regen_gear_equipped = 1200
 
--- Replace these with '' if you do not have them
-local muscle_belt = ''
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local gaudy_harness = {
+    -- Body = 'Gaudy Harness',
+}
+local muscle_belt = {
+    Waist = 'Muscle Belt +1',
+}
+local presidential_hairpin = {
+    -- Head = 'President. Hairpin',
+}
+local dream_ribbon = {
+    Head = 'Dream Ribbon',
+}
 
 local sets = {
     Idle = {},
@@ -15,8 +26,7 @@ local sets = {
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+    MDT = {},
     FireRes = {},
     IceRes = {},
     LightningRes = {},
@@ -26,7 +36,7 @@ local sets = {
     Evasion = {},
 
     Precast = {},
-    SIRD = {
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
     },
     Haste = { -- Used for Utsusemi cooldown
     },
@@ -49,8 +59,11 @@ local sets = {
     Ready_Physical = {},
     Ready_Magic = {},
     Call_Beast = {},
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -64,6 +77,12 @@ Everything below can be ignored.
 ]]
 
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
+
+sets.gaudy_harness = gaudy_harness
+sets.muscle_belt = muscle_belt
+sets.presidential_hairpin = presidential_hairpin
+sets.dream_ribbon = dream_ribbon
+profile.Sets = gcmelee.AppendSets(sets)
 
 local pets = T{'sheep','lizard','crab','tiger','rabbit','mandy','flytrap'}
 
@@ -90,6 +109,8 @@ local PetMagicAttack = T{'Gloom Spray','Fireball','Acid Spray','Molting Plumage'
 local PetMagicAccuracy = T{'Toxic Spit','Acid Spray','Leaf Dagger','Venom Spray','Venom','Dark Spore','Sandblast','Dust Cloud','Stink Bomb','Slug Family','Intimidate','Gloeosuccus','Spider Web','Filamented Hold','Choke Breath','Blaster','Snow Cloud','Roar','Palsy Pollen','Spore','Brain Crush','Choke Breath','Silence Gas','Chaotic Eye','Sheep Song','Soporific','Predatory Glare','Sudden Lunge','Numbing Noise','Jettatura','Bubble Shower','Spoil','Scream','Noisome Powder','Acid Mist','Rhinowrecker','Swooping Frenzy','Venom Shower','Corrosive Ooze','Spiral Spin','Infrasonics','Hi-Freq Field','Purulent Ooze','Foul Waters','Sandpit','Infected Leech','Pestilent Plume'}
 
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local player = gData.GetPlayer()
     local action = gData.GetAction()
 
@@ -215,8 +236,16 @@ profile.HandleDefault = function()
     gcmelee.DoDefault()
 
     local player = gData.GetPlayer()
-    if (player.Status == 'Idle' and player.HPP < 50 and muscle_belt ~= '') then
-        gFunc.Equip('Waist', muscle_belt)
+    if (player.Status == 'Idle') then
+        if (player.HPP < 50) then
+            gFunc.EquipSet('muscle_belt')
+        end
+        if (player.HP < max_hp_in_idle_with_regen_gear_equipped) then
+            if (conquest:GetOutsideControl()) then
+                gFunc.EquipSet('presidential_hairpin')
+            end
+            gFunc.EquipSet('dream_ribbon')
+        end
     end
     if (player.SubJob == 'NIN' and player.Status == 'Engaged') then
         gFunc.EquipSet('TP_NIN')
@@ -225,9 +254,7 @@ profile.HandleDefault = function()
     gcmelee.DoDefaultOverride()
 
     if (player.MP < 50 and (player.SubJob == 'WHM' or player.SubJob == 'BLM' or player.SubJob == 'RDM')) then
-        if (gaudy_harness) then
-            gFunc.Equip('Body', 'Gaudy Harness')
-        end
+        gFunc.EquipSet('gaudy_harness')
     end
 
     local petAction = gData.GetPetAction()

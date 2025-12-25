@@ -1,6 +1,6 @@
 local profile = {}
 
-local fastCastValue = 0.00 -- 0% from gear
+local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
 local sets = {
     Idle = {},
@@ -10,8 +10,7 @@ local sets = {
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+    MDT = {},
     FireRes = {},
     IceRes = {},
     LightningRes = {},
@@ -21,7 +20,7 @@ local sets = {
     Evasion = {},
 
     Precast = {},
-    SIRD = {
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
     },
     Haste = { -- Used for Utsusemi cooldown
     },
@@ -48,17 +47,30 @@ local sets = {
     SAM = {
         Ear1 = 'Attila\'s Earring',
     },
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
+--[[
+--------------------------------
+Everything below can be ignored.
+--------------------------------
+]]
+
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 
+profile.Sets = gcmelee.AppendSets(sets)
+
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local action = gData.GetAction()
     if (action.Name == 'Warcry') then
         gFunc.EquipSet(sets.Warcry)

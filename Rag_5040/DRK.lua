@@ -1,21 +1,41 @@
 local profile = {}
 
-local fastCastValue = 0.07 -- 7% from gear
+local fastCastValue = 0.07 -- 7% from gear listed in Precast set
 
 local use_chaos_burgeonet_for_tp_during_souleater = true
 
-local parade_gorget = true
-local fenrirs_stone = true
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local karin_obi = {
+    Waist = 'Karin Obi',
+}
+local dorin_obi = {
+    -- Waist = 'Dorin Obi',
+}
+local suirin_obi = {
+    -- Waist = 'Suirin Obi',
+}
+local furin_obi = {
+    -- Waist = 'Furin Obi',
+}
+local hyorin_obi = {
+    Waist = 'Hyorin Obi',
+}
+local rairin_obi = {
+    Waist = 'Rairin Obi',
+}
+local korin_obi = {
+    Waist = 'Korin Obi',
+}
+local anrin_obi = {
+    Waist = 'Anrin obi',
+}
 
--- Set to true if you have the obi
-local karin_obi = true
-local dorin_obi = false
-local suirin_obi = false
-local furin_obi = false
-local hyorin_obi = true
-local rairin_obi = true
-local korin_obi = true
-local anrin_obi = true
+local parade_gorget = {
+    Neck = 'Parade Gorget',
+}
+local fenrirs_stone = {
+    Ammo = 'Fenrir\'s Stone',
+}
 
 local sets = {
     Idle = {
@@ -35,9 +55,9 @@ local sets = {
     },
     IdleALT = { -- 1365
         Main = 'Terra\'s Staff',
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'displaced',
         Body = 'Vampire Cloak',
         Neck = 'Jeweled Collar +1',
@@ -103,7 +123,7 @@ local sets = {
         Legs = 'Dst. Subligar +1', -- 3
         Feet = 'Dst. Leggings +1', -- 2
     },
-    MDT = { -- Shell IV provides 23% MDT
+    MDT = {
         Head = 'Darksteel Cap +1',
         Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring', -- 2
@@ -119,9 +139,9 @@ local sets = {
     },
     FireRes = {
         Main = 'Neptune\'s Staff', -- 20
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
@@ -137,9 +157,9 @@ local sets = {
     },
     IceRes = {
         Main = 'Vulcan\'s Staff', -- 20
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
@@ -155,9 +175,9 @@ local sets = {
     },
     LightningRes = {
         Main = 'Terra\'s Staff',
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Lightning Bow +1', -- 7
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
@@ -173,9 +193,9 @@ local sets = {
     },
     EarthRes = {
         Main = 'Auster\'s Staff', -- 20
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
@@ -191,9 +211,9 @@ local sets = {
     },
     WindRes = {
         Main = 'Aquilo\'s Staff', -- 20
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
@@ -209,9 +229,9 @@ local sets = {
     },
     WaterRes = {
         Main = 'Jupiter\'s Staff', -- 20
-        Sub = '',
+        Sub = 'displaced',
         Range = 'Rosenbogen',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
@@ -225,7 +245,7 @@ local sets = {
         Legs = 'Blood Cuisses', -- 21
         Feet = 'Coral Greaves +1', -- 4
     },
-    Evasion = { -- Use this set for your zerg set. See README.md
+    Evasion = { -- Currently using this as a set for 2H Zergs. See README.md
         Main = 'Octave Club',
         Sub = 'Wyvern Targe',
         Ammo = 'Happy Egg',
@@ -247,7 +267,7 @@ local sets = {
         Ear1 = 'Loquac. Earring',
         Legs = 'Homam Cosciales',
     },
-    SIRD = {
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
         Head = { Name = 'Aegishjalmr', Priority = 100 },
         Neck = 'Willpower Torque', -- 5
         Ear1 = 'Magnetic Earring', -- 8
@@ -286,7 +306,6 @@ local sets = {
     LockSet3 = {},
 
     TP_LowAcc = {
-        Ammo = 'Bomb Core',
         Head = 'Ace\'s Helm',
         Neck = 'Justice Torque',
         Ear1 = 'Brutal Earring',
@@ -302,13 +321,13 @@ local sets = {
     },
     TP_Aftermath = {},
     TP_Mjollnir_Haste = {},
+    TP_Aftermath_Mjollnir_Haste = {},
     TP_HighAcc = {
         Neck = 'Peacock Amulet',
         Back = 'Abyss Cape',
     },
 
     WS = {
-        Ammo = 'Bomb Core',
         Head = 'Maat\'s Cap',
         Neck = 'Snow Gorget',
         Ear1 = 'Brutal Earring',
@@ -357,8 +376,14 @@ local sets = {
     Absorb = {
         Ring2 = 'Snow Ring',
     },
+
+    Weapon_Loadout_1 = {
+        Main = 'Tredecim Scythe',
+        Ammo = 'Bomb Core',
+    },
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -373,29 +398,43 @@ Everything below can be ignored.
 
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 
-local NukeObiTable = {
-    ['Fire'] = 'Karin Obi',
-    ['Earth'] = 'Dorin Obi',
-    ['Water'] = 'Suirin Obi',
-    ['Wind'] = 'Furin Obi',
-    ['Ice'] = 'Hyorin Obi',
-    ['Thunder'] = 'Rairin Obi',
-    ['Light'] = 'Korin Obi',
-    ['Dark'] = 'Anrin obi'
-}
+sets.karin_obi = karin_obi
+sets.dorin_obi = dorin_obi
+sets.suirin_obi = suirin_obi
+sets.furin_obi = furin_obi
+sets.hyorin_obi = hyorin_obi
+sets.rairin_obi = rairin_obi
+sets.korin_obi = korin_obi
+sets.anrin_obi = anrin_obi
+sets.parade_gorget = parade_gorget
+sets.fenrirs_stone = fenrirs_stone
+profile.Sets = gcmelee.AppendSets(sets)
 
 local NukeObiOwnedTable = {
-    ['Fire'] = karin_obi,
-    ['Earth'] = dorin_obi,
-    ['Water'] = suirin_obi,
-    ['Wind'] = furin_obi,
-    ['Ice'] = hyorin_obi,
-    ['Thunder'] = rairin_obi,
-    ['Light'] = korin_obi,
-    ['Dark'] = anrin_obi
+    ['Fire'] = 'karin_obi',
+    ['Earth'] = 'dorin_obi',
+    ['Water'] = 'suirin_obi',
+    ['Wind'] = 'furin_obi',
+    ['Ice'] = 'hyorin_obi',
+    ['Thunder'] = 'rairin_obi',
+    ['Light'] = 'korin_obi',
+    ['Dark'] = 'anrin_obi'
+}
+
+local WeakElementTable = {
+    ['Fire'] = 'Water',
+    ['Earth'] = 'Wind',
+    ['Water'] = 'Thunder',
+    ['Wind'] = 'Ice',
+    ['Ice'] = 'Fire',
+    ['Thunder'] = 'Earth',
+    ['Light'] = 'Dark',
+    ['Dark'] = 'Light'
 }
 
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local action = gData.GetAction()
 
     if (gcdisplay.GetToggle('Hate')) then
@@ -472,16 +511,16 @@ profile.HandleDefault = function()
     end
 
     if (player.Status == 'Idle') then
-        if (parade_gorget and player.HPP >= 85) then
-            gFunc.Equip('Neck', 'Parade Gorget')
+        if (player.HPP >= 85) then
+            gFunc.EquipSet('parade_gorget')
         end
     end
 
     local environment = gData.GetEnvironment()
 
     gcmelee.DoDefaultOverride()
-    if (gcdisplay.IdleSet == 'Evasion' and fenrirs_stone and (environment.Time >= 6 and environment.Time < 18)) then
-        gFunc.Equip('Ammo', 'Fenrir\'s Stone')
+    if (gcdisplay.IdleSet == 'Evasion' and (environment.Time >= 6 and environment.Time < 18)) then
+        gFunc.EquipSet('fenrirs_stone')
     end
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
@@ -504,14 +543,11 @@ profile.HandleMidcast = function()
         if (string.contains(action.Name, 'Absorb')) then
             gFunc.EquipSet(sets.Absorb)
         end
+    end
 
-        if (ObiCheck(action)) then
-            local obi = NukeObiTable[action.Element]
-            local obiOwned = NukeObiOwnedTable[action.Element]
-            if (obiOwned) then
-                gFunc.Equip('Waist', obi)
-            end
-        end
+    if (ObiCheck(action)) then
+        local obiOwned = NukeObiOwnedTable[action.Element]
+        gFunc.EquipSet(obiOwned)
     end
 
     if (action.Skill ~= 'Ninjutsu' and gcdisplay.GetToggle('Hate')) then
@@ -522,39 +558,6 @@ profile.HandleMidcast = function()
         gFunc.EquipSet(sets.Haste)
     end
 end
-
-local NukeObiTable = {
-    ['Fire'] = 'Karin Obi',
-    ['Earth'] = 'Dorin Obi',
-    ['Water'] = 'Suirin Obi',
-    ['Wind'] = 'Furin Obi',
-    ['Ice'] = 'Hyorin Obi',
-    ['Thunder'] = 'Rairin Obi',
-    ['Light'] = 'Korin Obi',
-    ['Dark'] = 'Anrin Obi'
-}
-
-local NukeObiOwnedTable = {
-    ['Fire'] = nil,
-    ['Earth'] = nil,
-    ['Water'] = nil,
-    ['Wind'] = nil,
-    ['Ice'] = nil,
-    ['Thunder'] = rairin_obi,
-    ['Light'] = nil,
-    ['Dark'] = anrin_obi
-}
-
-local WeakElementTable = {
-    ['Fire'] = 'Water',
-    ['Earth'] = 'Wind',
-    ['Water'] = 'Thunder',
-    ['Wind'] = 'Ice',
-    ['Ice'] = 'Fire',
-    ['Thunder'] = 'Earth',
-    ['Light'] = 'Dark',
-    ['Dark'] = 'Light'
-}
 
 function ObiCheck(action)
     local element = action.Element

@@ -1,8 +1,11 @@
 local profile = {}
 
-local fastCastValue = 0.00 -- 0% from gear
+local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
-local evasion_master_casters_mitts = false
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local evasion_master_casters_mitts = {
+    -- Hands = 'Mst.Cst. Mitts',
+}
 
 local sets = {
     Idle = {},
@@ -12,8 +15,7 @@ local sets = {
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+    MDT = {},
     FireRes = {},
     IceRes = {},
     LightningRes = {},
@@ -23,7 +25,7 @@ local sets = {
     Evasion = {},
 
     Precast = {},
-    SIRD = {
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
     },
     Haste = { -- Used for Utsusemi cooldown
     },
@@ -64,9 +66,13 @@ local sets = {
 		Waist = 'Life Belt',
     },
 
-    WS_Evisceration = {},
+    WS_Evisceration = {
+		Feet = { Name = 'Asn. Poulaines +1', Priority = 1 },
+    },
+    WS_DancingEdge = {
+		Feet = { Name = 'Asn. Poulaines +1', Priority = 1 },
+    },
     WS_SharkBite = {},
-    WS_DancingEdge = {},
     WS_MercyStroke = {
 		Ear1 = 'Tmph. Earring +1',
 		Body = { Name = 'Hct. Harness +1', Priority = 2 },
@@ -74,10 +80,16 @@ local sets = {
 		Waist = 'Warwolf Belt',
     },
 
-    -- Applied only on TA WS and not SATA WS
+    -- Applied on SA WS and SATA WS
+    WS_SA = {
+		Feet = { Name = 'Hct. Leggings +1', Priority = 1 },
+    },
+
+    -- Applied only on TA WS but NOT SATA WS
     WS_TA = {
 		Ear1 = 'Drone Earring',
         Hands = 'Rogue\'s Armlets +1',
+        Legs = 'Drn. Leggings +1',
     },
     WS_TA_SharkBite = {
 		Ring2 = 'Breeze Ring',
@@ -115,8 +127,11 @@ local sets = {
     Venom = {
         Ammo = 'Venom Bolt',
     },
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -128,6 +143,11 @@ end
 Everything below can be ignored.
 --------------------------------
 ]]
+
+gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
+
+sets.evasion_master_casters_mitts = evasion_master_casters_mitts
+profile.Sets = gcmelee.AppendSets(sets)
 
 local ammo = T{'aacid','asleep','abloody','ablind','avenom'}
 
@@ -150,10 +170,11 @@ local saOverride = 0
 local taOverride = 0
 local taggedMobs = {}
 
-gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 actionpacket = gFunc.LoadFile('common\\actionpacket.lua')
 
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local action = gData.GetAction()
     if (action.Name == 'Flee') then
         gFunc.EquipSet(sets.Flee)
@@ -211,6 +232,10 @@ profile.HandleWeaponskill = function()
 
     local sa = gData.GetBuffCount('Sneak Attack')
     local ta = gData.GetBuffCount('Trick Attack')
+
+    if (sa == 1) or (os.clock() < saOverride) then
+        gFunc.EquipSet(sets.WS_SA)
+    end
 
     if (sa == 1 and ta == 1) or (os.clock() < saOverride and os.clock() < taOverride) then
         if (action.Name == 'Shark Bite') then
@@ -278,8 +303,8 @@ profile.HandleDefault = function()
 
     gcmelee.DoDefaultOverride()
 
-    if (conquest:GetOutsideControl() and evasion_master_casters_mitts and gcdisplay.IdleSet == 'Evasion') then
-        gFunc.Equip('Hands', 'Mst.Cst. Mitts')
+    if (conquest:GetOutsideControl() and gcdisplay.IdleSet == 'Evasion') then
+        gFunc.EquipSet('evasion_master_casters_mitts')
     end
 
     local sa = gData.GetBuffCount('Sneak Attack')

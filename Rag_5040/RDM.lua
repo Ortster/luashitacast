@@ -7,18 +7,29 @@ local whmSJMaxMP = 661 -- The Max MP you have when /whm in your idle set
 local blmSJMaxMP = 680 -- The Max MP you have when /blm in your idle set
 local drkSJMaxMP = 604 -- The Max MP you have when /drk in your idle set
 
-local blue_cotehardie = false
-local blue_cotehardie_plus_one = true
-local dilation_ring = true
-local dilation_ring_slot = 'Ring2'
+-- Disabled on horizon_safe_mode
+local fencersRingForced = true
+local fencersRingMaxHP = 907
 
-local displayheadOnAbility = true
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local blue_cotehardie = {
+    -- Body = 'Blue Cotehardie',
+}
+local blue_cotehardie_plus_one = {
+    Body = 'Blue Cotehard. +1',
+}
+local dilation_ring = {
+    Ring2 = 'Dilation Ring',
+}
+local tp_fencers_ring = {
+    Ring1 = 'Fencer\'s Ring',
+}
 
 local sets = {
     Idle = {
         Main = 'Terra\'s Staff',
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = { Name = 'Dls. Chapeau +1', Priority = 100 },
         Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
@@ -36,7 +47,7 @@ local sets = {
     },
     IdleMaxMP = {
         Main = 'Terra\'s Staff',
-        Range = '',
+        Range = 'displaced',
         Ammo = 'Hedgehog Bomb',
         Head = 'Dls. Chapeau +1',
         Neck = 'Uggalepih Pendant',
@@ -54,14 +65,14 @@ local sets = {
     Resting = {
         Main = 'Pluto\'s Staff',
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Dls. Chapeau +1',
         Neck = 'Pch. Collar',
         Ear1 = 'Relaxing Earring',
         Ear2 = 'Magnetic Earring',
         Body = 'Mahatma Hpl.',
         Hands = 'Hydra Gloves',
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
         Waist = 'Duelist\'s Belt',
         Legs = 'Hydra Brais',
         Feet = 'Hydra Gaiters',
@@ -75,7 +86,7 @@ local sets = {
     DT = {
         Main = 'Terra\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = { Name = 'Dls. Chapeau +1', Priority = 100 },
         Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
@@ -92,7 +103,7 @@ local sets = {
     DTNight = {
         Main = 'Terra\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = { Name = 'Dls. Chapeau +1', Priority = 100 },
         Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring',
@@ -106,10 +117,10 @@ local sets = {
         Legs = 'Blood Cuisses',
         Feet = 'Dst. Leggings +1', -- 2
     },
-    MDT = { -- Shell IV provides 23% MDT
+    MDT = {
         Main = 'Terra\'s Staff',
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = { Name = 'Dls. Chapeau +1', Priority = 100 },
         Neck = 'Jeweled Collar +1',
         Ear1 = 'Merman\'s Earring', -- 2
@@ -126,7 +137,7 @@ local sets = {
     FireRes = { -- 149
         Main = 'Neptune\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
@@ -143,7 +154,7 @@ local sets = {
     IceRes = { -- 145
         Main = 'Vulcan\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
@@ -160,7 +171,7 @@ local sets = {
     LightningRes = { -- 133
         Main = 'Terra\'s Staff', -- 20
         Range = 'Lightning Bow +1', -- 7
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
@@ -177,7 +188,7 @@ local sets = {
     EarthRes = { -- 144
         Main = 'Auster\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Robust Earring', -- 11
@@ -194,7 +205,7 @@ local sets = {
     WindRes = { -- 139
         Main = 'Aquilo\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Diamond Earring', -- 10
@@ -211,7 +222,7 @@ local sets = {
     WaterRes = { -- 137
         Main = 'Jupiter\'s Staff', -- 20
         Range = 'Arco de Velocidad',
-        Ammo = '',
+        Ammo = 'displaced',
         Head = 'Black Ribbon', -- 12
         Neck = 'Jeweled Collar +1', -- 10
         Ear1 = 'Cmn. Earring', -- 11
@@ -232,10 +243,10 @@ local sets = {
         Ear1 = 'Loquac. Earring',
         Body = 'Dls. Tabard +1',
     },
-    Casting = { -- Default Casting Equipment when using Idle sets
+    Casting = { -- Default SIRD used for Idle sets
         Main = { Name = 'Eremite\'s Wand', Priority = 100 }, -- 25
         Sub = 'Genbu\'s Shield',
-        Range = '',
+        Range = 'displaced',
         Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
@@ -250,10 +261,10 @@ local sets = {
         Legs = 'Dst. Subligar +1',
         Feet = 'Mountain Gaiters', -- 5
     },
-    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts regardless of Override set. If you wish to remain in FireRes etc. during casts, leave empty.
         Main = { Name = 'Eremite\'s Wand', Priority = 100 }, -- 25
         Sub = 'Genbu\'s Shield',
-        Range = '',
+        Range = 'displaced',
         Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
         Head = 'Nashira Turban', -- 10
         Neck = 'Willpower Torque', -- 5
@@ -283,7 +294,7 @@ local sets = {
         Back = 'Maledictor\'s Shawl',
     },
 
-    Hate = { -- Switches to this set when casting Sleep, Blind, Dispel and Bind if /hate is toggled on
+    Hate = { -- Switches to this set when casting Sleep, Blind, Dispel, Bind, Flash and Cures on other players if /hate is toggled on
         Ammo = 'Phtm. Tathlum',
         Head = 'Rival Ribbon', -- 2
         Neck = 'Harmonia\'s Torque', -- 3
@@ -360,7 +371,7 @@ local sets = {
         Hands = 'Hydra Gloves', -- 5
         Ring1 = 'Aqua Ring',
         Ring2 = 'Communion Ring',
-        Back = { Name = 'Errant Cape', Priority = 100 }, -- 5
+        Back = { Name = 'Mahatma Cape', Priority = 100 }, -- 5
         Waist = 'Penitent\'s Rope', -- 3
         Legs = 'Hydra Brais', -- 6
         Feet = 'Hydra Gaiters', -- 5
@@ -450,21 +461,8 @@ local sets = {
         Legs = 'Nashira Seraweels',
     },
 
-    Divine = { -- Just using my Hate set here for Flash
-        Ammo = 'Phtm. Tathlum',
-        Head = 'Rival Ribbon', -- 2
-        Neck = 'Harmonia\'s Torque', -- 3
-        Ear1 = 'Eris\' Earring', -- 2
-        Ear2 = 'Hades Earring +1', -- 2
-        Body = 'Dls. Tabard +1',
-        Hands = 'Dusk Gloves +1',
-        Ring1 = 'Mermaid Ring', -- 2
-        Ring2 = 'Sattva Ring', -- 5
-        Back = 'Toreador\'s Cape', -- 4
-        Waist = 'Warwolf Belt', -- 3
-        Legs = 'Nashira Seraweels',
-        Feet = 'Heroic Boots', -- 1
-    },
+    Divine = {},
+    Banish = {},
     Dark = {
         Ammo = 'Phtm. Tathlum',
         Head = 'Nashira Turban',
@@ -521,7 +519,7 @@ local sets = {
         Hands = 'Zenith Mitts +1',
         Ring1 = 'Ether Ring',
         Ring2 = 'Serket Ring',
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
         Waist = 'Hierarch Belt',
         Legs = 'Blood Cuisses',
         Feet = 'Blood Greaves',
@@ -537,7 +535,7 @@ local sets = {
         Hands = 'Zenith Mitts +1',
         Ring1 = 'Ether Ring',
         Ring2 = 'Serket Ring',
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
         Waist = 'Hierarch Belt',
         Legs = 'Blood Cuisses',
         Feet = 'Blood Greaves',
@@ -577,10 +575,6 @@ local sets = {
     },
 
     TP = {
-        Main = 'Joyeuse',
-        Sub = 'Genbu\'s Shield',
-        Range = 'Lightning Bow +1',
-        Ammo = '',
         Head = 'Dls. Chapeau +1',
         Neck = 'Peacock Amulet',
         Ear1 = 'Brutal Earring',
@@ -596,8 +590,6 @@ local sets = {
     },
     TP_Mjollnir_Haste = {},
     TP_HighAcc = {
-        Range = 'Lightning Bow +1',
-        Ammo = '',
         Head = 'Optical Hat',
         Hands = 'Hydra Gloves',
         -- Back = 'Commander\'s Cape',
@@ -606,16 +598,8 @@ local sets = {
         Feet = 'Hydra Gaiters',
     },
     TP_NIN = {
-        Main = 'Martial Knife',
-        -- Main = 'Joyeuse',
-        -- Main = 'Justice Sword',
-        -- Main = 'Blau Dolch',
-        Sub = 'Octave Club',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Stealth Earring',
-        Range = 'Lightning Bow +1',
-        Ammo = '',
-        -- Ammo = 'Virtue Stone',
     },
 
     WS = {
@@ -658,8 +642,47 @@ local sets = {
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    Weapon_Loadout_1 = {
+        Main = 'Martial Knife',
+        Sub = 'Octave Club',
+        Range = 'Lightning Bow +1',
+        Ammo = 'displaced',
+    },
+    Weapon_Loadout_2 = {
+        -- Main = 'Blau Dolch',
+        Main = 'Joyeuse',
+        -- Main = 'Justice Sword',
+        Sub = 'Octave Club',
+        Range = 'Lightning Bow +1',
+        Ammo = 'displaced',
+        -- Ammo = 'Virtue Stone',
+    },
+    Weapon_Loadout_3 = {
+        Main = 'Joyeuse',
+        Sub = 'Genbu\'s Shield',
+        Range = 'Lightning Bow +1',
+        Ammo = 'displaced',
+    },
+
+    -- Disabled on horizon_safe_mode
+    FencersRingHPDown = { -- 899 - Set to force HP to or below fencersRingMaxHP
+        Range = 'Lightning Bow +1',
+        Head = 'Zenith Crown +1',
+        Neck = 'Jeweled Collar +1',
+        Ear1 = 'Novia Earring',
+        Ear2 = 'Hades Earring +1',
+        Body = 'Assault Jerkin',
+        -- Body = 'Dalmatica',
+        Hands = 'Zenith Mitts +1',
+        Ring1 = 'Serket Ring',
+        Ring2 = 'Ether Ring',
+        Back = 'Umbra Cape',
+        Waist = 'Penitent\'s Rope',
+        Legs = 'Dst. Subligar +1',
+        Feet = 'Mahatma Pigaches',
+    },
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -674,10 +697,16 @@ Everything below can be ignored.
 
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
+sets.blue_cotehardie = blue_cotehardie
+sets.blue_cotehardie_plus_one = blue_cotehardie_plus_one
+sets.dilation_ring = dilation_ring
+sets.tp_fencers_ring = tp_fencers_ring
+profile.Sets = gcmage.AppendSets(sets)
+
+local nextFencersRingCheck = 0
+
 profile.HandleAbility = function()
-    if (displayheadOnAbility) then
-        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
-    end
+    gcmage.DoAbility()
 end
 
 profile.HandleItem = function()
@@ -705,7 +734,7 @@ profile.HandleWeaponskill = function()
 
     if (action.Name == 'Evisceration') then
         gFunc.EquipSet(sets.WS_Soil)
-        gFunc.EquipSet(sets.Evisceration)
+        gFunc.EquipSet(sets.WS_Evisceration)
     end
 
     if (action.Name == 'Energy Drain') or (action.Name == 'Energy Steal') then
@@ -735,31 +764,40 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
+    local player = gData.GetPlayer()
+    if (not gcinclude.horizon_safe_mode) then
+        if (fencersRingForced and gcdisplay.GetCycle('TP') ~= 'Off' and player.HP > fencersRingMaxHP and player.Status == 'Engaged') then
+            local time = os.clock()
+            if (time > nextFencersRingCheck) then
+                nextFencersRingCheck = time + 2 -- only recheck again after 2 seconds to prevent spam if set up incorrectly
+                gFunc.ForceEquipSet('FencersRingHPDown')
+                gFunc.ForceEquipSet('TP')
+            end
+        end
+    end
+
     gcmage.DoDefault(ninSJMaxMP, whmSJMaxMP, blmSJMaxMP, nil, drkSJMaxMP)
 
-    local player = gData.GetPlayer()
-    if (blue_cotehardie and player.MP <= 40) then
-        gFunc.Equip('Body', 'Blue Cotehardie')
+    if (player.MP <= 40) then
+        gFunc.EquipSet('blue_cotehardie')
     end
-    if (blue_cotehardie_plus_one and player.MP <= 50) then
-        gFunc.Equip('Body', 'Blue Cotehard. +1')
+    if (player.MP <= 50) then
+        gFunc.EquipSet('blue_cotehardie_plus_one')
     end
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end
 
 profile.HandlePrecast = function()
-    gcmage.DoPrecast(fastCastValue)
+    gcmage.DoPrecast(sets, fastCastValue)
 end
 
 profile.HandleMidcast = function()
     gcmage.DoMidcast(sets, ninSJMaxMP, whmSJMaxMP, blmSJMaxMP, nil, drkSJMaxMP)
 
     local action = gData.GetAction()
-    if (dilation_ring) then -- Haste is technically MP inefficient but I prefer to just always use it anyway
-        if (action.Name == 'Haste' or action.Name == 'Refresh') then
-            gFunc.Equip(dilation_ring_slot, 'Dilation Ring')
-        end
+    if (action.Name == 'Haste' or action.Name == 'Refresh') then
+        gFunc.EquipSet('dilation_ring') -- Haste is technically MP inefficient but I prefer to just always use it anyway
     end
 end
 

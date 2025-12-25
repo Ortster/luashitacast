@@ -1,11 +1,41 @@
 local profile = {}
 
-local fastCastValue = 0.04 -- 4% from gear not including carbuncles cuffs or evokers boots
-
-local carbuncles_cuffs = false
-local evokers_boots = false
+local fastCastValue = 0.04 -- 4% from gear listed in Precast set not including carbuncles cuffs or evokers boots
 
 local cureMP = 895 -- Cure set max MP
+
+-- Disabled on horizon_safe_mode
+local conjurersRingForced = true
+local conjurersRingMaxHP = 737
+
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local carbuncles_cuffs = {
+    -- Hands = 'Carbuncle\'s Cuffs',
+}
+local evokers_boots = {
+    -- Feet = 'Evoker\'s Boots',
+}
+local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
+    Back = 'Warlock\'s Mantle',
+}
+local carbuncle_mitts = {
+    Hands = 'Carbuncle Mitts',
+}
+local yinyang_robe = {
+    Body = 'Yinyang Robe',
+}
+local summoners_doublet = {
+    Body = 'Smn. Doublet +1',
+}
+local summoners_horn = {
+    Head = 'Summoner\'s Horn',
+}
+local conjurers_ring = {
+    Ring1 = 'Conjurer\'s Ring',
+}
+local bahamuts_staff = {
+    -- Main = 'Bahamut\'s Staff',
+}
 
 local sets = {
     Idle = {
@@ -36,7 +66,7 @@ local sets = {
         Hands = 'Hydra Gloves',
         Ring1 = 'Bomb Queen Ring',
         Ring2 = 'Ether Ring',
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
         Waist = 'Hierarch Belt',
         Legs = 'Hydra Brais',
         Feet = 'Hydra Gaiters',
@@ -69,7 +99,7 @@ local sets = {
         Ring2 = 'Sattva Ring',
         Back = 'Umbra Cape',
     },
-    MDT = { -- Shell IV provides 23% MDT
+    MDT = {
         Main = 'Terra\'s Staff',
         Head = 'Black Ribbon',
         Neck = 'Jeweled Collar +1',
@@ -160,7 +190,7 @@ local sets = {
         Feet = 'Rostrum Pumps',
         Ring1 = { Name = 'Bomb Queen Ring', Priority = 100 },
     },
-    Casting = { -- Default Casting Equipment when using Idle sets
+    Casting = { -- Default SIRD used for Idle sets
         Main = 'Eremite\'s Wand', -- 25
         Sub = 'Genbu\'s Shield',
         Ammo = 'Hedgehog Bomb',
@@ -172,12 +202,12 @@ local sets = {
         Hands = 'Merman\'s Bangles',
         Ring1 = 'Sattva Ring',
         Ring2 = 'Evoker\'s Ring',
-        Back = { Name = 'Errant Cape', Priority = 100 },
+        Back = { Name = 'Mahatma Cape', Priority = 100 },
         Waist = 'Silver Obi +1', -- 8
         Legs = { Name = 'Evk. Spats +1', Priority = 100 },
         Feet = { Name = 'Mountain Gaiters', Priority = 100 }, -- 5
     },
-    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts regardless of Override set. If you wish to remain in FireRes etc. during casts, leave empty.
         Main = 'Eremite\'s Wand', -- 25
         Sub = 'Genbu\'s Shield',
         Ammo = 'Hedgehog Bomb',
@@ -189,7 +219,7 @@ local sets = {
         Hands = 'Merman\'s Bangles',
         Ring1 = 'Sattva Ring',
         Ring2 = 'Evoker\'s Ring',
-        Back = { Name = 'Errant Cape', Priority = 100 },
+        Back = { Name = 'Mahatma Cape', Priority = 100 },
         Waist = 'Silver Obi +1', -- 8
         Legs = { Name = 'Evk. Spats +1', Priority = 100 },
         Feet = { Name = 'Mountain Gaiters', Priority = 100 }, -- 5
@@ -218,7 +248,7 @@ local sets = {
         Hands = 'Hydra Gloves', -- 5
         Ring1 = 'Aqua Ring',
         Ring2 = 'Communion Ring',
-        Back = { Name = 'Errant Cape', Priority = 100 }, -- 5
+        Back = { Name = 'Mahatma Cape', Priority = 100 }, -- 5
         Waist = 'Penitent\'s Rope', -- 3
         Legs = 'Hydra Brais', -- 6
         Feet = 'Hydra Gaiters', -- 5
@@ -255,6 +285,7 @@ local sets = {
     EnfeeblingACC = {},
 
     Divine = {},
+    Banish = {},
     Dark = {},
 
     Nuke = {},
@@ -275,7 +306,7 @@ local sets = {
         Ear1 = 'Loquac. Earring',
         Ear2 = 'Novia Earring',
         Ring1 = { Name = 'Bomb Queen Ring', Priority = 100 },
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
         Body = 'Yinyang Robe',
         Hands = { Name = 'Smn. Bracers +1', Priority = 100 },
         Feet = 'Summoner\'s Pgch.',
@@ -316,8 +347,29 @@ local sets = {
 
     WS = {},
     WS_HighAcc = {},
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
+
+    -- Disabled on horizon_safe_mode
+    ConjurersRingHPDown = { -- 730 - Set to force HP below conjurersRingMaxHP. Note that /WHM provides regen so this is preferably at least 10 or more below.
+        Main = 'Terra\'s Staff',
+        Ammo = 'Hedgehog Bomb',
+        Head = 'Zenith Crown +1',
+        Neck = 'Jeweled Collar +1',
+        Ear1 = 'Novia Earring',
+        Ear2 = 'Hades Earring +1',
+        Body = 'Yinyang Robe',
+        Hands = 'Zenith Mitts +1',
+        Ring1 = 'Serket Ring',
+        Ring2 = 'Ether Ring',
+        Back = 'Umbra Cape',
+        Waist = 'Penitent\'s Rope',
+        Legs = 'Evk. Spats +1',
+        Feet = 'Rostrum Pumps',
+    },
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -330,16 +382,30 @@ Everything below can be ignored.
 --------------------------------
 ]]
 
+gcmage = gFunc.LoadFile('common\\gcmage.lua')
+
+sets.carbuncles_cuffs = carbuncles_cuffs
+sets.evokers_boots = evokers_boots
+sets.warlocks_mantle = warlocks_mantle
+sets.carbuncle_mitts = carbuncle_mitts
+sets.yinyang_robe = yinyang_robe
+sets.summoners_doublet = summoners_doublet
+sets.summoners_horn = summoners_horn
+sets.conjurers_ring = conjurers_ring
+sets.bahamuts_staff = bahamuts_staff
+profile.Sets = gcmage.AppendSets(sets)
+
 local SmnSkill = T{'Shining Ruby','Glittering Ruby','Crimson Howl','Inferno Howl','Frost Armor','Crystal Blessing','Aerial Armor','Hastega II','Fleet Wind','Hastega','Earthen Ward','Earthen Armor','Rolling Thunder','Lightning Armor','Soothing Current','Ecliptic Growl','Heavenward Howl','Ecliptic Howl','Noctoshield','Dream Shroud','Altana\'s Favor','Reraise','Reraise II','Reraise III','Raise','Raise II','Raise III','Wind\'s Blessing'}
 local SmnHealing = T{'Healing Ruby','Healing Ruby II','Whispering Wind','Spring Water'}
 local SmnMagical = T{'Searing Light','Meteorite','Holy Mist','Inferno','Fire II','Fire IV','Meteor Strike','Conflag Strike','Diamond Dust','Blizzard II','Blizzard IV','Heavenly Strike','Aerial Blast','Aero II','Aero IV','Wind Blade','Earthen Fury','Stone II','Stone IV','Geocrush','Judgement Bolt','Thunder II','Thunder IV','Thunderstorm','Thunderspark','Tidal Wave','Water II','Water IV','Grand Fall','Howling Moon','Lunar Bay','Ruinous Omen','Somnolence','Nether Blast','Night Terror','Level ? Holy'}
 local SmnEnfeebling = T{'Diamond Storm','Sleepga','Shock Squall','Slowga','Tidal Roar','Pavor Nocturnus','Ultimate Terror','Nightmare','Mewing Lullaby','Eerie Eye'}
 local SmnHybrid = T{'Flaming Crush','Burning Strike'}
 
-gcmage = gFunc.LoadFile('common\\gcmage.lua')
+local nextConjurersRingCheck = 0
 
 profile.HandleAbility = function()
     gcmage.DoAbility()
+
     gFunc.EquipSet('BP_Delay')
 end
 
@@ -398,25 +464,39 @@ profile.HandleDefault = function()
             gFunc.EquipSet(sets.BP_Physical)
         end
     else
-        gcmage.DoDefault(nil, nil, nil, nil)
+        if (not gcinclude.horizon_safe_mode) then
+            local player = gData.GetPlayer()
+            if (conjurersRingForced and player.HP >= conjurersRingMaxHP) then
+                local time = os.clock()
+                if (time > nextConjurersRingCheck) then
+                    nextConjurersRingCheck = time + 3 -- only recheck again after 3 seconds to prevent spam
+                    gFunc.ForceEquipSet('ConjurersRingHPDown')
+                    gFunc.ForceEquipSet('Idle')
+                end
+            end
+        end
+
+        gcmage.DoDefault(sets, nil, nil, nil, nil)
     end
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end
 
 profile.HandlePrecast = function()
-    gcmage.DoPrecast(fastCastValue)
+    local player = gData.GetPlayer()
+    if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
+        gcmage.DoPrecast(sets, fastCastValue + 0.02)
+        gFunc.EquipSet('warlocks_mantle')
+    else
+        gcmage.DoPrecast(sets, fastCastValue)
+    end
 
     local action = gData.GetAction()
     if (action.Skill == 'Summoning') then
-        if (carbuncles_cuffs and evokers_boots and string.match(action.Name, 'Spirit')) then
-            gFunc.Equip('Hands', 'Carbuncle\'s Cuffs')
+        if (carbuncles_cuffs.Hands and evokers_boots.Feet and string.match(action.Name, 'Spirit')) then -- Handling for bugged casting if you own both
+            gFunc.EquipSet('carbuncles_cuffs')
         else
-            if (carbuncles_cuffs) then
-                gFunc.Equip('Hands', 'Carbuncle\'s Cuffs')
-            end
-            if (evokers_boots) then
-                gFunc.Equip('Feet', 'Evoker\'s Boots')
-            end
+            gFunc.EquipSet('carbuncles_cuffs')
+            gFunc.EquipSet('evokers_boots')
         end
     end
 end

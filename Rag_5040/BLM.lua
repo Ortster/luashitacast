@@ -2,19 +2,31 @@ local profile = {}
 
 local fastCastValue = 0.04 -- 4% from gear listed in Precast set
 
-local ninSJMaxMP = 640 -- The Max MP you have when /nin in your idle set
-local whmSJMaxMP = 718 -- The Max MP you have when /whm in your idle set
-local rdmSJMaxMP = 699 -- The Max MP you have when /rdm in your idle set
+local ninSJMaxMP = 650 -- The Max MP you have when /nin in your idle set
+local whmSJMaxMP = 728 -- The Max MP you have when /whm in your idle set
+local rdmSJMaxMP = 709 -- The Max MP you have when /rdm in your idle set
 
 local nukeExtraThreshold = 850 -- The minimum MP for which NukeExtra StoneskinExtra, and PhalanxExtra set will be used instead of regular sets (to allow additional nukes using max mp sets)
 
-local warlocks_mantle = true -- Don't add 2% to fastCastValue to this as it is SJ dependant
-local republic_circlet = false
-
-local opuntia_hoop = true
-local opuntia_hoop_slot = 'Ring1'
-
-local displayheadOnAbility = true
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
+    Back = 'Warlock\'s Mantle',
+}
+local republic_circlet = {
+    -- Head = 'Republic Circlet',
+}
+local opuntia_hoop = {
+    Ring1 = 'Opuntia Hoop',
+}
+local diabolos_pole = {
+    Main = 'Diabolos\'s Pole',
+}
+local sorcerers_ring = {
+    Ring1 = 'Sorcerer\'s Ring', -- This is Ring1 instead of Ring2 to allow Ice Ring to work as well in gcmage.lua
+}
+local sorcerers_tonban = {
+    Legs = 'Src. Tonban +1',
+}
 
 local sets = {
     Idle = {
@@ -53,7 +65,7 @@ local sets = {
         Body = 'Mahatma Hpl.',
         Hands = 'Hydra Gloves',
         Ring1 = 'Serket Ring',
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
         Waist = 'Hierarch Belt',
         Legs = 'Hydra Brais',
         Feet = 'Hydra Gaiters',
@@ -100,7 +112,7 @@ local sets = {
         Legs = 'Igqira Lappas',
         Feet = 'Mountain Gaiters',
     },
-    MDT = { -- Shell IV provides 23% MDT
+    MDT = {
         Main = 'Terra\'s Staff',
         Head = 'Black Ribbon',
         Neck = 'Jeweled Collar +1',
@@ -205,7 +217,7 @@ local sets = {
         Ear1 = 'Loquac. Earring',
         Feet = 'Rostrum Pumps',
     },
-    Casting = {
+    Casting = { -- Default SIRD used for Idle sets
         Main = 'Eremite\'s Wand', -- 25
         Sub = 'Genbu\'s Shield',
         Head = 'Nashira Turban', -- 10
@@ -217,7 +229,7 @@ local sets = {
         Ammo = 'Tiphia Sting',
         Back = 'Umbra Cape',
     },
-    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts regardless of Override set. If you wish to remain in FireRes etc. during casts, leave empty.
         Main = 'Eremite\'s Wand', -- 25
         Sub = 'Genbu\'s Shield',
         Head = 'Nashira Turban', -- 10
@@ -230,7 +242,7 @@ local sets = {
         Back = 'Umbra Cape',
     },
     Yellow = { -- This will override Precast if /lag is turned on or the spell casting time is too short. e.g. Tier 1: "Stone"
-        Ammo = 'Dream Sand',
+        Ammo = 'Tiphia Sting',
         Head = 'Zenith Crown +1',
         Ear1 = 'Loquac. Earring',
         Ear2 = 'Magnetic Earring',
@@ -238,11 +250,12 @@ local sets = {
         Hands = 'Zenith Mitts +1',
         Ring1 = 'Ether Ring',
         Ring2 = 'Serket Ring',
+        Back = { Name = 'Prism Cape', Priority = 100 },
         Waist = { Name = 'Penitent\'s Rope', Priority = -100 },
         Feet = 'Rostrum Pumps',
     },
     YellowHNM = {
-        Ammo = 'Tiphia Sting',
+        Back = 'Umbra Cape',
     },
     Haste = { -- Used only on Haste, Refresh, Blink and Utsusemi casts
         Head = 'Nashira Turban', -- 2
@@ -271,7 +284,7 @@ local sets = {
         Hands = 'Hydra Gloves', -- 5
         Ring1 = 'Aqua Ring',
         Ring2 = 'Communion Ring',
-        Back = 'Errant Cape', -- 5
+        Back = 'Mahatma Cape', -- 5
         Waist = 'Penitent\'s Rope', -- 3
         Legs = 'Hydra Brais', -- 6
         Feet = 'Hydra Gaiters', -- 5
@@ -308,7 +321,7 @@ local sets = {
         Ring1 = 'Aqua Ring',
         Ring2 = 'Communion Ring',
         Waist = 'Swift Belt',
-        Back = { Name = 'Errant Cape', Priority = 100 },
+        Back = { Name = 'Mahatma Cape', Priority = 100 },
         Legs = 'Mahatma Slops',
         Feet = { Name = 'Mahatma Pigaches', Priority = 100 },
     },
@@ -323,7 +336,7 @@ local sets = {
         Hands = 'Dvt. Mitts +1',
         Ring1 = { Name = 'Serket Ring', Priority = 100 },
         Ring2 = 'Communion Ring',
-        Back = { Name = 'Errant Cape', Priority = 100 },
+        Back = { Name = 'Mahatma Cape', Priority = 100 },
         Waist = { Name = 'Hierarch Belt', Priority = 100 },
         Legs = 'Mahatma Slops',
         Feet = { Name = 'Mahatma Pigaches', Priority = 100 },
@@ -396,6 +409,7 @@ local sets = {
     },
 
     Divine = {},
+    Banish = {},
     Dark = {
         Ammo = 'Phtm. Tathlum',
         Head = 'Nashira Turban',
@@ -452,7 +466,7 @@ local sets = {
         Hands = 'Wzd. Gloves +1', -- 2
         Ring1 = 'Snow Ring',
         Ring2 = 'Omniscient Ring',
-        Back = 'Errant Cape', -- 5
+        Back = 'Mahatma Cape', -- 5
         Waist = 'Penitent\'s Rope', -- 3
         Legs = 'Mahatma Slops', -- 4
         Feet = 'Src. Sabots +1', -- 3
@@ -502,14 +516,13 @@ local sets = {
     },
     MBHNM = {
         Hands = 'Wzd. Gloves +1',
-        Back = 'Errant Cape',
+        Back = 'Mahatma Cape',
     },
 
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -524,10 +537,16 @@ Everything below can be ignored.
 
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
+sets.warlocks_mantle = warlocks_mantle
+sets.republic_circlet = republic_circlet
+sets.opuntia_hoop = opuntia_hoop
+sets.diabolos_pole = diabolos_pole
+sets.sorcerers_ring = sorcerers_ring
+sets.sorcerers_tonban = sorcerers_tonban
+profile.Sets = gcmage.AppendSets(sets)
+
 profile.HandleAbility = function()
-    if (displayheadOnAbility) then
-        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
-    end
+    gcmage.DoAbility()
 end
 
 profile.HandleItem = function()
@@ -573,8 +592,8 @@ profile.HandleDefault = function()
 
     local spikes = gData.GetBuffCount('Blaze Spikes') + gData.GetBuffCount('Shock Spikes') + gData.GetBuffCount('Ice Spikes')
     local isPhysical = gcdisplay.IdleSet == 'Normal' or gcdisplay.IdleSet == 'Alternate' or gcdisplay.IdleSet == 'DT'
-    if (opuntia_hoop and spikes > 0 and isPhysical) then
-        gFunc.Equip(opuntia_hoop_slot, 'Opuntia Hoop')
+    if (spikes > 0 and isPhysical) then
+        gFunc.EquipSet('opuntia_hoop')
     end
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
@@ -582,11 +601,11 @@ end
 
 profile.HandlePrecast = function()
     local player = gData.GetPlayer()
-    if (player.SubJob == 'RDM' and warlocks_mantle) then
-        gcmage.DoPrecast(fastCastValue + 0.02)
-        gFunc.Equip('Back', 'Warlock\'s Mantle')
+    if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
+        gcmage.DoPrecast(sets, fastCastValue + 0.02)
+        gFunc.EquipSet('warlocks_mantle')
     else
-        gcmage.DoPrecast(fastCastValue)
+        gcmage.DoPrecast(sets, fastCastValue)
     end
 end
 
@@ -597,15 +616,15 @@ profile.HandleMidcast = function()
 
     local player = gData.GetPlayer()
     local action = gData.GetAction()
-    if (republic_circlet == true) then
+    if (republic_circlet.Head) then
         if (action.Skill == 'Elemental Magic' and gcdisplay.GetCycle('Mode') == 'Potency') then
             if (gcdisplay.GetToggle('Extra') and player.MP >= nukeExtraThreshold) then
                 do return end
             end
             if (not ElementalDebuffs:contains(action.Name)) then
-                if (conquest:GetInsideControl()) then
-                    print(chat.header('GCMage'):append(chat.message('In Region - Using Republic Circlet')))
-                    gFunc.Equip('Head', 'Republic Circlet')
+                if (conquest:GetInsideControl() and gcdisplay.GetToggle('HNM') == false and gcdisplay.GetCycle('Mode') ~= 'Accuracy') then
+                    print(chat.header('LAC - BLM'):append(chat.message('In Region - Using Republic Circlet')))
+                    gFunc.EquipSet('republic_circlet')
                 end
             end
         end

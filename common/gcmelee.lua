@@ -1,5 +1,7 @@
-local fenrirs_earring = false -- Not used for RNG at all
-local fenrirs_earring_slot = 'Ear2'
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local fenrirs_earring = { -- Not used for RNG at all
+    Ear2 = 'Fenrir\'s Earring',
+}
 
 --[[
 --------------------------------
@@ -21,19 +23,27 @@ local TpVariantTable = {
 
 local tp_variant = 1
 
+local WeaponOverrideTable = {
+    [1] = '1',
+    [2] = '2',
+    [3] = '3',
+}
+
+local weapon_override = 1
+
 local lastIdleSetBeforeEngaged = ''
 
 local SurvivalSpells = T{ 'Utsusemi: Ichi','Utsusemi: Ni','Blink','Aquaveil','Stoneskin' }
 
 local AliasList = T{
-    'tpset','tp','mode','dps','lag',
+    'tpset','tp','mode','dps','lag','weapon','wl'
 }
 
 local utsuBuffs = T{
     [66] = 1,
     [444] = 2,
     [445] = 3,
-    [446] = 4,
+    [446] = 4, 
 }
 
 function gcmelee.SetIsDPS(isDPSVal)
@@ -62,6 +72,12 @@ function gcmelee.DoCommands(args)
             tp_variant = 1
         end
         gcinclude.Message('TP Set', TpVariantTable[tp_variant])
+    elseif (args[1] == 'weapon' or args[1] == 'wl') then
+        weapon_override = weapon_override + 1
+        if (weapon_override > #WeaponOverrideTable) then
+            weapon_override = 1
+        end
+        gcinclude.Message('Weapon Loadout', WeaponOverrideTable[weapon_override])
     elseif (args[1] == 'dps') then
         isDPS = not isDPS
         gcinclude.Message('DPS Mode', isDPS)
@@ -81,20 +97,22 @@ function gcmelee.DoDefault()
 
     gcinclude.DoDefaultIdle()
 
-    if (player.MainJob == 'PLD' or player.MainJob == 'NIN' or player.MainJob == 'DRK' or gcdisplay.GetToggle('Hate')) then
-        if (player.SubJob == 'NIN' or player.MainJob == 'NIN') then
-            local function GetShadowCount()
-                for buffId, shadowCount in pairs(utsuBuffs) do
-                    if (gData.GetBuffCount(buffId) > 0) then
-                        return shadowCount
+    if (not gcinclude.horizon_safe_mode) then
+        if (player.MainJob == 'PLD' or player.MainJob == 'NIN' or player.MainJob == 'DRK') then
+            if (player.SubJob == 'NIN' or player.MainJob == 'NIN') then
+                local function GetShadowCount()
+                    for buffId, shadowCount in pairs(utsuBuffs) do
+                        if (gData.GetBuffCount(buffId) > 0) then
+                            return shadowCount
+                        end
                     end
-                end
 
-                return 0
-            end
-            if (GetShadowCount() == 0) then
-                gFunc.EquipSet('IdleDT')
-                if (gcdisplay.IdleSet == 'Alternate') then gFunc.EquipSet('IdleALTDT') end
+                    return 0
+                end
+                if (GetShadowCount() == 0) then
+                    gFunc.EquipSet('IdleDT')
+                    if (gcdisplay.IdleSet == 'Alternate') then gFunc.EquipSet('IdleALTDT') end
+                end
             end
         end
     end
@@ -111,15 +129,22 @@ function gcmelee.DoDefault()
 
                 gFunc.EquipSet('TP_LowAcc')
                 if (player.MainJob ~= 'RNG') then
-                    if (fenrirs_earring and (environment.Time >= 6 and environment.Time < 18)) then
-                        gFunc.Equip(fenrirs_earring_slot, 'Fenrir\'s Earring')
+                    if (environment.Time >= 6 and environment.Time < 18) then
+                        gFunc.EquipSet('fenrirs_earring')
                     end
                 end
-                if gData.GetBuffCount('Aftermath') > 0 then
+
+                local aftermath = gData.GetBuffCount('Aftermath') > 0
+                local mjollnirHaste = gData.GetBuffCount(580) > 0 -- Horizon Mjollnir Haste Buff
+
+                if aftermath then
                     gFunc.EquipSet('TP_Aftermath')
                 end
-                if gData.GetBuffCount(580) > 0 then -- Horizon Mjollnir Haste Buff
+                if mjollnirHaste then
                     gFunc.EquipSet('TP_Mjollnir_Haste')
+                end
+                if player.MainJob == 'DRK' and aftermath and mjollnirHaste then
+                    gFunc.EquipSet('TP_Aftermath_Mjollnir_Haste')
                 end
                 if (gcdisplay.IdleSet == 'HighAcc') then
                     gFunc.EquipSet('TP_HighAcc')
@@ -139,14 +164,17 @@ function gcmelee.DoFenrirsEarring()
 
     if (isDPS) then
         if (player.MainJob ~= 'RNG') then
-            if (fenrirs_earring and (environment.Time >= 6 and environment.Time < 18)) then
-                gFunc.Equip(fenrirs_earring_slot, 'Fenrir\'s Earring')
+            if (environment.Time >= 6 and environment.Time < 18) then
+                gFunc.EquipSet('fenrirs_earring')
             end
         end
     end
 end
 
 function gcmelee.DoDefaultOverride()
+    if (isDPS) then
+        gFunc.EquipSet('Weapon_Loadout_' .. WeaponOverrideTable[weapon_override])
+    end
     gcinclude.DoDefaultOverride(true)
 end
 
@@ -175,7 +203,7 @@ function gcmelee.SetupMidcastDelay(fastCastValue)
         castTime = 3000
     end
 
-    if (player.SubJob == "RDM") then
+    if (player.SubJob == 'RDM') then
          fastCastValue = fastCastValue + 0.15 -- Fast Cast Trait
     end
     local minimumBuffer = 0.4 -- Can be lowered to 0.1 if you want
@@ -224,6 +252,15 @@ end
 
 function gcmelee.GetAccuracyMode()
     return TpVariantTable[tp_variant]
+end
+
+function gcmelee.DoAbility()
+    gcinclude.DoAbility()
+end
+
+function gcmelee.AppendSets(sets)
+    sets.fenrirs_earring = fenrirs_earring
+    return gcinclude.AppendSets(sets)
 end
 
 return gcmelee

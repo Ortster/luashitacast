@@ -3,12 +3,14 @@ local profile = {}
 local fastCastValue = 0.04 -- Only include Fast Cast e.g. Loquacious Earring, Rostrum Pumps
 local fastCastValueSong = 0.37 -- Only include Song Spellcasting Time e.g. Minstrel's Ring, Sha'ir Manteel
 
-local ninSJMaxMP = nil -- The Max MP you have when /nin in your idle set
-local whmSJMaxMP = 188 -- The Max MP you have when /whm in your idle set
+local whmSJMaxMP = 233 -- The Max MP you have when /whm in your idle set
 local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 
-local displayheadOnAbility = true
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
+    Back = 'Warlock\'s Mantle',
+}
 
 local sets = {
     Idle = {
@@ -24,7 +26,7 @@ local sets = {
         Ring1 = 'Shadow Ring',
         Ring2 = 'Sattva Ring',
         Back = 'Umbra Cape',
-        Waist = { Name = 'Hierarch Belt', Priority = 100 },
+        Waist = { Name = 'Ocean Rope', Priority = 100 },
         Legs = 'Dst. Subligar +1',
         Feet = 'Dst. Leggings +1',
     },
@@ -41,7 +43,7 @@ local sets = {
         Ring1 = 'Shadow Ring',
         Ring2 = 'Sattva Ring',
         Back = 'Umbra Cape',
-        Waist = { Name = 'Hierarch Belt', Priority = 100 },
+        Waist = { Name = 'Ocean Rope', Priority = 100 },
         Legs = 'Dst. Subligar +1',
         Feet = 'Dst. Leggings +1',
     },
@@ -55,10 +57,10 @@ local sets = {
         Ear2 = 'Magnetic Earring',
         Body = 'Mahatma Hpl.',
         Hands = 'Hydra Gloves',
-        Ring1 = "Shadow Ring",
-        Ring2 = "Merman's Ring",
-        Back = 'Errant Cape',
-        Waist = { Name = 'Hierarch Belt', Priority = 100 },
+        Ring1 = 'Shadow Ring',
+        Ring2 = 'Merman\'s Ring',
+        Back = 'Mahatma Cape',
+        Waist = { Name = 'Ocean Rope', Priority = 100 },
         Legs = 'Hydra Brais',
         Feet = 'Hydra Gaiters',
     },
@@ -75,7 +77,7 @@ local sets = {
         Feet = 'Dst. Leggings +1',
     },
     DTNight = {},
-    MDT = { -- Shell IV provides 23% MDT
+    MDT = {
         Main = 'Terra\'s Staff',
         Head = 'Black Ribbon',
         Neck = 'Jeweled Collar +1',
@@ -86,7 +88,7 @@ local sets = {
         Ring1 = 'Shadow Ring',
         Ring2 = 'Sattva Ring', -- 5
         Back = 'Hexerei Cape', -- 3
-        Waist = { Name = 'Hierarch Belt', Priority = 100 },
+        Waist = { Name = 'Ocean Rope', Priority = 100 },
         Legs = 'Byakko\'s Haidate',
         Feet = 'Suzaku\'s Sune-ate',
     },
@@ -129,13 +131,13 @@ local sets = {
     Precast_Songs_HPDown = { -- This set will equip even before precast for songs in case you require HP Down equipment to trigger Minstrel's Ring
     },
     Precast = {
-       Ear2 = 'Loquac. Earring',
+       Ear1 = 'Loquac. Earring',
        Feet = 'Rostrum Pumps',
     },
     Precast_Songs = { -- 395
         Main = 'Tutelary', -- 30
  		Sub = 'Genbu\'s Shield',
-        Ammo = 'Happy Egg',
+        Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
         Head = 'Genbu\'s Kabuto', -- 50
         Neck = 'Pch. Collar', -- 10
         Ear1 = 'Loquac. Earring',
@@ -149,11 +151,11 @@ local sets = {
         Legs = 'Dusk Trousers', -- 35
         Feet = 'Rostrum Pumps', -- -30
     },
-    Casting = { -- Default Casting Equipment when using Idle sets
+    Casting = { -- Default SIRD used for Idle sets
         Main = 'Terra\'s Staff',
         -- Range = 'Mythic Harp +1',
-        Ammo = 'Pebble',
-        Head = 'Dream Ribbon',
+        Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
+        Head = 'Reraise Hairpin', -- +MP
         Neck = 'Willpower Torque', -- 5
         Ear1 = { Name = 'Loquac. Earring', Priority = 100 },
         Ear2 = { Name = 'Magnetic Earring', Priority = 100 }, -- 8
@@ -166,11 +168,21 @@ local sets = {
         Legs = 'Dst. Subligar +1',
         Feet = 'Mountain Gaiters', -- 5
     },
-    SIRD = { -- 102% to Cap, used on Stoneskin, Blink, Aquaveil and Utsusemi casts
+    SIRD = { -- Used on Stoneskin, Blink, Aquaveil and Utsusemi casts regardless of Override set. If you wish to remain in FireRes etc. during casts, leave empty.
+        Main = 'Terra\'s Staff',
+        -- Range = 'Mythic Harp +1',
+        Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
+        Head = 'Reraise Hairpin', -- +MP
         Neck = 'Willpower Torque', -- 5
         Ear1 = { Name = 'Loquac. Earring', Priority = 100 },
         Ear2 = { Name = 'Magnetic Earring', Priority = 100 }, -- 8
+        Body = 'Dst. Harness +1',
+        Hands = 'Merman\'s Bangles',
+        Ring1 = 'Shadow Ring',
+        Ring2 = 'Sattva Ring',
+        Back = 'Umbra Cape',
         Waist = { Name = 'Silver Obi +1', Priority = -100 }, -- 8
+        Legs = 'Dst. Subligar +1',
         Feet = 'Mountain Gaiters', -- 5
     },
     Haste = { -- Used only on Haste, Refresh, Blink and Utsusemi casts
@@ -190,8 +202,7 @@ local sets = {
     },
 
     Sing_Default = { -- Primarily Wind / Debuff by Default
-        -- Range = 'Mythic Harp +1',
-        Range = 'Military Harp',
+        Range = 'Hamelin Flute',
         Head = 'Brd. Roundlet +1',
         Neck = 'Wind Torque',
         Ear1 = 'Singing Earring',
@@ -208,7 +219,7 @@ local sets = {
     Sing_Buff = {
         Main = 'Chanter\'s Staff',
         Body = 'Minstrel\'s Coat',
-        Waist = { Name = 'Hierarch Belt', Priority = 100 },
+        Waist = { Name = 'Ocean Rope', Priority = 100 },
         Feet = 'Dusk Ledelsens +1',
     },
     Sing_Debuff = {
@@ -220,21 +231,20 @@ local sets = {
     },
 
     Sing_Ballad_Large = {
-        -- Range = 'Balladeer\'s Harp',
-        Range = 'Military Harp',
+        Range = 'Balladeer\'s Harp',
     },
     Sing_Ballad_Small = {
-        -- Range = 'Balladeer\'s Harp',
         Range = 'Cornette +2',
     },
     Sing_Paeon = {
         Range = 'Ebony Harp +2',
     },
     Sing_Mazurka = {
+        Range = 'Ebony Harp +2',
         -- Range = 'Harlequin\'s Horn',
     },
     Sing_Minuet = {
-        Range = 'Gjallarhorn',
+        Range = 'Cornette +2',
     },
     Sing_March = {
         Range = 'Faerie Piccolo',
@@ -249,29 +259,26 @@ local sets = {
         Range = 'Nursemaid\'s Harp',
         Neck = 'String Torque',
         Body = 'Chl. Jstcorps +1',
-        Legs = "Mahatma Slops",
+        Legs = 'Mahatma Slops',
     },
     Sing_HordeLullaby_Large = {
         Range = 'Nursemaid\'s Harp',
         Neck = 'String Torque',
         Body = 'Chl. Jstcorps +1',
-        Legs = "Mahatma Slops",
+        Legs = 'Mahatma Slops',
     },
     Sing_HordeLullaby_Small = {
         -- Range = 'Mary\'s Horn',
-        Range = 'Nursemaid\'s Harp',
-        Neck = 'String Torque',
-        Body = 'Chl. Jstcorps +1',
-        Legs = "Mahatma Slops",
+        Range = 'Hamelin Flute',
     },
     Sing_Finale = {
         Range = 'Military Harp',
         Neck = 'String Torque',
         Body = 'Chl. Jstcorps +1',
-        Legs = "Mahatma Slops",
+        Legs = 'Mahatma Slops',
     },
     Sing_Requiem = {
-        Range = 'Gjallarhorn',
+        Range = 'Hamelin Flute',
     },
     Sing_Carol = {
         Range = 'Crumhorn +1',
@@ -286,7 +293,7 @@ local sets = {
         Range = 'Sorrowful Harp',
         Neck = 'String Torque',
         Body = 'Chl. Jstcorps +1',
-        Legs = "Mahatma Slops",
+        Legs = 'Mahatma Slops',
     },
     Sing_Hymnus = {
         Range = 'Angel Lyre',
@@ -302,24 +309,20 @@ local sets = {
         -- Body = 'Chl. Jstcorps +1',
     },
 
-    Cure = { -- TODO: Check Cure Caps
+    Cure = {
         Main = 'Apollo\'s Staff',
         Ammo = { Name = 'Hedgehog Bomb', Priority = 100 },
         Head = 'Hydra Beret', -- 8
-        -- Neck = 'Faith Torque',
         Neck = 'Benign Necklace', -- 2
         Ear1 = 'Novia Earring', -- 7
         Ear2 = { Name = 'Magnetic Earring', Priority = 100 },
-        --Body = 'Mahatma Hpl.', -- 4
         Body = { Name = 'Hydra Doublet', Priority = 100 }, -- 9
         Hands = 'Hydra Gloves', -- 5
         Ring1 = 'Aqua Ring',
         Ring2 = 'Communion Ring',
-        Back = { Name = 'Errant Cape', Priority = 100 }, -- 5
+        Back = { Name = 'Mahatma Cape', Priority = 100 }, -- 5
         Waist = 'Penitent\'s Rope', -- 3
-        -- Legs = 'Mahatma Slops', -- 4
         Legs = 'Hydra Brais', -- 6
-        -- Feet = 'Suzaku\'s Sune-ate',
         Feet = 'Hydra Gaiters', -- 5
     },
     Cursna = {
@@ -327,13 +330,11 @@ local sets = {
     },
 
     Enhancing = {},
-    Stoneskin = { -- TODO: Check Stoneskin Caps
+    Stoneskin = { -- 2 MND short for Hume
         Main = 'Chanter\'s Staff',
-		Ammo = "Dream Sand",
+		Ammo = 'Dream Sand',
         Head = 'Maat\'s Cap',
         Neck = 'Stone Gorget',
-        -- Ear1 = { Name = 'Loquac. Earring', Priority = 100 },
-        -- Ear2 = { Name = 'Magnetic Earring', Priority = 100 },
         Ear1 = 'Cmn. Earring',
         Ear2 = 'Cmn. Earring',
         Body = 'Mahatma Hpl.',
@@ -353,6 +354,7 @@ local sets = {
     EnfeeblingACC = {},
 
     Divine = {},
+    Banish = {},
     Dark = {},
 
     Nuke = {},
@@ -363,14 +365,26 @@ local sets = {
     LockSet2 = {},
     LockSet3 = {},
 
-    TP = {},
+    TP = {
+        Range = 'Angel Lyre',
+    },
     TP_Mjollnir_Haste = {},
     TP_HighAcc = {},
     TP_NIN = {},
+
     WS = {},
     WS_HighAcc = {},
+
+    Weapon_Loadout_1 = {
+		Main = 'Octave Club',
+        -- Main = 'Blau Dolch',
+		Sub = 'Genbu\'s Shield',
+        -- Do not place a Ranged weapon or Ammo in these slots or instrument switching will be disabled entirely
+        Ammo = 'displaced',
+    },
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -385,10 +399,11 @@ Everything below can be ignored.
 
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
+sets.warlocks_mantle = warlocks_mantle
+profile.Sets = gcmage.AppendSets(sets)
+
 profile.HandleAbility = function()
-    if (displayheadOnAbility) then
-        AshitaCore:GetChatManager():QueueCommand(-1, '/displayhead')
-    end
+    gcmage.DoAbility()
 end
 
 profile.HandleItem = function()
@@ -443,20 +458,28 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    gcmage.DoDefault(ninSJMaxMP, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
+    gcmage.DoDefault(nil, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end
 
 profile.HandlePrecast = function()
+    local player = gData.GetPlayer()
     local action = gData.GetAction()
+
+    local fcv = fastCastValue
+    if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
+       fcv = fastCastValue + 0.02
+    end
+
+    local totalfcv = fcv
     if (action.Type == 'Bard Song') then
-        gFunc.ForceEquipSet('Precast_Songs_HPDown')
-        gFunc.EquipSet(sets.Precast_Songs)
-        local totalFastCast = 1 - (1 - fastCastValueSong) * (1 - fastCastValue)
-        gcmage.DoPrecast(totalFastCast)
-    else
-        gcmage.DoPrecast(fastCastValue)
+        totalfcv = 1 - (1 - fastCastValueSong) * (1 - fcv)
+    end
+
+    gcmage.DoPrecast(sets, totalfcv)
+    if (fcv ~= fastCastValue) then
+        gFunc.EquipSet('warlocks_mantle')
     end
 end
 

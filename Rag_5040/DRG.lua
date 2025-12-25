@@ -1,14 +1,17 @@
 local profile = {}
 
-local fastCastValue = 0.00 -- 0% from gear
-
-local ethereal_earring = true
-local ethereal_earring_slot = 'Ear2'
-
-local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is SJ dependant
+local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
 local heal_hp_threshold_whm = 859
 local heal_hp_threshold_rdm = 869
+
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local ethereal_earring = {
+    Ear2 = 'Ethereal Earring',
+}
+local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
+    Back = 'Warlock\'s Mantle',
+}
 
 local sets = {
     Idle = {},
@@ -18,8 +21,7 @@ local sets = {
     Movement = {},
 
     DT = {},
-    MDT = { -- Shell IV provides 23% MDT
-    },
+    MDT = {},
     FireRes = {},
     IceRes = {},
     LightningRes = {},
@@ -29,7 +31,7 @@ local sets = {
     Evasion = {},
 
     Precast = {},
-    SIRD = {
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
     },
     Haste = { -- Used for Utsusemi cooldown
     },
@@ -69,8 +71,11 @@ local sets = {
     ['Impulse Drive'] = {},
     ['Skewer'] = {},
     ['Geirskogul'] = {},
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
     -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
@@ -84,6 +89,10 @@ Everything below can be ignored.
 ]]
 
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
+
+sets.ethereal_earring = ethereal_earring
+sets.warlocks_mantle = warlocks_mantle
+profile.Sets = gcmelee.AppendSets(sets)
 
 local JobAbilities = T{
     'Jump',
@@ -103,6 +112,8 @@ local WeaponSkills = T{
 }
 
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local action = gData.GetAction()
     if (action.Name == 'Steady Wing') then
         gFunc.EquipSet(sets.BreathBonus)
@@ -171,8 +182,8 @@ profile.HandleDefault = function()
         gFunc.EquipSet(sets.DT)
     end
 
-    if (ethereal_earring == true and isMage) then
-        gFunc.Equip(ethereal_earring_slot, 'Ethereal Earring')
+    if (isMage) then
+        gFunc.EquipSet('ethereal_earring')
     end
 
     gcmelee.DoDefaultOverride()
@@ -192,9 +203,9 @@ end
 
 profile.HandlePrecast = function()
     local player = gData.GetPlayer()
-    if (player.SubJob == 'RDM' and warlocks_mantle) then
+    if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
         gcmelee.DoPrecast(fastCastValue + 0.02)
-        gFunc.Equip('Back', 'Warlock\'s Mantle')
+        gFunc.EquipSet('warlocks_mantle')
     else
         gcmelee.DoPrecast(fastCastValue)
     end

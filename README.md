@@ -14,6 +14,8 @@ Jobs use the corresponding templates to automatically implement functionality th
 
 These luas were designed to be used in HorizonXI and therefore features such as automatically using opo-opo necklace when asleep or automatically cancelling shadows for Utsusemi: Ichi are not included.
 
+These luas will still work on other 75-era private servers so long as Horizon custom equipment is appropriately commented out / disabled.
+
 # How to Use
 
 - Download the entire directory From Code > Download ZIP or from Releases to the right.
@@ -123,6 +125,9 @@ This will work 99% of the time unless you have added your own logic and therefor
 /tp /tpset /mode - toggles TP set between a LowAcc and HighAcc set.
                    this will be overwritten if you have a DT or resistance set etc. enabled.
                    this is disabled for PLD in favour of using Idle sets by default.
+/weapon /wl      - toggles between using Weapon_Loadout sets or none of them (default)
+                   can be used to specify different weapon loadouts. e.g. virtue stones etc.
+                   there is no UI element for this.
 /locktp          - locks or unlocks Main, Sub, Ranged and Ammo slots.
 ```
 
@@ -197,9 +202,18 @@ All of the following toggles set what bolt ammo will be used.
 Alternatively, use /ammo to cycle through them.
 ```
 
-## Additional Commands for PLD:
+## Additional Commands for PLD / NIN / DRK:
 ```
-/dps - used for PLD to turn on DPS LowAcc / HighAcc TP set behaviour.
+/dps - used to turn on or off DPS LowAcc / HighAcc TP set behaviour.
+       i.e. forces you to act more like a tank or a dps.
+       By default PLD is set to false while DRK and NIN are set to true.
+       Technically can be used by all melee jobs in order to use Earth Staff etc.
+```
+
+## Additional Commands for NIN:
+```
+/nuke  - toggles between 2 different elemental accuracy sets for Ninjutsu nuking.
+/staff - toggles between always switching to staff for spells or not.
 ```
 
 # Troubleshooting Crashes
@@ -216,19 +230,10 @@ Alternatively, use /ammo to cycle through them.
 
 # Contact Me
 
-Feel free to DM me on Discord for if you encounter bugs or have feature requests or functionality is missing. I am easily found in the HorizonXI or Ashita Discords.
+Do NOT /tell me in game asking for help. You will be ignored. I only respond to Discord Messages.
 
-Do NOT /tell me in game asking for help. You will be ignored.
-
-Do NOT DM me regarding setup issues or if you have not bothered to read through this README and did not follow the instructions written. You will be ignored.
+If it's clear you have not bothered to read through this README, you will be ignored.
 
 I will also as a rule ignore you as per https://nohello.net/ and https://dontasktoask.com/
 
-# TODO
-A list of things to do in the future but who knows when I'll get around to them:
-- Refactor everything back out to actual sets on the JOB.lua files so that level sync and Packer validate would potentially work properly.
-- Micro-optimizations with job specific overrides for midcast and respecting max mp sets etc. e.g. WHM should not equip Virology ring when at 100% max mp.
-- Gate all Horizon specific changes behind a setting.
-- Add Virtue Stone Weapon checks (unneccessary until ToAU where mobs can strip gear)
-
-Feel free to submit PRs to implement these.
+Bug Reports, Missing Functionality or Feature Requests are best done through GitHub's Issue Tracker though feel free to DM me on Discord to discuss these as well. I am easily found in the HorizonXI or Ashita Discords.

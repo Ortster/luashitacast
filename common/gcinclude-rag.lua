@@ -2,9 +2,12 @@ local horizon_safe_mode = true -- this disables some of the potentially more con
 
 local display_messages = true -- set to true if you want chat log messages to appear on any /gc command used such as DT, or KITE gear toggles
 
-local load_stylist = true -- set to true to just load stylist on game start. this is purely for convenience since putting it in scripts doesn't work
+local load_stylist = false -- set to true to just load stylist on game start. this is purely for convenience since putting it in scripts doesn't work
 
-local toggleDisplayHeadOnAbility = true
+local toggleDisplayHeadOnAbility = false
+
+-- Settings for Level Sync Priority Sets
+local CurrentLevel = 0
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local kingdom_aketon = {
@@ -17,13 +20,13 @@ local federation_aketon = {
     -- Body = 'Federation Aketon',
 }
 local ducal_aketon = {
-    -- Body = 'Ducal Aketon',
+    Body = 'Ducal Aketon',
 }
 local dream_boots = {
-    Feet = 'Dream Boots +1',
+    -- Feet = 'Dream Boots +1',
 }
 local dream_mittens = {
-    Hands = 'Dream Mittens +1',
+    -- Hands = 'Dream Mittens +1',
 }
 local skulkers_cape = {
     -- Back = 'Skulker\'s Cape',

@@ -11,70 +11,60 @@ local temple_gloves = {
     Hands = 'Temple Gloves',
 }
 local temple_cyclas = {
-    Body = 'Tpl. Cyclas +1',
+    Body = 'Temple Cyclas', -- Body = 'Tpl. Cyclas +1',
 }
 local temple_crown = {
-    Head = 'Tpl. Crown +1',
+    Head = 'Temple Crown', -- Head = 'Tpl. Crown +1',
 }
 local melee_gaiters = {
-    Feet = 'Melee Gaiters',
+    -- Feet = 'Melee Gaiters',
 }
 local melee_gloves = {
-    Hands = 'Mel. Gloves +1',
+    -- Hands = 'Mel. Gloves +1',
 }
 local muscle_belt = {
-    Waist = 'Muscle Belt +1',
+    -- Waist = 'Muscle Belt +1',
 }
 local garden_bangles = {
-    Hands = 'Garden Bangles',
+    -- Hands = 'Garden Bangles',
 }
 local presidential_hairpin = {
     -- Head = 'President. Hairpin',
 }
 local dream_ribbon = {
-    Head = 'Dream Ribbon',
+    -- Head = 'Dream Ribbon',
 }
 local kampfer_ring = {
-    Ring2 = 'Kampfer Ring',
+    -- Ring2 = 'Kampfer Ring',
 }
 local kampfer_earring = {
-    Ear2 = 'Kampfer Earring',
+    -- Ear2 = 'Kampfer Earring',
 }
 
 local sets = {
-    Idle = {
-        Ammo = 'Tiphia Sting',
-        Head = 'Genbu\'s Kabuto',
-        Neck = 'Jeweled Collar +1',
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Mel. Cyclas +1',
-        Hands = 'Dst. Mittens +1',
-        Ring1 = 'Shadow Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Shadow Mantle',
-        Waist = 'Warwolf Belt',
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Dst. Leggings +1',
+    Idle_Priority = {
+        Main =  { 'T.M. Hooks +2', 'Tekko Kagi', 'Boreas Cesti', 'Fed. Baghnakhs' },
+        Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
+        Head =  { 'Temple Crown', 'Empress Hairpin', 'Cmp. Eye Circlet' },
+        Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
+        Ear1 =  { --[['Brutal Earring',]]'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Body =  { 'Scorpion Harness', 'Mrc.Cpt. Doublet', 'Power Gi' },
+        Hands = { 'Temple Gloves', 'Battle Gloves' },
+        Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Brown Belt', 'Purple Belt' }, --'Black Belt' 
+        Legs =  { 'Temple Hose', 'Republic Subligar', 'Bone Subligar +1' },
+        Feet =  { 'Fed. Kyahan', 'Light Soleas' },
     },
+
     IdleALT = {},
     Resting = {
-        Neck = 'Paisley Scarf',
-        Ear2 = 'Sanative Earring',
-        Body = 'Mel. Cyclas +1',
-        Hands = 'Dst. Mittens +1',
-        Back = 'Melee Cape',
-        Feet = 'Dst. Leggings +1',
     },
     Town = {
-        Head = 'Tpl. Crown +1',
-        Body = 'Kirin\'s Osode',
-        Hands = 'Mel. Gloves +1',
-        Legs = 'Byakko\'s Haidate',
-        Feet = 'Melee Gaiters',
     },
     Movement = {
-        Feet = 'Herald\'s Gaiters',
     },
 
     --[[
@@ -84,27 +74,8 @@ local sets = {
     10% Melee Gaiters
     ]]
     DT = {
-        Main = 'Cross-Counters', -- 5
-        Ammo = 'Fenrir\'s Stone',
-        Head = 'Optical Hat',
-        Neck = 'Faith Torque',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Avenger\'s Earring', -- 1
-        Body = 'Scp. Harness +1',
-        Hands = 'Mel. Gloves +1',
-        Ring1 = 'Sattva Ring',
-        Ring2 = 'Toreador\'s Ring',
-        Back = 'Shadow Mantle',
-        Waist = 'Black Belt',
-        Legs = 'Tpl. Hose +1', -- 3
-        Feet = 'Rst. Sune-Ate +1', -- 1
     },
     MDT = {
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Merman\'s Earring',
-        Ring1 = 'Shadow Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Resentment Cape',
     },
     FireRes = {},
     IceRes = {},
@@ -113,41 +84,13 @@ local sets = {
     WindRes = {},
     WaterRes = {},
     Evasion = { -- Currently using this as an alternate HighAcc set for 2H Zergs. See README.md
-        Head = 'Maat\'s Cap',
-        Neck = 'Faith Torque',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Shura Togi',
-        Hands = 'Mel. Gloves +1',
-        Ring1 = 'Flame Ring',
-        Ring2 = 'Triumph Ring',
-        Back = 'Forager\'s Mantle',
-        Waist = 'Black Belt',
-        Legs = 'Shura Haidate',
-        Feet = 'Dune Boots',
     },
 
     Precast = {
-        Ear1 = 'Loquac. Earring',
     },
     SIRD = { -- Only used for Idle sets and not while Override sets are active
-        Neck = 'Willpower Torque', -- 5
-        Ear1 = 'Merman\'s Earring',
-        Ear2 = 'Magnetic Earring', -- 8
-        Body = 'Dst. Harness +1',
-        Hands = 'Dst. Mittens +1',
-        Ring1 = 'Jelly Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Shadow Mantle',
-        Waist = 'Silver Obi +1', -- 8
-        Legs = 'Dst. Subligar +1',
-        Feet = 'Mountain Gaiters', -- 5
     },
     Haste = { -- Used for Utsusemi cooldown
-        Head = 'Panther Mask +1',
-        Waist = 'Black Belt',
-        Legs = 'Byakko\'s Haidate',
-        Feet = 'Fuma Sune-Ate',
     },
 
     LockSet1 = {},
@@ -155,124 +98,41 @@ local sets = {
     LockSet3 = {},
 
     TP_LowAcc = {
-        Head = 'Panther Mask +1',
-        Neck = 'Faith Torque',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Kirin\'s Osode',
-        Hands = 'Mel. Gloves +1',
-        -- Ring1 = 'Toreador\'s Ring',
-        Ring1 = 'Begrudging Ring',
-        Ring2 = 'Toreador\'s Ring',
-        Back = 'Forager\'s Mantle',
-        Waist = 'Black Belt',
-        Legs = 'Byakko\'s Haidate',
-        Feet = 'Fuma Sune-Ate',
     },
     TP_Aftermath = {},
     TP_Mjollnir_Haste = {
-        Head = 'Maat\'s Cap',
     },
     TP_HighAcc = {
-        Head = 'Maat\'s Cap',
-        Body = 'Shura Togi',
-        Ring1 = 'Toreador\'s Ring',
-        Ring2 = 'Toreador\'s Ring',
     },
     TP_Focus = {
-        Ring1 = 'Flame Ring',
-        Ring2 = 'Triumph Ring',
     },
 
     SJ_DRG = {
-        Head = 'Maat\'s Cap',
-        Ear2 = 'Wyvern Earring',
     },
     SJ_THF = {
-        Ear2 = 'Pilferer\'s Earring',
     },
 
     WS = {
-        Head = 'Maat\'s Cap',
-        Neck = 'Thunder Gorget',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Merman\'s Earring',
-        Ring1 = 'Flame Ring',
-        Ring2 = 'Triumph Ring',
-        Legs = 'Shura Haidate',
-        Feet = 'Shura Sune-Ate',
-        Hands = 'Mel. Gloves +1',
-        Back = 'Forager\'s Mantle',
-        Waist = 'Black Belt',
     },
     WS_HighAcc = {
-        -- Ring1 = 'Toreador\'s Ring',
-        Ring1 = 'Begrudging Ring',
-        Ring2 = 'Toreador\'s Ring',
     },
 
     WS_AsuranFists = {
-        Neck = 'Faith Torque',
-        Ear1 = 'Merman\'s Earring',
     },
     WS_DragonKick = {
-        Legs = 'Byakko\'s Haidate',
     },
     WS_HowlingFist = {
     },
 
     Jump = {
-        Head = 'Genbu\'s Kabuto',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Robust Earring',
-        Ring1 = 'Robust Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Wyvern Mantle',
-        Legs = 'Shura Haidate',
-        Feet = 'Dune Boots',
     },
     Chakra = {
-        Ammo = 'Happy Egg',
-        Head = 'Genbu\'s Kabuto',
-        Neck = 'Fortitude Torque',
-        Ear1 = 'Robust Earring',
-        Ear2 = 'Robust Earring',
-        Body = 'Tpl. Cyclas +1',
-        Ring1 = 'Robust Ring',
-        Ring2 = 'Sattva Ring',
-        Back = 'Melee Cape',
-        Waist = 'Warwolf Belt',
-        Legs = 'Mst. Sitabaki +1',
-        Feet = 'Power sandals',
     },
 
     ChiBlast = {
-        Head = 'Tpl. Crown +1',
-        Neck = 'Faith Torque',
-        Ear1 = 'Cmn. Earring',
-        Ear2 = 'Cmn. Earring',
-        Hands = 'Dvt. Mitts +1',
-        Ring1 = 'Aqua Ring',
-        Ring2 = 'Communion Ring',
-        Back = 'Melee Cape',
-        Legs = 'Tpl. Hose +1',
-        Waist = 'Reverend Sash',
-        Feet = 'Suzaku\'s Sune-Ate',
     },
 
     HundredFists = {
-        Head = 'Maat\'s Cap',
-        Neck = 'Faith Torque',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Merman\'s Earring',
-        Body = 'Shura Togi',
-        Hands = 'Mel. Gloves +1',
-        Ring1 = 'Toreador\'s Ring',
-        Ring2 = 'Toreador\'s Ring',
-        Back = 'Forager\'s Mantle',
-        Waist = 'Black Belt',
-        Legs = 'Shura Haidate',
-        Feet = 'Dune Boots',
     },
 
     Weapon_Loadout_1 = {
@@ -288,8 +148,9 @@ local sets = {
 }
 
 profile.SetMacroBook = function()
-    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 5')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/lockstyleset 199');
 end
 
 --[[

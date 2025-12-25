@@ -2,7 +2,7 @@
 local log_conquest = false
 
 -- Set to true if you have both Dark Earring and Abyssal earring to turn off Diabolos's Earring override for Dark Magic sets
-local dark_and_abyssal_earrings = true
+local dark_and_abyssal_earrings = false
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local claustrum = {
@@ -10,32 +10,32 @@ local claustrum = {
 }
 
 local fire_staff = {
-    Main = 'Vulcan\'s Staff',
+    -- Main = 'Vulcan\'s Staff',
 }
 local earth_staff = {
-    Main = 'Terra\'s Staff',
+    -- Main = 'Terra\'s Staff',
 }
 local water_staff = {
-    Main = 'Neptune\'s Staff',
+    -- Main = 'Neptune\'s Staff',
 }
 local wind_staff = {
-    Main = 'Auster\'s Staff',
+    -- Main = 'Auster\'s Staff',
 }
 local ice_staff = {
-    Main = 'Aquilo\'s Staff',
+    -- Main = 'Aquilo\'s Staff',
 }
 local thunder_staff = {
-    Main = 'Jupiter\'s Staff',
+    -- Main = 'Jupiter\'s Staff',
 }
 local light_staff = {
-    Main = 'Apollo\'s Staff',
+    -- Main = 'Apollo\'s Staff',
 }
 local dark_staff = {
-    Main = 'Pluto\'s Staff',
+    -- Main = 'Pluto\'s Staff',
 }
 
 local karin_obi = {
-    Waist = 'Karin Obi',
+    -- Waist = 'Karin Obi',
 }
 local dorin_obi = {
     -- Waist = 'Dorin Obi',
@@ -47,35 +47,35 @@ local furin_obi = {
     -- Waist = 'Furin Obi',
 }
 local hyorin_obi = {
-    Waist = 'Hyorin Obi',
+    -- Waist = 'Hyorin Obi',
 }
 local rairin_obi = {
-    Waist = 'Rairin Obi',
+    -- Waist = 'Rairin Obi',
 }
 local korin_obi = {
-    Waist = 'Korin Obi',
+    -- Waist = 'Korin Obi',
 }
 local anrin_obi = {
-    Waist = 'Anrin obi',
+    -- Waist = 'Anrin obi',
 }
 
 local uggalepih_pendant = {
-    Neck = 'Uggalepih Pendant',
+    -- Neck = 'Uggalepih Pendant',
 }
 local master_casters_bracelets = {
-    Hands = 'Mst.Cst. Bracelets',
+    -- Hands = 'Mst.Cst. Bracelets',
 }
 local wizards_mantle = {
     -- Back = 'Wizard\'s Mantle',
 }
 local republic_gold_medal = { -- Note: Disabled for BRD
-    Neck = 'Rep.Gold Medal',
+    -- Neck = 'Rep.Gold Medal',
 }
 local diabolos_earring = { -- Forces usage of this for NukeACC, EnfeebleACC, and Dark Magic
     -- Ear2 = 'Diabolos\'s Earring',
 }
 local diabolos_ring = {
-    Ring2 = 'Diabolos\'s Ring',
+    -- Ring2 = 'Diabolos\'s Ring',
 }
 local ice_ring = {
     -- Ring2 = 'Ice Ring',
@@ -84,7 +84,7 @@ local water_ring = {
     -- Ring2 = 'Water Ring',
 }
 local overlords_ring = {
-    Ring1 = 'Overlord\'s Ring',
+    -- Ring1 = 'Overlord\'s Ring',
 }
 
 -- For Meleeing on WHM, BRD or RDM. Fenrir's Earring will be prioritised over Diabolos's Earring if using the same slot

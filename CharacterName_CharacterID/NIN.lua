@@ -1,124 +1,143 @@
--- NIN will lose TP on many actions when switching to Staff.
--- Use "/lac disable Main" to prevent weapon swaps if this is not desired.
--- /locktp can be used as well however will lock Range and Ammo slots.
-
 local profile = {}
 
-local fastCastValue = 0.00 -- 0% from gear
+local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
-local shinobi_ring = false
-local shinobi_ring_slot = 'Ring2'
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local fire_staff = {
+    Main = 'Vulcan\'s Staff',
+}
+local earth_staff = {
+    Main = 'Terra\'s Staff',
+}
+local water_staff = {
+    Main = 'Neptune\'s Staff',
+}
+local wind_staff = {
+    Main = 'Auster\'s Staff',
+}
+local ice_staff = {
+    Main = 'Aquilo\'s Staff',
+}
+local thunder_staff = {
+    Main = 'Jupiter\'s Staff',
+}
+local light_staff = {
+    Main = 'Apollo\'s Staff',
+}
+local dark_staff = {
+    Main = 'Pluto\'s Staff',
+}
 
-local koga_tekko = false
-local koga_tekko_plus_one = false
+local karin_obi = {
+    Waist = 'Karin Obi',
+}
+local dorin_obi = {
+    -- Waist = 'Dorin Obi',
+}
+local suirin_obi = {
+    -- Waist = 'Suirin Obi',
+}
+local furin_obi = {
+    -- Waist = 'Furin Obi',
+}
+local hyorin_obi = {
+    Waist = 'Hyorin Obi',
+}
+local rairin_obi = {
+    Waist = 'Rairin Obi',
+}
+local korin_obi = {
+    Waist = 'Korin Obi',
+}
+local anrin_obi = {
+    Waist = 'Anrin obi',
+}
 
-local uggalepih_pendant = false
-local warlocks_mantle = false -- Don't add 2% to fastCastValue to this as it is SJ dependant
-
-local fenrirs_stone = false -- Used for Evasion at night
-
--- Fill this out for which evasion pants to use at night / dusk to dawn
-local night_time_eva_pants = ''
-local dusk_to_dawn_eva_pants = '' -- 'Koga Hakama +1'
-
--- Leave as '' if you do not have the staff.
-local fire_staff = '' -- 'Fire Staff' or 'Vulcan\'s Staff'
-local earth_staff = '' -- 'Earth Staff' or 'Terra\'s Staff'
-local water_staff = '' -- 'Water Staff' or 'Neptune\'s Staff'
-local wind_staff = '' -- 'Wind Staff' or 'Auster\'s Staff'
-local ice_staff = '' -- 'Ice Staff' or 'Aquilo\'s Staff'
-local thunder_staff = '' -- 'Thunder Staff' or 'Jupiter\'s Staff'
-local light_staff = '' -- 'Light Staff' or 'Apollo\'s Staff'
-local dark_staff = '' -- 'Dark Staff' or 'Pluto\'s Staff'
-
--- Set to true if you have the obi
-local karin_obi = false
-local dorin_obi = false
-local suirin_obi = false
-local furin_obi = false
-local hyorin_obi = false
-local rairin_obi = false
-local korin_obi = false
-local anrin_obi = false
+local shinobi_ring = {
+    Ring2 = 'Shinobi Ring',
+}
+local koga_tekko = {
+    -- Hands = 'Koga Tekko',
+}
+local koga_tekko_plus_one = {
+    Hands = 'Kog. Tekko +1',
+}
+local uggalepih_pendant = {
+    Neck = 'Uggalepih Pendant',
+}
+local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
+    Back = 'Warlock\'s Mantle',
+}
+local fenrirs_stone = { -- Used for Evasion at night
+    Ammo = 'Fenrir\'s Stone',
+}
+local koga_hakama = {
+    -- Legs = 'Koga Hakama',
+}
+local koga_hakama_plus_one = {
+    Legs = 'Kog. Hakama +1',
+}
 
 local sets = {
     Idle = {},
-
     IdleALT = {},
-
     IdleDT = {},
-
     IdleALTDT = {},
-
     Resting = {},
-
     Town = {},
-
     Movement = {},
 
     DT = {},
-
-    -- Shell IV provides 23% MDT
     MDT = {},
-
     FireRes = {},
-
     IceRes = {},
-
     LightningRes = {},
-
     EarthRes = {},
-
     WindRes = {},
-
     WaterRes = {},
-
     Evasion = {},
 
     Precast = {},
-
-    SIRD = {},
-
-    -- Used for Utsusemi cooldown
-    Haste = {},
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
+    },
+    Haste = { -- Used for Utsusemi cooldown
+    },
 
     Hate = {},
-
     NinDebuff = {},
-
     NinElemental = {},
-
     NinElemental_Accuracy = {},
-
     DrkDarkMagic = {},
 
-    TP_LowAcc = {},
+    Enhancing = {},
+    Cure = {},
+    Flash = {}, -- Technically optional since Hate and Haste gear will be equipped by default
 
-    TP_HighAcc = {},
-
-    TP_Mjollnir_Haste = {},
-
-    WS = {},
-
-    WS_HighAcc = {},
-
-    WS_BladeJin = {},
-
-    WS_BladeKu = {},
-
-    -- This won't work for automatically swapping shurikens, only other equipment
-    Ranged = {},
-
-    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    TP_LowAcc = {},
+    TP_Aftermath = {},
+    TP_Mjollnir_Haste = {},
+    TP_HighAcc = {},
+
+    WS = {},
+    WS_HighAcc = {},
+
+    WS_BladeJin = {},
+    WS_BladeKu = {},
+
+    Ranged = {},
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -126,6 +145,34 @@ end
 Everything below can be ignored.
 --------------------------------
 ]]
+
+gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
+
+sets.fire_staff = fire_staff
+sets.earth_staff = earth_staff
+sets.water_staff = water_staff
+sets.wind_staff = wind_staff
+sets.ice_staff = ice_staff
+sets.thunder_staff = thunder_staff
+sets.light_staff = light_staff
+sets.dark_staff = dark_staff
+sets.karin_obi = karin_obi
+sets.dorin_obi = dorin_obi
+sets.suirin_obi = suirin_obi
+sets.furin_obi = furin_obi
+sets.hyorin_obi = hyorin_obi
+sets.rairin_obi = rairin_obi
+sets.korin_obi = korin_obi
+sets.anrin_obi = anrin_obi
+sets.shinobi_ring = shinobi_ring
+sets.koga_tekko = koga_tekko
+sets.koga_tekko_plus_one = koga_tekko_plus_one
+sets.uggalepih_pendant = uggalepih_pendant
+sets.warlocks_mantle = warlocks_mantle
+sets.fenrirs_stone = fenrirs_stone
+sets.koga_hakama = koga_hakama
+sets.koga_hakama_plus_one = koga_hakama_plus_one
+profile.Sets = gcmelee.AppendSets(sets)
 
 local NinDebuffs = T{ 'Kurayami: Ni', 'Hojo: Ni', 'Jubaku: Ichi', 'Dokumori: Ichi', 'Kurayami: Ichi', 'Hojo: Ichi' }
 local HateDebuffs = T{ 'Bind', 'Sleep', 'Poison', 'Blind' }
@@ -137,36 +184,25 @@ local NinElemental = T{
 }
 
 local ElementalStaffTable = {
-    ['Fire'] = fire_staff,
-    ['Earth'] = earth_staff,
-    ['Water'] = water_staff,
-    ['Wind'] = wind_staff,
-    ['Ice'] = ice_staff,
-    ['Thunder'] = thunder_staff,
-    ['Light'] = light_staff,
-    ['Dark'] = dark_staff
-}
-
-local NukeObiTable = {
-    ['Fire'] = 'Karin Obi',
-    ['Earth'] = 'Dorin Obi',
-    ['Water'] = 'Suirin Obi',
-    ['Wind'] = 'Furin Obi',
-    ['Ice'] = 'Hyorin Obi',
-    ['Thunder'] = 'Rairin Obi',
-    ['Light'] = 'Korin Obi',
-    ['Dark'] = 'Anrin obi'
+    ['Fire'] = 'fire_staff',
+    ['Earth'] = 'earth_staff',
+    ['Water'] = 'water_staff',
+    ['Wind'] = 'wind_staff',
+    ['Ice'] = 'ice_staff',
+    ['Thunder'] = 'thunder_staff',
+    ['Light'] = 'light_staff',
+    ['Dark'] = 'dark_staff'
 }
 
 local NukeObiOwnedTable = {
-    ['Fire'] = karin_obi,
-    ['Earth'] = dorin_obi,
-    ['Water'] = suirin_obi,
-    ['Wind'] = furin_obi,
-    ['Ice'] = hyorin_obi,
-    ['Thunder'] = rairin_obi,
-    ['Light'] = korin_obi,
-    ['Dark'] = anrin_obi
+    ['Fire'] = 'karin_obi',
+    ['Earth'] = 'dorin_obi',
+    ['Water'] = 'suirin_obi',
+    ['Wind'] = 'furin_obi',
+    ['Ice'] = 'hyorin_obi',
+    ['Thunder'] = 'rairin_obi',
+    ['Light'] = 'korin_obi',
+    ['Dark'] = 'anrin_obi'
 }
 
 local WeakElementTable = {
@@ -180,9 +216,9 @@ local WeakElementTable = {
     ['Dark'] = 'Light'
 }
 
-gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
-
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     gFunc.EquipSet(sets.Hate)
 end
 
@@ -191,6 +227,7 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gFunc.EquipSet(sets.Ranged)
 end
 
 profile.HandleMidshot = function()
@@ -208,17 +245,19 @@ profile.HandleWeaponskill = function()
     end
 
     local environment = gData.GetEnvironment()
-    if (koga_tekko and (environment.Time < 6 or environment.Time >= 18)) then
-        gFunc.Equip('Hands', 'Koga Tekko')
+    if (environment.Time < 6 or environment.Time >= 18) then
+        gFunc.EquipSet('koga_tekko')
     end
-    if (koga_tekko_plus_one and (environment.Time < 7 or environment.Time >= 17)) then
-        gFunc.Equip('Hands', 'Kog. Tekko +1')
+    if (environment.Time < 7 or environment.Time >= 17) then
+        gFunc.EquipSet('koga_tekko_plus_one')
     end
 end
 
 profile.OnLoad = function()
     gcinclude.SetAlias(T{'nuke'})
     gcdisplay.CreateCycle('Nuke', {[1] = 'Potency', [2] = 'Accuracy',})
+    gcinclude.SetAlias(T{'staff'})
+    gcdisplay.CreateCycle('Staff', {[1] = 'Enabled', [2] = 'Disabled',})
     gcmelee.Load()
     profile.SetMacroBook()
 end
@@ -226,12 +265,16 @@ end
 profile.OnUnload = function()
     gcmelee.Unload()
     gcinclude.ClearAlias(T{'nuke'})
+    gcinclude.ClearAlias(T{'staff'})
 end
 
 profile.HandleCommand = function(args)
     if (args[1] == 'nuke') then
         gcdisplay.AdvanceCycle('Nuke')
         gcinclude.Message('Nuke', gcdisplay.GetCycle('Nuke'))
+    elseif (args[1] == 'staff') then
+        gcdisplay.AdvanceCycle('Staff')
+        gcinclude.Message('Staff', gcdisplay.GetCycle('Staff'))
     else
         gcmelee.DoCommands(args)
     end
@@ -244,10 +287,7 @@ end
 profile.HandleDefault = function()
     local player = gData.GetPlayer()
     local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
+
     if (myLevel ~= gcinclude.CurrentLevel) then
         gFunc.EvaluateLevels(profile.Sets, myLevel);
         gcinclude.CurrentLevel = myLevel;
@@ -258,28 +298,28 @@ profile.HandleDefault = function()
     local environment = gData.GetEnvironment()
 
     if (player.Status == 'Engaged') then
-        if (shinobi_ring and player.HPP <= 75 and player.TP <= 1000) then
-            gFunc.Equip(shinobi_ring_slot, 'Shinobi Ring')
+        if (player.HPP <= 75 and player.TP <= 1000) then
+            gFunc.EquipSet('shinobi_ring')
         end
-        if (koga_tekko and (environment.Time < 6 or environment.Time >= 18)) then
-            gFunc.Equip('Hands', 'Koga Tekko')
+        if (environment.Time < 6 or environment.Time >= 18) then
+            gFunc.EquipSet('koga_tekko')
         end
-        if (koga_tekko_plus_one and (environment.Time < 7 or environment.Time >= 17)) then
-            gFunc.Equip('Hands', 'Kog. Tekko +1')
+        if (environment.Time < 7 or environment.Time >= 17) then
+            gFunc.EquipSet('koga_tekko_plus_one')
         end
     end
 
     gcmelee.DoDefaultOverride()
 
     if (gcdisplay.IdleSet == 'Evasion') then
-        if (fenrirs_stone and (environment.Time < 6 or environment.Time >= 18)) then
-            gFunc.Equip('Ammo', 'Fenrir\'s Stone')
+        if (environment.Time < 6 or environment.Time >= 18) then
+            gFunc.EquipSet('fenrirs_stone')
         end
-        if (night_time_eva_pants ~= '' and (environment.Time < 6 or environment.Time >= 18)) then
-            gFunc.Equip('Legs', night_time_eva_pants)
+        if (environment.Time < 6 or environment.Time >= 18) then
+            gFunc.EquipSet('koga_hakama')
         end
-        if (dusk_to_dawn_eva_pants ~= '' and (environment.Time < 7 or environment.Time >= 17)) then
-            gFunc.Equip('Legs', dusk_to_dawn_eva_pants)
+        if (environment.Time < 7 or environment.Time >= 17) then
+            gFunc.EquipSet('koga_hakama_plus_one')
         end
     end
 
@@ -288,9 +328,9 @@ end
 
 profile.HandlePrecast = function()
     local player = gData.GetPlayer()
-    if (player.SubJob == 'RDM' and warlocks_mantle) then
+    if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
         gcmelee.DoPrecast(fastCastValue + 0.02)
-        gFunc.Equip('Back', 'Warlock\'s Mantle')
+        gFunc.EquipSet('warlocks_mantle')
     else
         gcmelee.DoPrecast(fastCastValue)
     end
@@ -302,11 +342,14 @@ profile.HandleMidcast = function()
     local player = gData.GetPlayer()
     local environment = gData.GetEnvironment()
 
-    if (shinobi_ring and player.HPP <= 75 and player.TP <= 1000) then
-        gFunc.Equip(shinobi_ring_slot, 'Shinobi Ring')
+    if (player.HPP <= 75 and player.TP <= 1000) then
+        gFunc.EquipSet('shinobi_ring')
     end
-    if (koga_tekko_plus_one and (environment.Time < 7 or environment.Time >= 17)) then
-        gFunc.Equip('Hands', 'Kog. Tekko +1') -- You can comment this out if you have Dusk Gloves +1 and would prefer +22 HP over Ninja Tool Expertise.
+    if (environment.Time < 6 or environment.Time >= 18) then
+        gFunc.EquipSet('koga_tekko') -- You can comment this out if you have Dusk Gloves +1 and would prefer +22 HP
+    end
+    if (environment.Time < 7 or environment.Time >= 17) then
+        gFunc.EquipSet('koga_tekko_plus_one') -- You can comment this out if you have Dusk Gloves +1 and would prefer +22 HP
     end
 
     local action = gData.GetAction()
@@ -319,8 +362,8 @@ profile.HandleMidcast = function()
             if (gcdisplay.GetCycle('Nuke') == 'Accuracy') then
                 gFunc.EquipSet(sets.NinElemental_Accuracy)
             end
-            if (action.MppAftercast < 51) and uggalepih_pendant then
-                gFunc.Equip('Neck', 'Uggalepih Pendant')
+            if (action.MppAftercast < 51) then
+                gFunc.EquipSet('uggalepih_pendant')
             end
             EquipStaffAndObi(action)
         end
@@ -328,10 +371,7 @@ profile.HandleMidcast = function()
         if (HateDebuffs:contains(action.Name)) then
             gFunc.EquipSet(sets.Hate)
         end
-        local staff = ElementalStaffTable[action.Element]
-        if staff ~= '' then
-            gFunc.Equip('Main', staff)
-        end
+        EquipStaff(action)
     elseif (action.Skill == 'Dark Magic') then
         if (DrkDarkMagic:contains(action.Name)) then
             gFunc.EquipSet(sets.DrkDarkMagic)
@@ -349,17 +389,18 @@ profile.HandleMidcast = function()
 end
 
 function EquipStaffAndObi(action)
-    local staff = ElementalStaffTable[action.Element]
-    if staff ~= '' then
-        gFunc.Equip('Main', staff)
-    end
+    EquipStaff(action)
 
     if (ObiCheck(action)) then
-        local obi = NukeObiTable[action.Element]
         local obiOwned = NukeObiOwnedTable[action.Element]
-        if (obiOwned) then
-            gFunc.Equip('Waist', obi)
-        end
+        gFunc.EquipSet(obiOwned)
+    end
+end
+
+function EquipStaff(action)
+    if (gcdisplay.GetCycle('Staff') == 'Enabled') then
+        local staff = ElementalStaffTable[action.Element]
+        gFunc.EquipSet(staff)
     end
 end
 

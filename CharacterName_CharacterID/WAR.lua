@@ -1,77 +1,76 @@
 local profile = {}
 
-local fastCastValue = 0.00 -- 0% from gear
+local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
 local sets = {
     Idle = {},
-
     IdleALT = {},
-
     Resting = {},
-
     Town = {},
-
     Movement = {},
 
     DT = {},
-
-    -- Shell IV provides 23% MDT
     MDT = {},
-
     FireRes = {},
-
     IceRes = {},
-
     LightningRes = {},
-
     EarthRes = {},
-
     WindRes = {},
-
     WaterRes = {},
-
     Evasion = {},
 
     Precast = {},
+    SIRD = { -- Only used for Idle sets and not while Override sets are active
+    },
+    Haste = { -- Used for Utsusemi cooldown
+    },
 
-    SIRD = {},
-
-    -- Used for Utsusemi cooldown
-    Haste = {},
-
-    TP_LowAcc = {},
-
-    TP_HighAcc = {},
-
-    TP_Aggressor = {},
-
-    WS = {},
-
-    WS_HighAcc = {},
-
-    Warcry = {},
-
-    Provoke = {},
-
-    DW = {},
-
-    SAM = {},
-
-    -- Custom Sets - Level Sync Sets For Example
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
+
+    TP_LowAcc = {},
+    TP_Aftermath = {},
+    TP_Mjollnir_Haste = {},
+    TP_HighAcc = {},
+    TP_Aggressor = {},
+
+    WS = {},
+    WS_HighAcc = {},
+
+    Warcry = {},
+    Provoke = {},
+
+    DW = {
+        Ear1 = 'Stealth Earring',
+    },
+    SAM = {
+        Ear1 = 'Attila\'s Earring',
+    },
+
+    Weapon_Loadout_1 = {},
+    Weapon_Loadout_2 = {},
+    Weapon_Loadout_3 = {},
 }
-profile.Sets = sets
 
 profile.SetMacroBook = function()
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
+    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
+
+--[[
+--------------------------------
+Everything below can be ignored.
+--------------------------------
+]]
 
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 
+profile.Sets = gcmelee.AppendSets(sets)
+
 profile.HandleAbility = function()
+    gcmelee.DoAbility()
+
     local action = gData.GetAction()
     if (action.Name == 'Warcry') then
         gFunc.EquipSet(sets.Warcry)
@@ -122,10 +121,7 @@ end
 profile.HandleDefault = function()
     local player = gData.GetPlayer()
     local myLevel = player.MainJobSync;
-    
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
+
     if (myLevel ~= gcinclude.CurrentLevel) then
         gFunc.EvaluateLevels(profile.Sets, myLevel);
         gcinclude.CurrentLevel = myLevel;

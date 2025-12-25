@@ -306,7 +306,9 @@ local sets = {
 
     Weapon_Loadout_1 = {},
     Weapon_Loadout_2 = {},
-    Weapon_Loadout_3 = {},
+    Weapon_Loadout_3 = {
+        Main = 'Bourdonasse'
+    },
 }
 
 profile.SetMacroBook = function()

@@ -27,6 +27,7 @@ These luas will still work on other 75-era private servers so long as Horizon cu
 - Edit Elemental Staves (NQ vs HQ), Obis and other conditional gear in ..\\common\\gcmage.lua if you are using these luas for mage jobs.
 - Edit Fenrir's Earring in ..\\common\\gcmelee.lua if you are using these luas for melee jobs.
 - Edit Aketons and Dream gear etc. and turn on or off additional logging in ..\\common\\gcinclude-rag.lua.
+- Set the i_can_read_and_follow_instructions_test boolean settings to true within gcmage.lua, gcmelee.lua, and gcinclude-rag.lua to confirm you actually read this and didn't waste other people's time.
 - Make sure you fill out the fastcastValue correctly in your [JOB].lua if you are using any Fast Cast gear in the Precast set.
 - Make sure you fill out the maxMP values correctly in your [JOB].lua if you are using these luas for mage jobs.
 - The midcast delay assumes you use the PacketFlow plugin. If you don't use PacketFlow, adjust the values in gcmage.lua (or gcmelee.lua for melee jobs).
@@ -63,6 +64,10 @@ This will work 99% of the time unless you have added your own logic and therefor
           it will equip the kite set instead of or on top of the fire resistance set.
           this allows you to gain 12% move speed while keeping most of your fire resistance.
 
+/weapon /wl - toggles between using Weapon_Loadout sets.
+              can be used to specify different weapon loadouts. e.g. virtue stones etc.
+              there is no UI element for this.
+
 [Idle Sets] (Changes your idle set to use these sets instead)
 /idle           - toggles between using 2 different idle sets
                   i.e. Normal and Alternate / Idle and IdleALT.
@@ -96,6 +101,8 @@ This will work 99% of the time unless you have added your own logic and therefor
 /horizonmode - if you wish to use Horizon Mode in LuAshitacast to be 100% horizon approved,
                you can then use this alias to manually trigger a handle default gear equip
                using a key press!
+               i.e. You could push this 4 times a second just to mimic exactly what
+               LuAshitacast would do for you automatically.
 ```
 
 ## Additional Commands for All Mage Jobs:
@@ -125,10 +132,6 @@ This will work 99% of the time unless you have added your own logic and therefor
 /tp /tpset /mode - toggles TP set between a LowAcc and HighAcc set.
                    this will be overwritten if you have a DT or resistance set etc. enabled.
                    this is disabled for PLD in favour of using Idle sets by default.
-/weapon /wl      - toggles between using Weapon_Loadout sets or none of them (default)
-                   can be used to specify different weapon loadouts. e.g. virtue stones etc.
-                   there is no UI element for this.
-/locktp          - locks or unlocks Main, Sub, Ranged and Ammo slots.
 ```
 
 ## Additional Commands for RDM:

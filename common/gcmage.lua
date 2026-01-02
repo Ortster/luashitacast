@@ -1,6 +1,9 @@
 -- Set to true if you want messages every time Mst.Cst. Bracelets are used.
 local log_conquest = false
 
+-- This uses the BLM-advanced.lua to calculate more precise Yellow sets. Do not use this unless you know what you're doing.
+local blm_advanced = false
+
 -- Set to true if you have both Dark Earring and Abyssal earring to turn off Diabolos's Earring override for Dark Magic sets
 local dark_and_abyssal_earrings = false
 
@@ -95,6 +98,9 @@ local tp_diabolos_earring = {
     -- Ear2 = 'Diabolos\'s Earring',
 }
 
+-- Set this to true to confirm that actually read the README.md and set up the equipment listed above correctly
+local i_can_read_and_follow_instructions_test = false
+
 --[[
 --------------------------------
 Everything below can be ignored.
@@ -102,6 +108,8 @@ Everything below can be ignored.
 ]]
 
 gcinclude = gFunc.LoadFile('common\\gcinclude-rag.lua')
+
+blmAdvanced = gFunc.LoadFile('common\\BLM-advanced.lua')
 
 local gcmage = {}
 
@@ -285,7 +293,7 @@ function gcmage.DoCommands(args, sets)
     if (player.MainJob == 'RDM') then
         if (args[1] == 'vert') then
             if (conquest:GetOutsideControl()) then
-                print(chat.header('GCMage'):append(chat.message('Out of Region - using ConvertOOR set.')))
+                print(chat.header('Ashitacast'):append(chat.message('Out of Region - using ConvertOOR set.')))
                 AshitaCore:GetChatManager():QueueCommand(-1, '/lac set ConvertOOR')
                 AshitaCore:GetChatManager():QueueCommand(-1, '/lac disable all')
             else
@@ -447,6 +455,10 @@ function gcmage.DoDefault(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
 end
 
 function gcmage.DoPrecast(sets, fastCastValue)
+    if (not i_can_read_and_follow_instructions_test) then
+        print(chat.header('GCMage'):append(chat.message('Failed to follow instructions. Read the README.md')))
+    end
+
     local chainspell = gData.GetBuffCount('Chainspell')
     local action = gData.GetAction()
     local player = gData.GetPlayer()
@@ -481,10 +493,30 @@ function gcmage.DoPrecast(sets, fastCastValue)
         local blmYellow = action.Skill == 'Elemental Magic' and player.MainJob == 'BLM' and gcdisplay.GetToggle('Yellow') == true and not ElementalDebuffs:contains(action.Name)
         local whmYellow = action.Skill == 'Healing Magic' and player.MainJob == 'WHM' and gcdisplay.GetToggle('Yellow') == true and CureSpells:contains(action.Name)
 
+        local yellowAdvanced = nil
+        if (blmYellow and blm_advanced) then
+            yellowAdvanced = blmAdvanced.BuildYellowSet(player.SubJob, ObiCheck(action), gcdisplay.GetToggle('HNM') == true, gcdisplay.GetCycle('Mode') == 'Accuracy') -- note: ObiCheck does not check if obi is owned
+        end
+
         if (blmYellow or whmYellow) then
-            gFunc.EquipSet('Yellow')
+            local yellow = sets.Yellow
+            local yellowHNM = sets.YellowHNM
+            if (yellowAdvanced) then
+                yellow = yellowAdvanced
+                yellowHNM = yellowAdvanced
+            end
+
+            if (whmYellow) then
+                if (player.MainJob ~= 'BLM' and gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
+                    local weapon = sets['Weapon_Loadout_' .. WeaponOverrideTable[weapon_override]]
+                    yellow = gFunc.Combine(yellow, weapon)
+                    yellowHNM = gFunc.Combine(yellowHNM, weapon)
+                end
+            end
+
+            gFunc.EquipSet(yellow)
             if (gcdisplay.GetToggle('HNM') == true) then
-                gFunc.EquipSet('YellowHNM')
+                gFunc.EquipSet(yellowHNM)
             end
         end
     else
@@ -575,32 +607,45 @@ function gcmage.SetupMidcastDelay(sets, fastCastValue)
     local blmYellow = action.Skill == 'Elemental Magic' and player.MainJob == 'BLM' and gcdisplay.GetToggle('Yellow') == true and not ElementalDebuffs:contains(action.Name)
     local whmYellow = action.Skill == 'Healing Magic' and player.MainJob == 'WHM' and gcdisplay.GetToggle('Yellow') == true and CureSpells:contains(action.Name)
 
-    if (blmYellow or whmYellow) then
-        local yellow = sets.Yellow
-        local yellowHNM = sets.YellowHNM
+    local yellowAdvanced = nil
+    local expectedHP = nil
+    if (blmYellow and blm_advanced) then
+        expectedHP, yellowAdvanced = blmAdvanced.BuildYellowSet(player.SubJob, ObiCheck(action), gcdisplay.GetToggle('HNM') == true, gcdisplay.GetCycle('Mode') == 'Accuracy') -- note: ObiCheck does not check if obi is owned
+    end
 
-        if (whmYellow) then
-            if (player.MainJob ~= 'BLM' and gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
-                local weapon = sets['Weapon_Loadout_' .. WeaponOverrideTable[weapon_override]]
-                yellow = gFunc.Combine(yellow, weapon)
-                yellowHNM = gFunc.Combine(yellowHNM, weapon)
+    if (expectedHP == nil or (expectedHP and expectedHP < player.HP)) then
+        if (blmYellow or whmYellow) then
+            -- print(chat.header('DEBUG'):append(chat.message('Equipping Yellow set')))
+            local yellow = sets.Yellow
+            local yellowHNM = sets.YellowHNM
+            if (yellowAdvanced) then
+                yellow = yellowAdvanced
+                yellowHNM = yellowAdvanced
             end
-        end
 
-        local function delayYellow()
-            gFunc.ForceEquipSet(yellow)
-            if (gcdisplay.GetToggle('HNM') == true) then
-                gFunc.ForceEquipSet(yellowHNM)
+            if (whmYellow) then
+                if (player.MainJob ~= 'BLM' and gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
+                    local weapon = sets['Weapon_Loadout_' .. WeaponOverrideTable[weapon_override]]
+                    yellow = gFunc.Combine(yellow, weapon)
+                    yellowHNM = gFunc.Combine(yellowHNM, weapon)
+                end
             end
-        end
-        local yellowDelay = castDelay - (packetDelay * 2)
-        if (yellowDelay <= 0) then
-            gFunc.EquipSet(yellow)
-            if (gcdisplay.GetToggle('HNM') == true) then
-                gFunc.EquipSet(yellowHNM)
+
+            local function delayYellow()
+                gFunc.ForceEquipSet(yellow)
+                if (gcdisplay.GetToggle('HNM') == true) then
+                    gFunc.ForceEquipSet(yellowHNM)
+                end
             end
-        else
-            delayYellow:once(yellowDelay)
+            local yellowDelay = castDelay - (packetDelay * 2)
+            if (yellowDelay <= 0) then
+                gFunc.ForceEquipSet(yellow)
+                if (gcdisplay.GetToggle('HNM') == true) then
+                    gFunc.ForceEquipSet(yellowHNM)
+                end
+            else
+                delayYellow:once(yellowDelay)
+            end
         end
     end
     -- print(chat.header('DEBUG'):append(chat.message('Cast delay is ' .. castDelay)))
@@ -838,7 +883,7 @@ function gcmage.EquipElemental(maxMP, blmNukeExtra)
         if (gcdisplay.GetCycle('Mode') == 'Accuracy') then
             gFunc.EquipSet('NukeACC')
             if ((player.MainJob == 'RDM') and conquest:GetOutsideControl()) then
-                if (log_conquest) then print(chat.header('GCMage'):append(chat.message('Out of Region - Using Mst.Cst. Bracelets'))) end
+                if (log_conquest) then print(chat.header('Ashitacast'):append(chat.message('Out of Region - Using Mst.Cst. Bracelets'))) end
                 gFunc.EquipSet('master_casters_bracelets')
             end
             if (environment.WeatherElement == 'Dark') then
@@ -877,7 +922,7 @@ function gcmage.EquipEnfeebling()
 
     gFunc.EquipSet('Enfeebling')
     if ((player.MainJob ~= 'WHM') and conquest:GetOutsideControl()) then
-        if (log_conquest) then print(chat.header('GCMage'):append(chat.message('Out of Region - Using Mst.Cst. Bracelets'))) end
+        if (log_conquest) then print(chat.header('Ashitacast'):append(chat.message('Out of Region - Using Mst.Cst. Bracelets'))) end
         gFunc.EquipSet('master_casters_bracelets')
     end
     if (EnfeebMNDSpells:contains(action.Name)) then
@@ -1019,6 +1064,10 @@ function ObiCheck(action)
 end
 
 function gcmage.DoAbility()
+    if (not i_can_read_and_follow_instructions_test) then
+        print(chat.header('GCMage'):append(chat.message('Failed to follow instructions. Read the README.md')))
+    end
+
     gcinclude.DoAbility()
     local action = gData.GetAction()
     if (action.Name == 'Release') then

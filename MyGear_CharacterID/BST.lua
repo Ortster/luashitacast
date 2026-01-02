@@ -2,20 +2,11 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
-local max_hp_in_idle_with_regen_gear_equipped = 1200
+local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local gaudy_harness = {
     -- Body = 'Gaudy Harness',
-}
-local muscle_belt = {
-    -- Waist = 'Muscle Belt +1',
-}
-local presidential_hairpin = {
-    -- Head = 'President. Hairpin',
-}
-local dream_ribbon = {
-    -- Head = 'Dream Ribbon',
 }
 
 local sets = {
@@ -82,6 +73,18 @@ local sets = {
     Weapon_Loadout_1 = {},
     Weapon_Loadout_2 = {},
     Weapon_Loadout_3 = {},
+    
+    LockStyle = {
+        Main = 'Barbaroi Axe',
+        Sub = 'Tungi',
+        -- Range = '',
+        -- Ammo = '',
+        Head =  'Beast Helm',
+        Body =  'Shep. Doublet',
+        Hands = 'Beast Gloves',
+        Legs =  'Brais +1',
+        Feet =  'Beast Gaiters',
+    },
 }
 
 profile.SetMacroBook = function()
@@ -227,6 +230,7 @@ profile.OnLoad = function()
     gcdisplay.CreateCycle('Pet', PetTable1)
     gcmelee.Load()
     profile.SetMacroBook()
+    gFunc.LockStyle(profile.Sets.LockStyle);
 end
 
 profile.OnUnload = function()
@@ -260,19 +264,8 @@ profile.HandleDefault = function()
         gcinclude.CurrentLevel = myLevel;
     end
 
-    gcmelee.DoDefault()
+    gcmelee.DoDefault(max_hp_in_idle_with_regen_gear_equipped)
 
-    if (player.Status == 'Idle') then
-        if (player.HPP < 50) then
-            gFunc.EquipSet('muscle_belt')
-        end
-        if (player.HP < max_hp_in_idle_with_regen_gear_equipped) then
-            if (conquest:GetOutsideControl()) then
-                gFunc.EquipSet('presidential_hairpin')
-            end
-            gFunc.EquipSet('dream_ribbon')
-        end
-    end
     if (player.SubJob == 'NIN' and player.Status == 'Engaged') then
         gFunc.EquipSet('TP_NIN')
     end

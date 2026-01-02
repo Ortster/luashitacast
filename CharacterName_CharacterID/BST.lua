@@ -2,24 +2,34 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
-local max_hp_in_idle_with_regen_gear_equipped = 1200
+local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local gaudy_harness = {
     -- Body = 'Gaudy Harness',
 }
-local muscle_belt = {
-    Waist = 'Muscle Belt +1',
-}
-local presidential_hairpin = {
-    -- Head = 'President. Hairpin',
-}
-local dream_ribbon = {
-    Head = 'Dream Ribbon',
-}
 
 local sets = {
-    Idle = {},
+    Idle_Priority = {
+        Main =  { 'Darksteel Axe +1', 'Viking Axe', 'Cmb.Cst. Axe', 'Battleaxe +1' },
+        -- Darksteel +1 (at 56+)
+        Sub =   { 'Tungi', 'Darksteel Axe +1', 'Viking Axe', 'Barbaroi Axe', 'Battleaxe +1' },
+        -- Viking Axe (at 56+)
+        Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
+                --'Walkure Mask', 'Mrc.Cpt. Headgear',
+        Head =  { 'Shep. Bonnet', 'Ryl.Ftm. Bandana' },
+        Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
+        Ear1 =  { 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Ear2 =  { 'Beastly Earring', 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
+        Body =  { 'Scorpion Harness', 'Shep. Doublet', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
+        Hands = { 'Battle Gloves' },
+        Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
+        Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
+        Back =  { 'Amemet Mantle +1', 'Nomad\'s Mantle', 'Traveler\'s Mantle' },
+        Waist = { 'Swift Belt', 'Life Belt', 'Tilt Belt', 'Brave Belt', 'Warrior\'s Belt' },
+        Legs =  { 'Republic Subligar', 'Bone Subligar +1' },
+        Feet =  { 'Bounding Boots' },
+    },
     IdleALT = {},
     Resting = {},
     Town = {},
@@ -66,8 +76,8 @@ local sets = {
 }
 
 profile.SetMacroBook = function()
-    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
-    -- AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro book 4')
+    AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
 end
 
 --[[
@@ -241,19 +251,8 @@ profile.HandleDefault = function()
         gcinclude.CurrentLevel = myLevel;
     end
 
-    gcmelee.DoDefault()
+    gcmelee.DoDefault(max_hp_in_idle_with_regen_gear_equipped)
 
-    if (player.Status == 'Idle') then
-        if (player.HPP < 50) then
-            gFunc.EquipSet('muscle_belt')
-        end
-        if (player.HP < max_hp_in_idle_with_regen_gear_equipped) then
-            if (conquest:GetOutsideControl()) then
-                gFunc.EquipSet('presidential_hairpin')
-            end
-            gFunc.EquipSet('dream_ribbon')
-        end
-    end
     if (player.SubJob == 'NIN' and player.Status == 'Engaged') then
         gFunc.EquipSet('TP_NIN')
     end

@@ -3,16 +3,16 @@ local fenrirs_earring = { -- Not used for RNG at all
     -- Ear2 = 'Fenrir\'s Earring',
 }
 local muscle_belt = {
-    Waist = 'Muscle Belt +1',
+    -- Waist = 'Muscle Belt +1',
 }
 local garden_bangles = {
-    Hands = 'Garden Bangles',
+    -- Hands = 'Garden Bangles',
 }
 local presidential_hairpin = {
     -- Head = 'President. Hairpin',
 }
 local dream_ribbon = {
-    Head = 'Dream Ribbon',
+    -- Head = 'Dream Ribbon',
 }
 
 -- Set this to true to confirm that actually read the README.md and set up the equipment listed above correctly

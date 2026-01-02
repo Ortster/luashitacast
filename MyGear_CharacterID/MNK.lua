@@ -1,7 +1,8 @@
 local profile = {}
 
-local max_hp_in_idle_with_regen_gear_equipped = 1632
 local fastCastValue = 0.02 -- 2% from gear listed in Precast set
+
+local max_hp_in_idle_with_regen_gear_equipped = 1632 -- You could set this to 0 if you do not wish to ever use regen gear
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local temple_gaiters = {
@@ -21,18 +22,6 @@ local melee_gaiters = {
 }
 local melee_gloves = {
     -- Hands = 'Mel. Gloves +1',
-}
-local muscle_belt = {
-    -- Waist = 'Muscle Belt +1',
-}
-local garden_bangles = {
-    -- Hands = 'Garden Bangles',
-}
-local presidential_hairpin = {
-    -- Head = 'President. Hairpin',
-}
-local dream_ribbon = {
-    -- Head = 'Dream Ribbon',
 }
 local kampfer_ring = {
     -- Ring2 = 'Kampfer Ring',
@@ -136,21 +125,28 @@ local sets = {
     },
 
     Weapon_Loadout_1 = {
-        Main = 'Destroyers',
     },
     Weapon_Loadout_2 = {
-        Main = 'Cross-Counters',
     },
     Weapon_Loadout_3 = {
-        Main = 'Faith Baghnakhs',
-        Ammo = 'Virtue Stone',
+    },
+    
+    LockStyle = {
+        Main = 'Tekko Kagi',
+        -- Sub = '',
+        -- Range = '',
+        -- Ammo = '',
+        Head =  'Temple Crown',
+        Body =  'Temple Cyclas',
+        Hands = 'Temple Gloves',
+        Legs =  'Temple Hose',
+        Feet =  'Temple Gaiters',
     },
 }
 
 profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 5')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/lockstyleset 199');
 end
 
 --[[
@@ -167,10 +163,7 @@ sets.temple_cyclas = temple_cyclas
 sets.temple_crown = temple_crown
 sets.melee_gaiters = melee_gaiters
 sets.melee_gloves = melee_gloves
-sets.muscle_belt = muscle_belt
-sets.garden_bangles = garden_bangles
-sets.presidential_hairpin = presidential_hairpin
-sets.dream_ribbon = dream_ribbon
+
 sets.kampfer_ring = kampfer_ring
 sets.kampfer_earring = kampfer_earring
 profile.Sets = gcmelee.AppendSets(sets)
@@ -227,6 +220,7 @@ end
 profile.OnLoad = function()
     gcmelee.Load()
     profile.SetMacroBook()
+    gFunc.LockStyle(profile.Sets.LockStyle);
 end
 
 profile.OnUnload = function()
@@ -250,7 +244,7 @@ profile.HandleDefault = function()
         gcinclude.CurrentLevel = myLevel;
     end
 
-    gcmelee.DoDefault()
+    gcmelee.DoDefault(max_hp_in_idle_with_regen_gear_equipped)
 
     local focus = gData.GetBuffCount('Focus')
     local hundredFists = gData.GetBuffCount('Hundred Fists')
@@ -268,22 +262,6 @@ profile.HandleDefault = function()
             gFunc.EquipSet(sets.SJ_DRG)
         elseif (player.SubJob == 'THF') then
             gFunc.EquipSet(sets.SJ_THF)
-        end
-    end
-
-    if (player.Status == 'Idle') then
-        if (player.HPP < 50) then
-            gFunc.EquipSet('muscle_belt')
-        end
-        if (player.HP < max_hp_in_idle_with_regen_gear_equipped) then
-            local environment = gData.GetEnvironment()
-            if (environment.Time >= 6 and environment.Time < 18) then
-                gFunc.EquipSet('garden_bangles')
-            end
-            if (conquest:GetOutsideControl()) then
-                gFunc.EquipSet('presidential_hairpin')
-            end
-            gFunc.EquipSet('dream_ribbon')
         end
     end
 

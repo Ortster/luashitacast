@@ -2,12 +2,14 @@ local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear listed in Precast set
 
+local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
+
 local heal_hp_threshold_whm = 859
 local heal_hp_threshold_rdm = 869
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local ethereal_earring = {
-    Ear2 = 'Ethereal Earring',
+    -- Ear2 = 'Ethereal Earring',
 }
 local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
     -- Back = 'Warlock\'s Mantle',
@@ -128,7 +130,7 @@ local sets = {
 
     ['Jump'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
+        Head = 'Wyvern Helm',
         Neck = 'Peacock Amulet',    --Neck = 'Love Torque',     --Why? Polearm Skill!?
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -143,29 +145,29 @@ local sets = {
     },
     ['Jump Accuracy'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
-        Neck = 'Peacock Amulet',    --Neck = 'Love Torque',     --Why? Polearm Skill!?
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
-        Body = 'Scorpion Harness',  --Body = 'Homam Corazza', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
+        Body = 'Scorpion Harness',
         Hands = 'Hecatomb Mittens',
-        Ring1 = 'Toreador\'s Ring', --can swap in Dex+5 ring as well for slightly less acc but +2-3% crit to do dex modifier 
+        Ring1 = 'Toreador\'s Ring',
         Ring2 = 'Rajas Ring',
         Back = 'Amemet Mantle +1',
-        Waist = 'Wyrm Belt',        --Waist = 'Warwolf Belt', -- Why? Sacrifice ACC for ATK?
-        Legs = 'Barone Cosciales',  --Legs = 'Drn. Brais +1', -- not a bad choice. can use Drachen legs +1(acc +9) if you need more acc. 
-        Feet = 'Drachen Greaves',   --Feet = 'Drn. Greaves +1', -- upgrade to the +1's(dex +5, enhances jump attack bonus from 10 to 15)
+        Waist = 'Wyrm Belt',
+        Legs = 'Barone Cosciales',
+        Feet = 'Drachen Greaves',
     },
 
     ['High Jump'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
+        Head = 'Wyvern Helm',
         Neck = 'Peacock Amulet',    --Neck = 'Love Torque',     --Why? Polearm Skill!?
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',  --Body = 'Homam Corazza', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
         Hands = 'Hecatomb Mittens',
-        Ring1 = 'Toreador\'s Ring', --Ring1 = 'Toreador\'s Ring', -- upgrade to vaulter's ring(+10% att when high jump)
+        Ring1 = 'Toreador\'s Ring',  -- upgrade to vaulter's ring(+10% att when high jump)
         Ring2 = 'Rajas Ring',
         Back = 'Amemet Mantle +1',
         Waist = 'Wyrm Belt',        --Waist = 'Warwolf Belt', -- Why? Sacrifice ACC for ATK?
@@ -174,18 +176,18 @@ local sets = {
     },
     ['High Jump Accuracy'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
-        Neck = 'Peacock Amulet',    --Neck = 'Love Torque',     --Why? Polearm Skill!?
+        Head = 'Wyvern Helm',
+        Neck = 'Peacock Amulet',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
-        Body = 'Scorpion Harness',  --Body = 'Homam Corazza', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
+        Body = 'Scorpion Harness',
         Hands = 'Hecatomb Mittens',
-        Ring1 = 'Toreador\'s Ring', --Ring1 = 'Toreador\'s Ring', -- upgrade to vaulter's ring(+10% att when high jump)
+        Ring1 = 'Toreador\'s Ring',
         Ring2 = 'Rajas Ring',
         Back = 'Amemet Mantle +1',
-        Waist = 'Wyrm Belt',        --Waist = 'Warwolf Belt', -- Why? Sacrifice ACC for ATK?
-        Legs = 'Wyrm Brais',  --Legs = 'Wym. Brais +1', -- good piece. other choice is Wyrm brais(enmity shead increased from 50% to 60%)
-        Feet = 'Crimson Greaves',    --Feet = 'Hct. Leggings', -- Use anything with +att, +str, +dex. upgrade to hecatomb feet(str +6, Dex +3)
+        Waist = 'Wyrm Belt',   
+        Legs = 'Wyrm Brais',
+        Feet = 'Crimson Greaves',
     },
 
     ['Super Jump'] = {},
@@ -195,16 +197,16 @@ local sets = {
     },
 
     ['Spirit Link'] = {
-        Legs = 'Drachen Brais', -- (wyvern hp+10%)
-        Body = 'Wyvern Mail', -- (wyvern hp+65)
+        Legs = 'Drachen Brais',   -- (wyvern hp+10%)
+        Body = 'Wyvern Mail',     -- (wyvern hp+65)
       --Hands = 'Ostreger Mitts', -- (wyvern hp+10) 
-        Legs = 'Drachen Brais', --Legs = 'Drn. Brais +1', -- (wyvern hp+15%)
+        Legs = 'Drachen Brais',   -- (wyvern hp+10%) Legs = 'Drn. Brais +1', -- (wyvern hp+15%)
         Feet = 'Homam Gambieras', -- (wyvern hp+50)
     },
 
     WS = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
+        Head = 'Wyvern Helm',
         Neck = 'Peacock Amulet',    --Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -223,7 +225,7 @@ local sets = {
     -- Acc WS
     ['Penta Thrust'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
+        Head = 'Wyvern Helm',
         Neck = 'Peacock Amulet',    --Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -248,16 +250,16 @@ local sets = {
         Hands = 'Hecatomb Mittens',
         Ring1 = 'Victory Ring',
         Ring2 = 'Rajas Ring',
-        Back = 'Amemet Mantle +1',
+        Back = 'Amemet Mantle +1',  --Back = 'Forager\'s Mantle',
         Waist = 'Warwolf Belt',
-        Legs = 'Barone Cosciales',  --Legs = 'Drn. Brais +1',
+        Legs = 'Barone Cosciales',
       --Feet = 'Barone Gambieras',  --Feet = 'Hct. Leggings',
     },
 
     -- STR WS
     ['Impulse Drive'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
+        Head = 'Wyvern Helm',
         Neck = 'Spike Necklace',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -267,14 +269,14 @@ local sets = {
         Ring2 = 'Rajas Ring',
         Back = 'Amemet Mantle +1',
         Waist = 'Warwolf Belt',
-        Legs = 'Barone Cosciales',  --Legs = 'Drn. Brais +1',
+        Legs = 'Barone Cosciales',
       --Feet = 'Barone Gambieras',  --Feet = 'Hct. Leggings',
     },
 
     -- STR WS
     ['Skewer'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',       --Head = 'Hecatomb Cap',
+        Head = 'Wyvern Helm',
         Neck = 'Light Gorget',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -284,38 +286,34 @@ local sets = {
         Ring2 = 'Rajas Ring',
         Back = 'Amemet Mantle +1',
         Waist = 'Warwolf Belt',
-        Legs = 'Barone Cosciales',  --Legs = 'Wym. Brais +1',
+        Legs = 'Barone Cosciales',
       --Feet = 'Barone Gambieras',  --Feet = 'Hct. Leggings',
     },
 
-    ['Geirskogul'] = {
-        Ammo = 'Civet Sachet',
-      --Head = 'Hecatomb Cap',
-        Neck = 'Light Gorget',
-        Ear1 = 'Brutal Earring',
-        Ear2 = 'Beastly Earring',
-      --Body = 'Hecatomb Harness',
-        Hands = 'Hecatomb Mittens',
-        Ring1 = 'Victory Ring',
-        Ring2 = 'Rajas Ring',
-      --Back = 'Forager\'s Mantle',
-        Waist = 'Warwolf Belt',
-      --Legs = 'Wym. Brais +1',
-      --Feet = 'Hct. Leggings',
-    },
+    ['Geirskogul'] = {},
 
     Weapon_Loadout_1 = {},
     Weapon_Loadout_2 = {},
     Weapon_Loadout_3 = {
         Main = 'Bourdonasse'
     },
+    
+    LockStyle = {
+        Main = 'Orichalcum Lance',
+        -- Sub = '',
+        -- Range = '',
+        -- Ammo = '',
+        Head =  'Homam Zucchetto',
+        Body =  'Shep. Doublet',
+        Hands = 'Homam Manopolas',
+        Legs =  'Homam Cosciales',
+        Feet =  'Homam Gambieras',
+    },
 }
 
 profile.SetMacroBook = function()
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1')
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1')
-    AshitaCore:GetChatManager():QueueCommand(1, '/lockstyleset 1');
-    --AshitaCore:GetChatManager():QueueCommand(1, '/lockstyleset 200');
 end
 
 --[[
@@ -388,6 +386,7 @@ end
 profile.OnLoad = function()
     gcmelee.Load()
     profile.SetMacroBook()
+    gFunc.LockStyle(profile.Sets.LockStyle);
 end
 
 profile.OnUnload = function()
@@ -411,7 +410,7 @@ profile.HandleDefault = function()
         gcinclude.CurrentLevel = myLevel;
     end
 
-    gcmelee.DoDefault()
+    gcmelee.DoDefault(max_hp_in_idle_with_regen_gear_equipped)
     
     local isWHM = player.SubJob == 'WHM'
     local isRDM = player.SubJob == 'RDM'

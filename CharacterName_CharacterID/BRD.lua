@@ -466,7 +466,7 @@ profile.HandleDefault = function()
         gcinclude.CurrentLevel = myLevel;
     end
 
-    gcmage.DoDefault(nil, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
+    gcmage.DoDefault(sets, nil, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end

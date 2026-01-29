@@ -2,6 +2,8 @@ local profile = {}
 
 local fastCastValue = 0.07 -- 7% from gear listed in Precast set
 
+local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
+
 local use_chaos_burgeonet_for_tp_during_souleater = true
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
@@ -108,6 +110,7 @@ local sets = {
         Hands = 'Homam Manopolas',
         Legs = 'Blood Cuisses',
     },
+    Movement_TP = {},
 
     DT = {
         Head = 'Darksteel Cap +1', -- 2

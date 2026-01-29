@@ -21,10 +21,10 @@ local sets = {
         --Main =  { 'Bourdonasse' },
         Ammo =  { 'Tiphia Sting', 'Civet Sachet', 'Happy Egg' },
         Head =  { 'Homam Zucchetto', 'Wyvern Helm', 'Walkure Mask', 'Empress Hairpin', 'Ryl.Ftm. Bandana' },
-        Neck =  { 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
+        Neck =  { 'Love Torque', 'Peacock Amulet', 'Spike Necklace', 'Wing Pendant' },
         Ear1 =  { 'Brutal Earring', 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
         Ear2 =  { 'Beastly Earring', 'Merman\'s Earring', 'Spike Earring', 'Beetle Earring +1', 'Bone Earring +1' },
-        Body =  { 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
+        Body =  { 'Drachen Mail', 'Scorpion Harness', 'Brigandine', 'Mrc.Cpt. Doublet', 'Beetle Harness +1', 'Bone Harness +1' },
         Hands = { 'Homam Manopolas', 'Drachen Fng. Gnt.', 'Battle Gloves' },
         Ring1 = { 'Toreador\'s Ring', 'Woodsman Ring', 'Venerer Ring', 'Balance Ring +1' },
         Ring2 = { 'Rajas Ring', 'Balance Ring +1' },
@@ -37,6 +37,7 @@ local sets = {
     Resting = {},
     Town = {},
     Movement = {},
+    Movement_TP = {},
 
     DT = {},
     MDT = {},
@@ -61,7 +62,7 @@ local sets = {
     TP_LowAcc = {
         Ammo = 'Tiphia Sting',
         Head = 'Homam Zucchetto',
-        Neck = 'Peacock Amulet',
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',
@@ -78,7 +79,7 @@ local sets = {
     TP_HighAcc = {
         Ammo = 'Tiphia Sting',
         Head = 'Homam Zucchetto',
-        Neck = 'Peacock Amulet',
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',
@@ -94,7 +95,7 @@ local sets = {
     -- throw on everything that has HP+  Listed items will be best HP gear 
     MaxHP = {
         --Ammo = 'Happy Egg',
-        --Head = 'Drachen Armet', --Head = 'Drn. Armet +1', -- A Defensive wyvern will use Healing Breath when HP is at 50% or less.
+          Head = 'Drachen Armet', --Head = 'Drn. Armet +1', -- A Defensive wyvern will use Healing Breath when HP is at 50% or less.
         --Neck = 'Shield Pendant', --Neck = 'Ajase Beads', 
         --Ear1 = 'Ethereal Earring', -- cassie earring hp +50
         --Ear2 = 'Loquac. Earring', -- bloodbead earring hp +25
@@ -131,7 +132,7 @@ local sets = {
     ['Jump'] = {
         Ammo = 'Tiphia Sting',
         Head = 'Wyvern Helm',
-        Neck = 'Peacock Amulet',    --Neck = 'Love Torque',     --Why? Polearm Skill!?
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',  --Body = 'Homam Corazza', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
@@ -146,7 +147,7 @@ local sets = {
     ['Jump Accuracy'] = {
         Ammo = 'Tiphia Sting',
         Head = 'Wyvern Helm',
-        Neck = 'Peacock Amulet',
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',
@@ -162,7 +163,7 @@ local sets = {
     ['High Jump'] = {
         Ammo = 'Tiphia Sting',
         Head = 'Wyvern Helm',
-        Neck = 'Peacock Amulet',    --Neck = 'Love Torque',     --Why? Polearm Skill!?
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',  --Body = 'Homam Corazza', -- use Homam body for the +1% trip att. when that procs you can almost instantly ws.  
@@ -177,7 +178,7 @@ local sets = {
     ['High Jump Accuracy'] = {
         Ammo = 'Tiphia Sting',
         Head = 'Wyvern Helm',
-        Neck = 'Peacock Amulet',
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',
@@ -207,7 +208,7 @@ local sets = {
     WS = {
         Ammo = 'Tiphia Sting',
         Head = 'Wyvern Helm',
-        Neck = 'Peacock Amulet',    --Neck = 'Love Torque',
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',  --Body = 'Hecatomb Harness',
@@ -226,7 +227,7 @@ local sets = {
     ['Penta Thrust'] = {
         Ammo = 'Tiphia Sting',
         Head = 'Wyvern Helm',
-        Neck = 'Peacock Amulet',    --Neck = 'Love Torque',
+        Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
         Body = 'Scorpion Harness',  --Body = 'Hecatomb Harness',

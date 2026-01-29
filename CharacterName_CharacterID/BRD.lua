@@ -66,6 +66,7 @@ local sets = {
     },
     Town = {},
     Movement = {},
+    Movement_TP = {},
 
     DT = {
 		Main = 'Terra\'s Staff',
@@ -485,7 +486,7 @@ profile.HandlePrecast = function()
         totalfcv = 1 - (1 - fastCastValueSong) * (1 - fcv)
     end
 
-    gcmage.DoPrecast(sets, totalfcv)
+    gcmage.DoPrecast(sets, totalfcv, 0)
     if (fcv ~= fastCastValue) then
         gFunc.EquipSet('warlocks_mantle')
     end

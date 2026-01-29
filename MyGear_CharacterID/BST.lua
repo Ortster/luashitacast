@@ -34,6 +34,7 @@ local sets = {
     Resting = {},
     Town = {},
     Movement = {},
+    Movement_TP = {},
 
     DT = {},
     MDT = {},

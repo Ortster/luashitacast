@@ -7,6 +7,9 @@ local blm_advanced = false
 -- Set to true if you have both Dark Earring and Abyssal earring to turn off Diabolos's Earring override for Dark Magic sets
 local dark_and_abyssal_earrings = false
 
+-- Set to true if you wish to always use elemental staves or claustrum for Elemental DoTs.
+local use_staves_for_elemental_debuffs = false
+
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local claustrum = {
     -- Main = 'Claustrum',
@@ -118,7 +121,7 @@ local AliasList = T{
     'mode', -- RDM / WHM / BLM
     'csstun','vert', -- RDM
     'hate', -- RDM / WHM
-    'tp', -- RDM / WHM / BRD / SMN
+    'tp','tptoggle', -- RDM / WHM / BRD / SMN
     'yellow', -- BLM / WHM
     'mb','hnm', -- BLM
     'lag',
@@ -183,6 +186,14 @@ local WeakElementTable = {
     ['Thunder'] = 'Earth',
     ['Light'] = 'Dark',
     ['Dark'] = 'Light'
+}
+
+local tpCycleToggleIndex = 2
+
+local tpCycleToggleIndexTable = {
+    ['Off'] = 2, -- Default into toggling into LowAcc
+    ['LowAcc'] = 2,
+    ['HighAcc'] = 3,
 }
 
 local setMP = 0
@@ -271,6 +282,14 @@ function gcmage.DoCommands(args, sets)
         gcinclude.Message('Magic Mode', gcdisplay.GetCycle('Mode'))
     elseif (args[1] == 'tp' and player.MainJob ~= 'BLM') then
         gcdisplay.AdvanceCycle('TP')
+        gcinclude.Message('TP Mode', gcdisplay.GetCycle('TP'))
+        tpCycleToggleIndex = tpCycleToggleIndexTable[gcdisplay.GetCycle('TP')]
+    elseif (args[1] == 'tptoggle' and player.MainJob ~= 'BLM') then
+        if (gcdisplay.GetCycle('TP') == 'Off') then
+            gcdisplay.SetCycleIndex('TP', tpCycleToggleIndex)
+        else
+            gcdisplay.SetCycleIndex('TP', 1)
+        end
         gcinclude.Message('TP Mode', gcdisplay.GetCycle('TP'))
     elseif (args[1] == 'lag') then
         lag =  not lag
@@ -458,7 +477,7 @@ function gcmage.DoDefault(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
     end
 end
 
-function gcmage.DoPrecast(sets, fastCastValue)
+function gcmage.DoPrecast(sets, fastCastValue, cureCastMeritValue)
     if (not i_can_read_and_follow_instructions_test) then
         print(chat.header('GCMage'):append(chat.message('Failed to follow instructions. Read the README.md')))
     end
@@ -524,7 +543,7 @@ function gcmage.DoPrecast(sets, fastCastValue)
             end
         end
     else
-        gcmage.SetupMidcastDelay(sets, fastCastValue)
+        gcmage.SetupMidcastDelay(sets, fastCastValue, cureCastMeritValue)
     end
 
     if (player.MainJob ~= 'BLM' and gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
@@ -532,7 +551,7 @@ function gcmage.DoPrecast(sets, fastCastValue)
     end
 end
 
-function gcmage.SetupMidcastDelay(sets, fastCastValue)
+function gcmage.SetupMidcastDelay(sets, fastCastValue, cureCastMeritValue)
     local player = gData.GetPlayer()
     local action = gData.GetAction()
     local target = gData.GetActionTarget()
@@ -544,6 +563,7 @@ function gcmage.SetupMidcastDelay(sets, fastCastValue)
     end
     if (player.MainJob == 'WHM') then
         if (string.match(action.Name, 'Cure') or string.match(action.Name, 'Curaga')) then
+            fastCastValue = fastCastValue + cureCastMeritValue
             if (sets.cure_clogs.Feet) then
                 fastCastValue = fastCastValue + 0.15 -- Note, this should actually be 0.13 if you own both Rostrum Pumps and Cure Clogs but whatever, close enough.
                 gFunc.EquipSet('cure_clogs')
@@ -713,7 +733,7 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
 
     if (isNoModSpell) then
         gFunc.EquipSet('Haste')
-        if (action.Skill ~= 'Ninjutsu') then
+        if (action.Skill ~= 'Ninjutsu' and action.Skill ~= 'Singing') then
             gFunc.EquipSet('ConserveMP')
             if (environment.DayElement == 'Water') and (player.MPP <= 85) then
                 if (maxMP == 0 or player.MP < maxMP * 0.85) then
@@ -754,7 +774,7 @@ function gcmage.ShouldSkipCast(maxMP, isNoModSpell)
         end
     end
 
-    if (action.Skill ~= 'Ninjutsu' and player.MPP <= 95) then
+    if (action.Skill ~= 'Ninjutsu' and action.Skill ~= 'Singing' and player.MPP <= 95) then
         gFunc.EquipSet('ConserveMP')
     end
 
@@ -768,9 +788,11 @@ function gcmage.EquipSneakInvisGear()
 
     if (target.Name == me) then
         if (action.Name == 'Sneak' or string.match(action.Name, 'Monomi')) then
+            gFunc.EquipSet('Enhancing')
             gFunc.EquipSet('dream_boots')
             gFunc.EquipSet('skulkers_cape')
         elseif (action.Name == 'Invisible' or string.match(action.Name, 'Tonko')) then
+            gFunc.EquipSet('Enhancing')
             gFunc.EquipSet('dream_mittens')
             gFunc.EquipSet('skulkers_cape')
         end
@@ -1033,24 +1055,26 @@ function gcmage.EquipStaff()
     local environment = gData.GetEnvironment()
     local player = gData.GetPlayer()
 
-    if (action.Skill ~= 'Enhancing Magic' and not ElementalDebuffs:contains(action.Name) and not string.match(action.Name, 'Utsusemi')) then
-        local staff = ElementalStaffTable[action.Element]
-        if (player.MainJob == 'SMN' or player.MainJob == 'BLM') then
-            if (claustrum.Main and action.Skill ~= 'Healing Magic') then
-                staff = 'claustrum'
+    if (action.Skill ~= 'Enhancing Magic' and not string.match(action.Name, 'Utsusemi')) then
+        if (use_staves_for_elemental_debuffs or not ElementalDebuffs:contains(action.Name)) then
+            local staff = ElementalStaffTable[action.Element]
+            if (player.MainJob == 'SMN' or player.MainJob == 'BLM') then
+                if (claustrum.Main and action.Skill ~= 'Healing Magic') then
+                    staff = 'claustrum'
+                end
             end
-        end
-        gFunc.EquipSet(staff)
-
-        if (player.MainJob == 'BLM' and DiabolosPoleSpells:contains(action.Name)) then
-            if (environment.WeatherElement == 'Dark') then
-                gFunc.EquipSet('diabolos_pole')
+            gFunc.EquipSet(staff)
+    
+            if (player.MainJob == 'BLM' and DiabolosPoleSpells:contains(action.Name)) then
+                if (environment.WeatherElement == 'Dark') then
+                    gFunc.EquipSet('diabolos_pole')
+                end
             end
-        end
-        if (player.MainJob == 'WHM' and CureSpells:contains(action.Name)) then
-            gFunc.EquipSet('mjollnir')
-            if (player.SubJob == 'NIN') then
-                gFunc.EquipSet('asklepios')
+            if (player.MainJob == 'WHM' and CureSpells:contains(action.Name)) then
+                gFunc.EquipSet('mjollnir')
+                if (player.SubJob == 'NIN') then
+                    gFunc.EquipSet('asklepios')
+                end
             end
         end
     end

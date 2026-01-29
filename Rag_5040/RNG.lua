@@ -10,6 +10,14 @@ local special_ammo = 'Carapace Bullet'
 local buffer_ranged_attack = 7 -- Time taken for ranged attacks in seconds. Suggested that 7 is used for guns and 6 for bows.
 local buffer_ja_ws = 2
 
+-- Comment out the equipment within these sets if you do not have them or do not wish to use them
+local rng_fenrirs_earring = { -- Used always if active
+    Ear2 = 'Fenrir\'s Earring',
+}
+local rng_fire_ring = { -- Used if active and Ranged is in Attack mode
+    Ring2 = 'Fire Ring',
+}
+
 local sets = {
     Idle = {
         Ammo = 'Silver Bullet',
@@ -18,6 +26,7 @@ local sets = {
     Resting = {},
     Town = {},
     Movement = {},
+    Movement_TP = {},
 
     DT = {},
     MDT = {},
@@ -62,13 +71,23 @@ local sets = {
         Ammo = special_ammo,
     },
 
-    WS = {},
-    WS_HighAcc = {},
+    WS = { -- Technically could be used as the base set for Ranged WS but is probably best used for Melee WS instead e.g. Decimation.
+    },
+    WS_HighAcc = { -- Note that this will only be used for Melee WS when HighAcc tp mode is being used.
+    },
+    
+    WS_Ranged_ACC = {},
+    WS_Ranged_ATK = {},
 
     WS_SlugShot = {},
     WS_Coronach = {},
     WS_Sidewinder = {},
-    WS_NamasArrow = {},
+    WS_NamasArrow = { -- Unable to verify myself on Horizon but Namas Arrow should not use your ammo on use and therefore your special_ammo should be included in this set.
+        Ammo = special_ammo,
+    },
+
+    WS_SJ_SAM = { -- If Brutal or similar is required for Store TP on WS
+    },
 
     Weapon_Loadout_1 = {},
     Weapon_Loadout_2 = {},
@@ -88,7 +107,11 @@ Everything below can be ignored.
 
 gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 
+sets.rng_fenrirs_earring = rng_fenrirs_earring
+sets.rng_fire_ring = rng_fire_ring
 profile.Sets = gcmelee.AppendSets(sets)
+
+local DistanceWS = T{'Flaming Arrow','Piercing Arrow','Dulling Arrow','Sidewinder','Blast Arrow','Arching Arrow','Empyreal Arrow','Refulgent Arrow','Apex Arrow','Namas Arrow','Jishnu\'s Randiance','Hot Shot','Split Shot','Sniper Shot','Slug Shot','Blast Shot','Heavy Shot','Detonator','Numbing Shot','Last Stand','Coronach','Wildfire','Trueflight','Leaden Salute','Myrkr','Dagan','Moonlight','Starlight'};
 
 local UTC_PTR = 0
 
@@ -210,9 +233,18 @@ profile.HandlePreshot = function()
 end
 
 profile.HandleMidshot = function()
+    local environment = gData.GetEnvironment()
+
     gFunc.EquipSet(sets.Ranged_ACC)
     if (gcdisplay.GetCycle('Ranged') == 'Attack') then
         gFunc.EquipSet(sets.Ranged_ATK)
+        if (environment.DayElement == 'Fire') then
+            gFunc.EquipSet(sets.rng_fire_ring)
+        end
+    end
+
+    if (environment.Time < 6 or environment.Time >= 18) then
+        gFunc.EquipSet(sets.fenrirs_earring)
     end
 
     local barrage = gData.GetBuffCount('Barrage')
@@ -228,7 +260,17 @@ end
 profile.HandleWeaponskill = function()
     gcmelee.DoWS()
 
+    local player = gData.GetPlayer()
     local action = gData.GetAction()
+    local environment = gData.GetEnvironment()
+
+    if (DistanceWS:contains(action.Name)) then
+        gFunc.EquipSet(sets.WS_Ranged_ACC)
+        if (gcdisplay.GetCycle('Ranged') == 'Attack') then
+            gFunc.EquipSet(sets.WS_Ranged_ATK)
+        end
+    end
+
     if (action.Name == 'Namas Arrow') then
         gFunc.EquipSet(sets.WS_NamasArrow)
     else
@@ -247,6 +289,19 @@ profile.HandleWeaponskill = function()
             print(chat.header('RNG'):append(chat.message('Action Canceled: Special Ammo Protection')))
             gFunc.CancelAction()
         end
+    end
+
+    if (gcdisplay.GetCycle('Ranged') == 'Attack' and action.Name ~= 'Slug Shot' and action.Name ~= 'Sidewinder') then
+        if (environment.DayElement == 'Fire') then
+            gFunc.EquipSet(sets.rng_fire_ring)
+        end
+    end
+    if (environment.Time < 6 or environment.Time >= 18) then
+        gFunc.EquipSet(sets.fenrirs_earring)
+    end
+
+    if (player.SubJob == 'SAM') then
+        gFunc.EquipSet(sets.WS_SJ_SAM)
     end
 end
 

@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear listed in Precast set. Note: Do NOT include cure clogs / ruckes rung here.
+local cureCastMeritValue = 0.00 -- The Cure Cast Time Merits you have on your character (up to 0.2 in era).
 
 local ninSJMaxMP = nil -- The Max MP you have when /nin in your idle set
 local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
@@ -40,6 +41,7 @@ local sets = {
     Resting = {},
     Town = {},
     Movement = {},
+    Movement_TP = {},
 
     DT = {},
     DTNight = {},
@@ -70,6 +72,7 @@ local sets = {
     Yellow = {},
     Cure = {},
     Cure5 = {},
+    Benediction = {},
     Regen = {
         Body = 'Cleric\'s Bliaut',
     },
@@ -136,6 +139,11 @@ profile.Sets = gcmage.AppendSets(sets)
 
 profile.HandleAbility = function()
     gcmage.DoAbility()
+
+    local action = gData.GetAction()
+    if (action.Name == 'Benediction') then
+        gFunc.EquipSet(sets.Benediction)
+    end
 end
 
 profile.HandleItem = function()
@@ -188,10 +196,10 @@ end
 profile.HandlePrecast = function()
     local player = gData.GetPlayer()
     if (player.SubJob == 'RDM' and warlocks_mantle.Back) then
-        gcmage.DoPrecast(sets, fastCastValue + 0.02)
+        gcmage.DoPrecast(sets, fastCastValue + 0.02, cureCastMeritValue)
         gFunc.EquipSet('warlocks_mantle')
     else
-        gcmage.DoPrecast(sets, fastCastValue)
+        gcmage.DoPrecast(sets, fastCastValue, cureCastMeritValue)
     end
 end
 

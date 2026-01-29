@@ -448,3 +448,24 @@
 ### v2.0.9
 - THF - Add HP Down set for steal
 
+### v2.0.10
+- Mages - Use Enhancing set for sneak / invisible
+
+### v2.0.11
+- BLM - Implements BLM sorceror's earring logic
+- All Jobs - Implements Movement_TP set to better differentiate movement sets when idle vs engaged
+- Mages - Implements /tptoggle command to allow single button toggling between last TP set and Off
+
+### v2.0.12
+- RNG - Implements fenrirs earring
+- RNG - Implements fire ring
+- RNG - Implements WS modifier sets for different accuracy levels on WS
+- RNG - Implements Sam SubJob set on WS for Store TP
+
+### v2.0.13
+- Mages - Adds a variable (use_staves_for_elemental_debuffs) to allow staves or claustrum to be used for elemental debuffs (DoTs)
+- BRD - Prevents ConserveMP set from ever being used for Songs
+- WHM - Adds a Benediction set for max -enmity on usage
+- WHM - Adds a variable (cureCastMeritValue) for merits
+- SMN - Uses both Evokers Boots and Carbuncles Cuffs for spirits since Horizon's "rebase" should fix this
+- SMN - Only use BP_Delay on Blood Pact type job abilities

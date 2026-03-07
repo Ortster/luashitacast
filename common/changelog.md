@@ -473,3 +473,30 @@
 ### v2.0.14
 - Melee - Still uses the DT set for default interim casts of spells but strips any weapons etc. to prevent TP loss. Utsusemi casts etc. still use SIRD.
 - Rebase client takes significantly longer to make job info available to luashitacast resulting in some toggles not being available on initial character log in. This update retries fetching job information until it succeeds to fix this.
+
+### v2.0.15
+- Melee - Fixes issues with muscle_belt, presidential hairpin, and dream ribbon implementation
+
+### v2.0.16
+- WHM - Fixes Yellow set behaviour (medicine ring) from throwing errors.
+
+### v2.0.17
+- SMN - Adds a BP_Healing set if -enmity desired for Healing Ruby etc.
+- WHM - Adds config options to enable correct usage of medicine ring when in max mp set.
+- BST, THF, WAR, Mages - Fixes TP_NIN set behaviour so that TP_NIN is only equipped if the offhand (Sub) is a 1h weapon. 
+                       - In the case of WAR, removes DW entirely to automate this behaviour and renames the SAM set to TP_SAM for consistency.
+
+### v2.0.18
+- WHM - Fixes virology ring usage when at max Idle mp similar to medicine ring.
+- Mages  / BST (Gaudy Harness) - Optimizes override sets e.g. FireRes etc. to take priority over similar to Melee jobs
+- BRD - Implements Gaudy Harness
+- NIN - Implements Bat Earrings (gated via horizon_safe_mode)
+
+### v2.0.19
+- THF - Fixes Auto-TH for abilities and ranged attacks after Horizon -> LSB rebase
+
+### v2.0.20
+- THF - Adds a None ranged attack set for use where no xbow ranged attacks are expected to be used. e.g. Bomb Core
+
+### v2.1.0
+- All Jobs - Implements ranged attacks. A preshot set is provided as well but has no utility without access to Snapshot equipment ToAU+

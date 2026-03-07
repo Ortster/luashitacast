@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.42 -- 20% from traits 22% from gear listed in Precast set
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local ninSJMaxMP = 583 -- The Max MP you have when /nin in your idle set
 local whmSJMaxMP = 661 -- The Max MP you have when /whm in your idle set
@@ -669,7 +670,6 @@ local sets = {
         Ammo = 'displaced',
     },
 
-    -- Disabled on horizon_safe_mode
     FencersRingHPDown = { -- 899 - Set to force HP to or below fencersRingMaxHP
         Range = 'Lightning Bow +1',
         Head = 'Zenith Crown +1',
@@ -686,6 +686,9 @@ local sets = {
         Legs = 'Dst. Subligar +1',
         Feet = 'Mahatma Pigaches',
     },
+
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
+    Ranged = {},
 }
 
 profile.SetMacroBook = function()
@@ -718,9 +721,11 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gcmage.DoPreshot(sets.Preshot, gFunc.Combine(sets.Preshot, sets.Ranged), snapShotValue)
 end
 
 profile.HandleMidshot = function()
+    gcmage.DoMidshot(sets, gFunc.Combine(sets.Preshot, sets.Ranged))
 end
 
 profile.HandleWeaponskill = function()
@@ -788,6 +793,8 @@ profile.HandleDefault = function()
     if (player.MP <= 50) then
         gFunc.EquipSet('blue_cotehardie_plus_one')
     end
+
+    gcmage.DoDefaultOverride()
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end

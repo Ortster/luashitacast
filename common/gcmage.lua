@@ -1,3 +1,10 @@
+-- The period of time prior to midcast (spell) completion upon which equipment will swap. 
+-- 400 milliseconds is provided as a default conservative value which is typically sufficient worldwide but this value can be increased if your internet is completely and consistently shit.
+local minimumBuffer = 0.4
+
+-- Change this value to 0.4 if you do not use PacketFlow
+local packetDelay = 0.25
+
 -- Set to true if you want messages every time Mst.Cst. Bracelets are used.
 local log_conquest = false
 
@@ -10,6 +17,10 @@ local dark_and_abyssal_earrings = false
 -- Set to true if you wish to always use elemental staves or claustrum for Elemental DoTs.
 local use_staves_for_elemental_debuffs = false
 
+-- Set to 0 to 50 depending on the mp lost when using medicine ring or virology ring on IdleMaxMP set.
+local medicine_ring_mp_deficit = 50
+local virology_ring_mp_deficit = 50
+
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local claustrum = {
     -- Main = 'Claustrum',
@@ -17,27 +28,35 @@ local claustrum = {
 
 local fire_staff = {
     -- Main = 'Vulcan\'s Staff',
+    -- Sub = 'displaced',
 }
 local earth_staff = {
     -- Main = 'Terra\'s Staff',
+    -- Sub = 'displaced',
 }
 local water_staff = {
     -- Main = 'Neptune\'s Staff',
+    -- Sub = 'displaced',
 }
 local wind_staff = {
     -- Main = 'Auster\'s Staff',
+    -- Sub = 'displaced',
 }
 local ice_staff = {
     -- Main = 'Aquilo\'s Staff',
+    -- Sub = 'displaced',
 }
 local thunder_staff = {
     -- Main = 'Jupiter\'s Staff',
+    -- Sub = 'displaced',
 }
 local light_staff = {
     -- Main = 'Apollo\'s Staff',
+    -- Sub = 'displaced',
 }
 local dark_staff = {
     -- Main = 'Pluto\'s Staff',
+    -- Sub = 'displaced',
 }
 
 local karin_obi = {
@@ -445,16 +464,24 @@ function gcmage.DoDefault(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
                 gFunc.EquipSet('TP_HighAcc')
             end
             if (player.SubJob == 'NIN') then
-                gFunc.EquipSet('TP_NIN')
+                local sub = gData.GetEquipment().Sub
+                if (sub ~= nil) then
+                    if (sub.Resource.Slots == 3) then -- if this is a 1h weapon
+                        gFunc.EquipSet('TP_NIN')
+                    end
+                end
             end
             if (player.MainJob == 'RDM' and player.HPP <= 75 and player.TP <= 1000) then
                 gFunc.EquipSet('tp_fencers_ring')
             end
         end
     end
+end
 
+function gcmage.DoDefaultOverride()
     gcinclude.DoDefaultOverride(false)
 
+    local player = gData.GetPlayer()
     if (player.Status == 'Resting') then
         lastSummoningElement = ''
         if (player.SubJob == 'BLM') then
@@ -527,16 +554,16 @@ function gcmage.DoPrecast(sets, fastCastValue, cureCastMeritValue)
         if (blmYellow or whmYellow) then
             local yellow = sets.Yellow
             local yellowHNM = sets.YellowHNM
+
             if (yellowAdvanced) then
                 yellow = yellowAdvanced
                 yellowHNM = yellowAdvanced
             end
 
             if (whmYellow) then
-                if (player.MainJob ~= 'BLM' and gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
+                if (gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
                     local weapon = sets['Weapon_Loadout_' .. WeaponOverrideTable[weapon_override]]
                     yellow = gFunc.Combine(yellow, weapon)
-                    yellowHNM = gFunc.Combine(yellowHNM, weapon)
                 end
             end
 
@@ -583,8 +610,6 @@ function gcmage.SetupMidcastDelay(sets, fastCastValue, cureCastMeritValue)
     if (action.Skill == 'Divine Magic' and action.Name == 'Banish III') then
         castTime = 3000
     end
-    local minimumBuffer = 0.4 -- Can be lowered to 0.1 if you want
-    local packetDelay = 0.25 -- Change this to 0.4 if you do not use PacketFlow
     local castDelay = ((castTime * (1 - fastCastValue)) / 1000) - minimumBuffer
     if (castDelay >= packetDelay) then
         gFunc.SetMidDelay(castDelay)
@@ -651,10 +676,9 @@ function gcmage.SetupMidcastDelay(sets, fastCastValue, cureCastMeritValue)
             end
 
             if (whmYellow) then
-                if (player.MainJob ~= 'BLM' and gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
+                if (gcdisplay.GetCycle('TP') ~= 'Off' and (player.Status == 'Engaged' or player.TP > 0)) then
                     local weapon = sets['Weapon_Loadout_' .. WeaponOverrideTable[weapon_override]]
                     yellow = gFunc.Combine(yellow, weapon)
-                    yellowHNM = gFunc.Combine(yellowHNM, weapon)
                 end
             end
 
@@ -745,6 +769,9 @@ function gcmage.DoMidcast(sets, ninSJMMP, whmSJMMP, blmSJMMP, rdmSJMMP, drkSJMMP
             end
         end
         gcmage.EquipSneakInvisGear()
+        if (player.MainJob == 'WHM' and (string.match(action.Name, '.*na$') or (action.Name == 'Erase'))) then
+            gFunc.EquipSet('virology_ring')
+        end
     end
 
     gcmage.EquipStaff()
@@ -769,10 +796,23 @@ function gcmage.ShouldSkipCast(maxMP, isNoModSpell)
     if (isNoModSpell) then
         skipCast_Spell = true
         gcmage.EquipSneakInvisGear()
-    end
-    if (CureSpells:contains(action.Name)) then
+        if (player.MainJob == 'WHM' and (string.match(action.Name, '.*na$') or (action.Name == 'Erase'))) then
+            local mpDeficit = player.MaxMP - player.MP
+            if (mpDeficit <= virology_ring_mp_deficit) then
+                gFunc.EquipSet('virology_ring')
+            end
+        end
+    elseif (CureSpells:contains(action.Name)) then
         if (gcdisplay.GetToggle('Hate') == false) then
             skipCast_Spell = true
+            if (player.MainJob == 'WHM' and player.TP <= 1000) then
+                if (player.HPP <= 75 or gcdisplay.GetToggle('Yellow') == true) then
+                    local mpDeficit = player.MaxMP - player.MP
+                    if (mpDeficit <= medicine_ring_mp_deficit) then
+                        gFunc.EquipSet('medicine_ring')
+                    end
+                end
+            end
             gcmage.EquipStaff()
         end
     end
@@ -802,6 +842,46 @@ function gcmage.EquipSneakInvisGear()
     end
 end
 
+function gcmage.DoPreshot(preshotSet, rangedSet, snapShotValue)
+    gFunc.EquipSet(gFunc.Combine(rangedSet, preshotSet))
+
+    if (not lag) then
+        local rangedString = rangedSet.Range
+        if (rangedString == nil or rangedString == 'displaced' or rangedString == 'empty' or rangedString == 'remove'or rangedString == '') then
+            rangedString = rangedSet.Ammo
+        end
+
+        if (rangedString ~= nil) then
+            local item = AshitaCore:GetResourceManager():GetItemByName(rangedString, 0)
+            if (item ~= nil) then
+                local delay = item.Delay
+
+                -- print(chat.header('Ashitacast'):append(chat.message('Delay is ' .. tostring(delay))))
+
+                local player = gData.GetPlayer()
+                if (player.MainJob == 'RNG' or player.SubJob == "RNG") then
+                    return
+                end
+
+                local shotTime = (delay * 1000) / 120
+
+                local shotDelay = ((shotTime * (1 - snapShotValue)) / 1000) - minimumBuffer
+                if (shotDelay >= packetDelay) then
+                    gFunc.SetMidDelay(shotDelay)
+                end
+            end
+        end
+    end
+end
+
+function gcmage.DoMidshot(sets, rangedSet)
+    gFunc.EquipSet(rangedSet)
+
+    if (not lag) then
+        gcmage.SetupInterimEquipSet(sets)
+    end
+end
+
 function gcmage.SetupInterimEquipSet(sets)
     local environment = gData.GetEnvironment()
     local player = gData.GetPlayer()
@@ -821,6 +901,9 @@ function gcmage.SetupInterimEquipSet(sets)
     if (gcdisplay.IdleSet == 'IceRes') then interimSet = sets.IceRes end
     if (gcdisplay.IdleSet == 'LightningRes') then interimSet = sets.LightningRes end
     if (gcdisplay.IdleSet == 'EarthRes') then interimSet = sets.EarthRes end
+    if (gcdisplay.IdleSet == 'WindRes') then interimSet = sets.WindRes end
+    if (gcdisplay.IdleSet == 'WaterRes') then interimSet = sets.WaterRes end
+    if (gcdisplay.IdleSet == 'Evasion') then interimSet = sets.Evasion end
 
     if (SurvivalSpells:contains(action.Name)) then
         interimSet = sets.SIRD

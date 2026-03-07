@@ -3,6 +3,8 @@ local profile = {}
 local fastCastValue = 0.04 -- Only include Fast Cast e.g. Loquacious Earring, Rostrum Pumps
 local fastCastValueSong = 0.37 -- Only include Song Spellcasting Time e.g. Minstrel's Ring, Sha'ir Manteel
 
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
+
 local whmSJMaxMP = 233 -- The Max MP you have when /whm in your idle set
 local rdmSJMaxMP = nil -- The Max MP you have when /rdm in your idle set
 local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
@@ -10,6 +12,9 @@ local blmSJMaxMP = nil -- The Max MP you have when /blm in your idle set
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local warlocks_mantle = { -- Don't add 2% to fastCastValue for this as it is SJ dependant
     Back = 'Warlock\'s Mantle',
+}
+local gaudy_harness = {
+    -- Body = 'Gaudy Harness',
 }
 
 local sets = {
@@ -385,6 +390,11 @@ local sets = {
     },
     Weapon_Loadout_2 = {},
     Weapon_Loadout_3 = {},
+
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
+    Ranged = {
+        Ammo = 'Pebble',
+    },
 }
 
 profile.SetMacroBook = function()
@@ -401,6 +411,7 @@ Everything below can be ignored.
 gcmage = gFunc.LoadFile('common\\gcmage.lua')
 
 sets.warlocks_mantle = warlocks_mantle
+sets.gaudy_harness = gaudy_harness
 profile.Sets = gcmage.AppendSets(sets)
 
 profile.HandleAbility = function()
@@ -412,9 +423,11 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gcmage.DoPreshot(sets.Preshot, gFunc.Combine(sets.Preshot, sets.Ranged), snapShotValue)
 end
 
 profile.HandleMidshot = function()
+    gcmage.DoMidshot(sets, gFunc.Combine(sets.Preshot, sets.Ranged))
 end
 
 profile.HandleWeaponskill = function()
@@ -458,8 +471,18 @@ profile.HandleCommand = function(args)
     end
 end
 
+local MPJobs = T{ 'RDM','BLM','WHM','SMN' }
+
 profile.HandleDefault = function()
     gcmage.DoDefault(sets, nil, whmSJMaxMP, blmSJMaxMP, rdmSJMaxMP, nil)
+
+    local player = gData.GetPlayer()
+    local isMPSJ = MPJobs:contains(player.SubJob)
+    if (player.MP < 50 and isMPSJ) then
+        gFunc.EquipSet('gaudy_harness')
+    end
+
+    gcmage.DoDefaultOverride()
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end

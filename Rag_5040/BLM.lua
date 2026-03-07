@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.04 -- 4% from gear listed in Precast set
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local ninSJMaxMP = 650 -- The Max MP you have when /nin in your idle set
 local whmSJMaxMP = 728 -- The Max MP you have when /whm in your idle set
@@ -28,6 +29,7 @@ local sorcerers_tonban = {
     Legs = 'Src. Tonban +1',
 }
 
+-- Disabled on horizon_safe_mode
 local sorcerers_earring_hp_threshold = 360 -- HP at which Sorcerer's Earring set is equipped
 local sorcerers_earring = { -- 1440
     Main = 'Terra\'s Staff',
@@ -261,22 +263,8 @@ local sets = {
         Back = 'Umbra Cape',
     },
     Yellow = { -- This will override Precast if /lag is turned on or the spell casting time is too short. e.g. Tier 1: "Stone"
-        Ammo = 'Tiphia Sting', -- 25
-        Head = 'Zenith Crown +1', -- 55
-        Neck = 'Jeweled Collar +1',
-        Ear1 = 'Loquac. Earring', 
-        Ear2 = 'Magnetic Earring',
-        Body = 'Mahatma Hpl.',
-        Hands = 'Zenith Mitts +1', -- 55
-        Ring1 = 'Ether Ring', -- 30
-        Ring2 = 'Serket Ring', -- 50
-        Back = { Name = 'Prism Cape', Priority = 100 }, -- -10
-        Waist = { Name = 'Penitent\'s Rope', Priority = -100 }, -- 20
-        Legs = 'Igqira Lappas',
-        Feet = 'Rostrum Pumps', -- 30
     },
     YellowHNM = {
-        Back = 'Umbra Cape',
     },
     Haste = { -- Used only on Haste, Refresh, Blink and Utsusemi casts
         Head = 'Nashira Turban', -- 2
@@ -540,6 +528,11 @@ local sets = {
         Back = 'Mahatma Cape',
     },
 
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
+    Ranged = {
+        Ammo = 'Pebble',
+    },
+
     LockSet1 = {},
     LockSet2 = {},
     LockSet3 = {},
@@ -576,9 +569,11 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gcmage.DoPreshot(sets.Preshot, gFunc.Combine(sets.Preshot, sets.Ranged), snapShotValue)
 end
 
 profile.HandleMidshot = function()
+    gcmage.DoMidshot(sets, gFunc.Combine(sets.Preshot, sets.Ranged))
 end
 
 profile.HandleWeaponskill = function()
@@ -624,6 +619,8 @@ profile.HandleDefault = function()
             gFunc.EquipSet('sorcerers_earring')
         end
     end
+
+    gcmage.DoDefaultOverride()
 
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end

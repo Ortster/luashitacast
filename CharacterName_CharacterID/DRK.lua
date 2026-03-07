@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.07 -- 7% from gear listed in Precast set
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
 
@@ -35,7 +36,7 @@ local anrin_obi = {
 local parade_gorget = {
     Neck = 'Parade Gorget',
 }
-local fenrirs_stone = {
+local fenrirs_stone = { -- Used on /evasion for Zergs. See Evasion set / README.md
     Ammo = 'Fenrir\'s Stone',
 }
 
@@ -73,7 +74,7 @@ local sets = {
         Legs = 'Dst. Subligar +1',
         Feet = 'Dst. Leggings +1',
     },
-    IdleDT = {
+    IdleDT = { -- Disabled on horizon_safe_mode
         Head = 'Darksteel Cap +1', -- 2
         Neck = 'Evasion Torque',
         Ear1 = 'Merman\'s Earring',
@@ -87,7 +88,7 @@ local sets = {
         Legs = 'Dst. Subligar +1', -- 3
         Feet = 'Dst. Leggings +1', -- 2
     },
-    IdleALTDT = { -- 1365
+    IdleALTDT = { -- Disabled on horizon_safe_mode -- 1365
         Head = 'Darksteel Cap +1', -- 2
         Neck = 'Evasion Torque',
         Ear1 = 'Merman\'s Earring',
@@ -386,6 +387,11 @@ local sets = {
     },
     Weapon_Loadout_2 = {},
     Weapon_Loadout_3 = {},
+
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
+    Ranged = {
+        Ammo = 'Pebble',
+    },
 }
 
 profile.SetMacroBook = function()
@@ -456,9 +462,11 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gcmelee.DoPreshot(sets.Preshot, gFunc.Combine(sets.Preshot, sets.Ranged), snapShotValue)
 end
 
 profile.HandleMidshot = function()
+    gcmelee.DoMidshot(sets, gFunc.Combine(sets.Preshot, sets.Ranged))
 end
 
 profile.HandleWeaponskill = function()

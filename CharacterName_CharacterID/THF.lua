@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear listed in Precast set
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
 
@@ -48,7 +49,7 @@ local sets = {
     TA = {},
     SATA = {},
 
-    -- The following demonstrates layering of WS sets that should cover all debatable major WS combinations.
+    -- The following demonstrates layering of WS sets that should cover all debatable major WS combinations
     WS = {
 		Head = 'Maat\'s Cap',
 		Neck = 'Love Torque',
@@ -113,6 +114,7 @@ local sets = {
 
     TH = {},
 
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
     Ranged = {},
     Ranged_INT = {},
 
@@ -130,6 +132,10 @@ local sets = {
     },
     Venom = {
         Ammo = 'Venom Bolt',
+    },
+    None = {
+        Range = 'displaced',
+        Ammo = 'Bomb Core',
     },
 
     Weapon_Loadout_1 = {},
@@ -153,7 +159,7 @@ gcmelee = gFunc.LoadFile('common\\gcmelee.lua')
 sets.evasion_master_casters_mitts = evasion_master_casters_mitts
 profile.Sets = gcmelee.AppendSets(sets)
 
-local ammo = T{'aacid','asleep','abloody','ablind','avenom'}
+local ammo = T{'aacid','asleep','abloody','ablind','avenom','anone'}
 
 local AmmoTable1 = {
     [1] = 'Acid',
@@ -161,6 +167,7 @@ local AmmoTable1 = {
     [3] = 'Bloody',
     [4] = 'Blind',
     [5] = 'Venom',
+    [6] = 'None',
 }
 local AmmoTable2 = {
     ['acid'] = 1,
@@ -168,6 +175,7 @@ local AmmoTable2 = {
     ['bloody'] = 3,
     ['blind'] = 4,
     ['venom'] = 5,
+    ['none'] = 6,
 }
 
 local saOverride = 0
@@ -204,18 +212,22 @@ profile.HandleItem = function()
     gcinclude.DoItem()
 end
 
+profile.getRangedSet = function()
+    local rangedSet = gFunc.Combine(sets.Preshot, sets.Ranged)
+
+    if (gcdisplay.GetCycle('Ammo') == 'Bloody') then
+        rangedSet = gFunc.Combine(rangedSet, sets.Ranged_INT)
+    end
+
+    return gFunc.Combine(rangedSet, sets[gcdisplay.GetCycle('Ammo')])
+end
+
 profile.HandlePreshot = function()
-	gFunc.EquipSet(sets[gcdisplay.GetCycle('Ammo')]);
+    gcmelee.DoPreshot(sets.Preshot, profile.getRangedSet(), snapShotValue)
 end
 
 profile.HandleMidshot = function()
-    gFunc.EquipSet(sets.Ranged)
-
-    local ammo = gData.GetEquipment().Ammo
-    if (ammo ~= nil and ammo.Name == 'Bloody Bolt') then
-        gFunc.EquipSet(sets.Ranged_INT)
-    end
-
+    gcmelee.DoMidshot(sets, profile.getRangedSet())
     if (profile.NeedTH()) then
         gFunc.EquipSet(sets.TH)
     end
@@ -311,8 +323,15 @@ profile.HandleDefault = function()
 
     local player = gData.GetPlayer()
     if (player.SubJob == 'NIN' and player.Status == 'Engaged') then
-        gFunc.EquipSet('TP_NIN')
+        local sub = gData.GetEquipment().Sub
+        if (sub ~= nil) then
+            if (sub.Resource.Slots == 3) then -- if this is a 1h weapon
+                gFunc.EquipSet('TP_NIN')
+            end
+        end
     end
+
+    gFunc.EquipSet(sets[gcdisplay.GetCycle('Ammo')])
 
     gcmelee.DoDefaultOverride()
 
@@ -340,7 +359,6 @@ end
 
 profile.HandlePrecast = function()
     gcmelee.DoPrecast(fastCastValue)
-	gFunc.EquipSet(sets[gcdisplay.GetCycle('Ammo')]);
 end
 
 profile.HandleMidcast = function()
@@ -386,18 +404,28 @@ profile.WatchTreasureHunter = function()
         end
 
         if (e.id == 0x28) then
-            local type = T { 1, 2, 4, 6 };
+            local type = { 
+                [1] = true, -- Attack
+                [2] = true, -- Ranged Attack
+                [3] = true, -- Ability 
+                [4] = true, 
+                [6] = true -- Also ability? (Provoke)
+            };
             local packet = actionpacket:parse(e);
             if (packet.UserId == playerEntity.ServerId) then
-                if (type:contains(packet.Type)) then
-                    local reaction = T { 0, 8, 
-                        9, -- melee/range attack missed, comment out for pedantic TH mode
+                if (type[packet.Type]) then
+                    local reaction = { 
+                        [0] = true, -- Spell Hit / ???
+                        [8] = true, -- Attack Hit/Miss
+                        [9] = true, -- Legacy
+                        [16] = true, -- Range Attack Hit / Provoke ?
+                        [17] = true, -- Range Attack Miss
                     }
                     for _, target in ipairs(packet.Targets) do
                         for i = 1, #target.Actions do
                             local action = target.Actions[1]
                             if bit.band(target.Id, 0xFF000000) ~= 0 then -- isMob, also triggers on NPC but it's benign
-                                if reaction:contains(action.Reaction) and target.Id then
+                                if (packet.Type == 3 or reaction[action.Reaction]) and target.Id then
                                     taggedMobs[target.Id] = true;
                                 end
                             end

@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.00 -- 0% from gear listed in Precast set
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
 
@@ -111,7 +112,7 @@ local sets = {
 
     -- Heal / Steady Wing based on WyvMaxHP
     BreathBonus = {
-        Head = 'Drachen Armet', --Head = 'Wym. Armet +1', -- +66.7% Healing Breath bonus
+        Head = 'Wym. Armet +1', -- +66.7% Healing Breath bonus
         Body = 'Wyvern Mail', -- (wyvern hp+10%)
       --Hands = 'Ostreger Mitts', -- (wyvern hp+10) 
         Legs = 'Drachen Brais', --Legs = 'Drn. Brais +1', -- (wyvern hp+15%)
@@ -120,7 +121,7 @@ local sets = {
 
     -- For Damage Bonus when /DD, only helm
     BreathBonus_NonMage = {
-        Head = 'Drachen Armet', --Head = 'Wym. Armet +1', -- Elemental Breath roughly a 16.5% increase.
+        Head = 'Wym. Armet +1', -- Elemental Breath roughly a 16.5% increase.
     },
 
     Stoneskin = {},
@@ -131,7 +132,7 @@ local sets = {
 
     ['Jump'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -146,7 +147,7 @@ local sets = {
     },
     ['Jump Accuracy'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -162,7 +163,7 @@ local sets = {
 
     ['High Jump'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -177,7 +178,7 @@ local sets = {
     },
     ['High Jump Accuracy'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -207,7 +208,7 @@ local sets = {
 
     WS = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -226,7 +227,7 @@ local sets = {
     -- Acc WS
     ['Penta Thrust'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Love Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -243,7 +244,7 @@ local sets = {
     -- STR WS
     ['Wheeling Thrust'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Light Gorget',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -260,7 +261,7 @@ local sets = {
     -- STR WS
     ['Impulse Drive'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Spike Necklace',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -277,7 +278,7 @@ local sets = {
     -- STR WS
     ['Skewer'] = {
         Ammo = 'Tiphia Sting',
-        Head = 'Wyvern Helm',
+        Head = 'Wym. Armet +1',
         Neck = 'Light Gorget',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Beastly Earring',
@@ -298,7 +299,10 @@ local sets = {
     Weapon_Loadout_3 = {
         Main = 'Bourdonasse'
     },
-    
+
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
+    Ranged = {},
+
     LockStyle = {
         Main = 'Orichalcum Lance',
         -- Sub = '',
@@ -370,9 +374,11 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gcmelee.DoPreshot(sets.Preshot, gFunc.Combine(sets.Preshot, sets.Ranged), snapShotValue)
 end
 
 profile.HandleMidshot = function()
+    gcmelee.DoMidshot(sets, gFunc.Combine(sets.Preshot, sets.Ranged))
 end
 
 profile.HandleWeaponskill = function()

@@ -1,6 +1,7 @@
 local profile = {}
 
 local fastCastValue = 0.04 -- 4% from gear listed in Precast set not including carbuncles cuffs or evokers boots
+local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local cureMP = 895 -- Cure set max MP
 
@@ -55,7 +56,8 @@ local sets = {
         Feet = 'Evk. Pigaches +1',
     },
     IdleALT = {},
-    IdleMaxMP = {},
+    IdleMaxMP = { -- Technically could still be used via /setmp etc...
+    },
     Resting = {
         Main = 'Pluto\'s Staff',
         Head = 'Hydra Beret',
@@ -297,9 +299,6 @@ local sets = {
     LockSet2 = {},
     LockSet3 = {},
 
-    FallbackSub = { -- Used only when you do not have complete staff sets
-    },
-
     BP_Delay = {
         Head = 'Summoner\'s Horn',
         Legs = 'Summoner\'s Spats',
@@ -337,6 +336,8 @@ local sets = {
     },
     BP_Hybrid = {
     },
+    BP_Healing = {
+    },
 
     TP = {
         Ring1 = 'Jelly Ring',
@@ -353,7 +354,6 @@ local sets = {
     Weapon_Loadout_2 = {},
     Weapon_Loadout_3 = {},
 
-    -- Disabled on horizon_safe_mode
     ConjurersRingHPDown = { -- 730 - Set to force HP below conjurersRingMaxHP. Note that /WHM provides regen so this is preferably at least 10 or more below.
         Main = 'Terra\'s Staff',
         Ammo = 'Hedgehog Bomb',
@@ -369,6 +369,11 @@ local sets = {
         Waist = 'Penitent\'s Rope',
         Legs = 'Evk. Spats +1',
         Feet = 'Rostrum Pumps',
+    },
+
+    Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
+    Ranged = {
+        Ammo = 'Pebble',
     },
 }
 
@@ -396,8 +401,8 @@ sets.conjurers_ring = conjurers_ring
 sets.bahamuts_staff = bahamuts_staff
 profile.Sets = gcmage.AppendSets(sets)
 
-local SmnSkill = T{'Shining Ruby','Glittering Ruby','Crimson Howl','Inferno Howl','Frost Armor','Crystal Blessing','Aerial Armor','Hastega II','Fleet Wind','Hastega','Earthen Ward','Earthen Armor','Rolling Thunder','Lightning Armor','Soothing Current','Ecliptic Growl','Heavenward Howl','Ecliptic Howl','Noctoshield','Dream Shroud','Altana\'s Favor','Reraise','Reraise II','Reraise III','Raise','Raise II','Raise III','Wind\'s Blessing'}
-local SmnHealing = T{'Healing Ruby','Healing Ruby II','Whispering Wind','Spring Water'}
+local SmnSkill = T{'Shining Ruby','Glittering Ruby','Crimson Howl','Inferno Howl','Frost Armor','Crystal Blessing','Aerial Armor','Hastega II','Fleet Wind','Hastega','Earthen Ward','Earthen Armor','Rolling Thunder','Lightning Armor','Soothing Current','Ecliptic Growl','Heavenward Howl','Ecliptic Howl','Noctoshield','Dream Shroud','Altana\'s Favor','Reraise','Reraise II','Reraise III','Raise','Raise II','Raise III','Wind\'s Blessing','Spring Water'}
+local SmnHealing = T{'Healing Ruby','Healing Ruby II','Whispering Wind'}
 local SmnMagical = T{'Searing Light','Meteorite','Holy Mist','Inferno','Fire II','Fire IV','Meteor Strike','Conflag Strike','Diamond Dust','Blizzard II','Blizzard IV','Heavenly Strike','Aerial Blast','Aero II','Aero IV','Wind Blade','Earthen Fury','Stone II','Stone IV','Geocrush','Judgement Bolt','Thunder II','Thunder IV','Thunderstorm','Thunderspark','Tidal Wave','Water II','Water IV','Grand Fall','Howling Moon','Lunar Bay','Ruinous Omen','Somnolence','Nether Blast','Night Terror','Level ? Holy'}
 local SmnEnfeebling = T{'Diamond Storm','Sleepga','Shock Squall','Slowga','Tidal Roar','Pavor Nocturnus','Ultimate Terror','Nightmare','Mewing Lullaby','Eerie Eye'}
 local SmnHybrid = T{'Flaming Crush','Burning Strike'}
@@ -418,9 +423,11 @@ profile.HandleItem = function()
 end
 
 profile.HandlePreshot = function()
+    gcmage.DoPreshot(sets.Preshot, gFunc.Combine(sets.Preshot, sets.Ranged), snapShotValue)
 end
 
 profile.HandleMidshot = function()
+    gcmage.DoMidshot(sets, gFunc.Combine(sets.Preshot, sets.Ranged))
 end
 
 profile.HandleWeaponskill = function()
@@ -452,9 +459,6 @@ profile.HandleDefault = function()
     local player = gData.GetPlayer()
     local myLevel = player.MainJobSync;
     
-    if (gcinclude.ManualLevel ~= nil) then
-        myLevel = gcinclude.ManualLevel;
-    end
     if (myLevel ~= gcinclude.CurrentLevel) then
         gFunc.EvaluateLevels(profile.Sets, myLevel);
         gcinclude.CurrentLevel = myLevel;
@@ -464,7 +468,6 @@ profile.HandleDefault = function()
     if (petAction ~= nil) then
         gFunc.EquipSet('BP')
 
-        -- Era provides near zero gear options so almost all of these just default to the default BP set or Magical
         if (SmnSkill:contains(petAction.Name)) then
             -- Do Nothing
         elseif (SmnMagical:contains(petAction.Name)) then
@@ -472,7 +475,7 @@ profile.HandleDefault = function()
         elseif (SmnHybrid:contains(petAction.Name)) then
             gFunc.EquipSet(sets.BP_Hybrid)
         elseif (SmnHealing:contains(petAction.Name)) then
-            -- Do Nothing
+            gFunc.EquipSet(sets.BP_Healing)
         elseif (SmnEnfeebling:contains(petAction.Name)) then
             gFunc.EquipSet(sets.BP_Magical)
         else
@@ -491,6 +494,7 @@ profile.HandleDefault = function()
         end
 
         gcmage.DoDefault(sets, nil, nil, nil, nil, nil)
+        gcmage.DoDefaultOverride()
     end
     gFunc.EquipSet(gcinclude.BuildLockableSet(gData.GetEquipment()))
 end

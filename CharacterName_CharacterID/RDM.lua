@@ -9,7 +9,7 @@ local blmSJMaxMP = 680 -- The Max MP you have when /blm in your idle set
 local drkSJMaxMP = 604 -- The Max MP you have when /drk in your idle set
 
 -- Disabled on horizon_safe_mode
-local fencersRingForced = true
+local fencersRingForced = true -- Default /fring value
 local fencersRingMaxHP = 907
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
@@ -689,6 +689,8 @@ local sets = {
 
     Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
     Ranged = {},
+
+    VileElixir = {},
 }
 
 profile.SetMacroBook = function()
@@ -756,16 +758,30 @@ profile.HandleWeaponskill = function()
 end
 
 profile.OnLoad = function()
+    if (not gcinclude.horizon_safe_mode) then
+        gcinclude.SetAlias(T{'fring'})
+        gcdisplay.CreateToggle('F-Ring', fencersRingForced)
+    end
+
     gcmage.Load()
     profile.SetMacroBook()
 end
 
 profile.OnUnload = function()
     gcmage.Unload()
+
+    if (not gcinclude.horizon_safe_mode) then
+        gcinclude.ClearAlias(T{'fring'})
+    end
 end
 
 profile.HandleCommand = function(args)
-    gcmage.DoCommands(args, sets)
+    if (args[1] == 'fring') then
+        gcdisplay.AdvanceToggle('F-Ring')
+        gcinclude.Message('Fencer\'s Ring', gcdisplay.GetToggle('F-Ring'))
+    else
+        gcmage.DoCommands(args, sets)
+    end
 
     if (args[1] == 'horizonmode') then
         profile.HandleDefault()
@@ -782,7 +798,7 @@ profile.HandleDefault = function()
     end
 
     if (not gcinclude.horizon_safe_mode) then
-        if (fencersRingForced and gcdisplay.GetCycle('TP') ~= 'Off' and player.HP > fencersRingMaxHP and player.Status == 'Engaged') then
+        if (gcdisplay.GetToggle('F-Ring') and gcdisplay.GetCycle('TP') ~= 'Off' and player.HP > fencersRingMaxHP and player.Status == 'Engaged') then
             local time = os.clock()
             if (time > nextFencersRingCheck) then
                 nextFencersRingCheck = time + 2 -- only recheck again after 2 seconds to prevent spam if set up incorrectly

@@ -6,7 +6,7 @@ local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 local cureMP = 895 -- Cure set max MP
 
 -- Disabled on horizon_safe_mode
-local conjurersRingForced = true
+local conjurersRingForced = true -- Default /cring value
 local conjurersRingMaxHP = 737
 
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
@@ -375,6 +375,8 @@ local sets = {
     Ranged = {
         Ammo = 'Pebble',
     },
+
+    VileElixir = {},
 }
 
 profile.SetMacroBook = function()
@@ -439,16 +441,30 @@ profile.HandleWeaponskill = function()
 end
 
 profile.OnLoad = function()
+    if (not gcinclude.horizon_safe_mode) then
+        gcinclude.SetAlias(T{'cring'})
+        gcdisplay.CreateToggle('C-Ring', conjurersRingForced)
+    end
+
     gcmage.Load()
     profile.SetMacroBook()
 end
 
 profile.OnUnload = function()
     gcmage.Unload()
+
+    if (not gcinclude.horizon_safe_mode) then
+        gcinclude.ClearAlias(T{'cring'})
+    end
 end
 
 profile.HandleCommand = function(args)
-    gcmage.DoCommands(args, sets)
+    if (args[1] == 'cring') then
+        gcdisplay.AdvanceToggle('C-Ring')
+        gcinclude.Message('Conjurer\'s Ring', gcdisplay.GetToggle('C-Ring'))
+    else
+        gcmage.DoCommands(args, sets)
+    end
 
     if (args[1] == 'horizonmode') then
         profile.HandleDefault()
@@ -483,7 +499,8 @@ profile.HandleDefault = function()
         end
     else
         if (not gcinclude.horizon_safe_mode) then
-            if (conjurersRingForced and player.HP >= conjurersRingMaxHP) then
+            local player = gData.GetPlayer()
+            if (gcdisplay.GetToggle('C-Ring') and player.HP >= conjurersRingMaxHP and gData.GetPet()) then
                 local time = os.clock()
                 if (time > nextConjurersRingCheck) then
                     nextConjurersRingCheck = time + 3 -- only recheck again after 3 seconds to prevent spam

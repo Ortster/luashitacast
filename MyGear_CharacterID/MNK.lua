@@ -142,6 +142,8 @@ local sets = {
         Ammo = 'Pebble',
     },
 
+    VileElixir = {},
+
     LockStyle = {
         Main = 'Tekko Kagi',
         -- Sub = '',

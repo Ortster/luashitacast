@@ -5,6 +5,10 @@ local snapShotValue = 0.00 -- 0% from gear listed in Preshot set
 
 local max_hp_in_idle_with_regen_gear_equipped = 0 -- You could set this to 0 if you do not wish to ever use regen gear
 
+-- Disabled on horizon_safe_mode
+local shinobiRingForced = true -- Default /sring value
+local shinobiRingMaxHP = 1000
+
 -- Comment out the equipment within these sets if you do not have them or do not wish to use them
 local fire_staff = {
     Main = 'Vulcan\'s Staff',
@@ -80,6 +84,24 @@ local koga_hakama = {
 local koga_hakama_plus_one = {
     Legs = 'Kog. Hakama +1',
 }
+local koga_kyahan = {
+    -- Feet = 'Koga Kyahan',
+}
+local koga_kyahan_plus_one = {
+    Feet = 'Kog. Kyahan +1',
+}
+local ninja_kyahan = {
+    Feet = 'Ninja Kyahan',
+}
+local ninja_kyahan_plus_one = {
+    -- Feet = 'Nin. Kyahan +1',
+}
+local blue_cotehardie = {
+    -- Body = 'Blue Cotehardie',
+}
+local blue_cotehardie_plus_one = {
+    Body = 'Blue Cotehard. +1',
+}
 local bat_earrings = { -- Disabled on horizon_safe_mode
     -- Ear1 = 'Bat Earring',
     -- Ear2 = 'Bat Earring',
@@ -142,6 +164,9 @@ local sets = {
     Weapon_Loadout_2 = {},
     Weapon_Loadout_3 = {},
 
+    ShinobiRingHPDown = { -- Set to force HP to or below shinobiRingMaxHP
+    },
+
     Preshot = {}, -- This set is pointless until ToAU+ when Snapshot on equipment is available
     Ranged = {},
 
@@ -185,7 +210,16 @@ sets.warlocks_mantle = warlocks_mantle
 sets.fenrirs_stone = fenrirs_stone
 sets.koga_hakama = koga_hakama
 sets.koga_hakama_plus_one = koga_hakama_plus_one
+sets.koga_kyahan = koga_kyahan
+sets.koga_kyahan_plus_one = koga_kyahan_plus_one
+sets.ninja_kyahan = ninja_kyahan
+sets.ninja_kyahan_plus_one = ninja_kyahan_plus_one
+sets.blue_cotehardie = blue_cotehardie
+sets.blue_cotehardie_plus_one = blue_cotehardie_plus_one
+sets.bat_earrings = bat_earrings
 profile.Sets = gcmelee.AppendSets(sets)
+
+local nextShinobiRingCheck = 0
 
 local NinDebuffs = T{ 'Kurayami: Ni', 'Hojo: Ni', 'Jubaku: Ichi', 'Dokumori: Ichi', 'Kurayami: Ichi', 'Hojo: Ichi' }
 local HateDebuffs = T{ 'Bind', 'Sleep', 'Poison', 'Blind' }
@@ -216,17 +250,6 @@ local NukeObiOwnedTable = {
     ['Thunder'] = 'rairin_obi',
     ['Light'] = 'korin_obi',
     ['Dark'] = 'anrin_obi'
-}
-
-local WeakElementTable = {
-    ['Fire'] = 'Water',
-    ['Earth'] = 'Wind',
-    ['Water'] = 'Thunder',
-    ['Wind'] = 'Ice',
-    ['Ice'] = 'Fire',
-    ['Thunder'] = 'Earth',
-    ['Light'] = 'Dark',
-    ['Dark'] = 'Light'
 }
 
 profile.HandleAbility = function()
@@ -260,13 +283,23 @@ profile.HandleWeaponskill = function()
     local environment = gData.GetEnvironment()
     if (environment.Time < 6 or environment.Time >= 18) then
         gFunc.EquipSet('koga_tekko')
+        gFunc.EquipSet('koga_kyahan')
     end
     if (environment.Time < 7 or environment.Time >= 17) then
         gFunc.EquipSet('koga_tekko_plus_one')
+        gFunc.EquipSet('koga_kyahan_plus_one')
     end
 end
 
 profile.OnLoad = function()
+    if (not gcinclude.horizon_safe_mode) then
+        gcinclude.SetAlias(T{'sring'})
+        gcdisplay.CreateToggle('S-Ring', shinobiRingForced)
+    else
+        gcinclude.SetAlias(T{'bat'})
+        gcdisplay.CreateToggle('Bat', false)
+    end
+
     gcinclude.SetAlias(T{'nuke'})
     gcdisplay.CreateCycle('Nuke', {[1] = 'Potency', [2] = 'Accuracy',})
     gcinclude.SetAlias(T{'staff'})
@@ -279,10 +312,22 @@ profile.OnUnload = function()
     gcmelee.Unload()
     gcinclude.ClearAlias(T{'nuke'})
     gcinclude.ClearAlias(T{'staff'})
+
+    if (not gcinclude.horizon_safe_mode) then
+        gcinclude.ClearAlias(T{'sring'})
+    else
+        gcinclude.ClearAlias(T{'bat'})
+    end
 end
 
 profile.HandleCommand = function(args)
-    if (args[1] == 'nuke') then
+    if (args[1] == 'sring') then
+        gcdisplay.AdvanceToggle('S-Ring')
+        gcinclude.Message('Shinobi Ring', gcdisplay.GetToggle('S-Ring'))
+    elseif (args[1] == 'bat') then
+        gcdisplay.AdvanceToggle('Bat')
+        gcinclude.Message('Bat', gcdisplay.GetToggle('Bat'))
+    elseif (args[1] == 'nuke') then
         gcdisplay.AdvanceCycle('Nuke')
         gcinclude.Message('Nuke', gcdisplay.GetCycle('Nuke'))
     elseif (args[1] == 'staff') then
@@ -298,10 +343,37 @@ profile.HandleCommand = function(args)
 end
 
 profile.HandleDefault = function()
-    gcmelee.DoDefault(max_hp_in_idle_with_regen_gear_equipped)
-
     local player = gData.GetPlayer()
     local environment = gData.GetEnvironment()
+
+    if (not gcinclude.horizon_safe_mode) then
+        if (gcdisplay.GetToggle('S-Ring') and player.HP > shinobiRingMaxHP and player.Status == 'Engaged') then
+            local time = os.clock()
+            if (time > nextShinobiRingCheck) then
+                nextShinobiRingCheck = time + 2 -- only recheck again after 2 seconds to prevent spam if set up incorrectly
+                gFunc.ForceEquipSet('ShinobiRingHPDown')
+                local ignoreTP = {
+                    Main = 'ignore',
+                    Sub = 'ignore',
+                    Range = 'ignore',
+                    Ammo = 'ignore',
+                }
+                local dtTP = gFunc.Combine(sets.DT, ignoreTP)
+                gFunc.ForceEquipSet(dtTP)
+            end
+        end
+    end
+
+    gcmelee.DoDefault(max_hp_in_idle_with_regen_gear_equipped)
+
+    if (player.SubJob == 'RDM' or player.SubJob == 'WHM' or player.SubJob == 'DRK' or player.SubJob == 'PLD') then
+        if (player.MP <= 40) then
+            gFunc.EquipSet('blue_cotehardie')
+        end
+        if (player.MP <= 50) then
+            gFunc.EquipSet('blue_cotehardie_plus_one')
+        end
+    end
 
     if (player.Status == 'Engaged') then
         if (player.HPP <= 75 and player.TP <= 1000) then
@@ -317,6 +389,22 @@ profile.HandleDefault = function()
 
     gcmelee.DoDefaultOverride()
 
+    if (player.IsMoving == true) then
+        if (gcdisplay.IdleSet == 'Normal'
+            or gcdisplay.IdleSet == 'Alternate'
+            or gcdisplay.IdleSet == 'DT'
+            or gcdisplay.IdleSet == 'Evasion'
+            or player.Status == 'Engaged'
+        ) then
+            if (environment.Time < 6 or environment.Time >= 18) then
+                gFunc.EquipSet('ninja_kyahan')
+            end
+            if (environment.Time < 7 or environment.Time >= 17) then
+                gFunc.EquipSet('ninja_kyahan_plus_one')
+            end
+        end
+    end
+
     if (gcdisplay.IdleSet == 'Evasion') then
         if (environment.Time < 6 or environment.Time >= 18) then
             gFunc.EquipSet('fenrirs_stone')
@@ -328,7 +416,9 @@ profile.HandleDefault = function()
             gFunc.EquipSet('koga_hakama_plus_one')
         end
 
-        if (not gcinclude.horizon_safe_mode) then
+        if (gcdisplay.GetToggle('Bat')) then
+            gFunc.EquipSet('bat_earrings')
+        elseif (not gcinclude.horizon_safe_mode) then
             local blindness = gData.GetBuffCount('Blindness')
             if (blindness == 1) then
                 gFunc.EquipSet('bat_earrings')
@@ -420,13 +510,8 @@ end
 function ObiCheck(action)
     local element = action.Element
     local environment = gData.GetEnvironment()
-    local weakElement = WeakElementTable[element]
 
-    if environment.WeatherElement == element then
-        return environment.Weather:match('x2') or environment.DayElement ~= weakElement
-    end
-
-    return environment.DayElement == element and environment.WeatherElement ~= weakElement
+    return environment.WeatherElement == element or environment.DayElement == element
 end
 
 return profile

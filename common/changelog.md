@@ -507,3 +507,33 @@
 - RDM - Implements /fring toggle for RDM Fencer's Ring. The previous fencersRingForced boolean value is used as the default starting value
 - SMN - Implements /cring toggle for SMN Conjurer's Ring. The previous conjurersRingForced boolean value is used as the default starting value
 - All Jobs - Implements a Vile Elixir set.
+
+### v2.1.2
+- Mages - Removes checks on Elemental Obis for negative days / weather as these don't exist on LSB
+- BLM - Adds a check for Claustrum and Double Weather + Day for Sorcerer's Tonban
+- NIN - Adds Shinobi Ring functionality similar to Fencer's / Conjurer's Ring
+
+### v2.1.3
+- Reverts v2.0.10 where the Enhancing set is used for sneak / invisible
+- Updates Documentation, particularly to include notes on correct set composition
+- Allows argument passing to /tp on mages to allow switching between tp modes while not dumping TP
+
+### v2.1.4
+- Fixed mage /ra implementation to ignore ranged slots while still using interim equip sets
+
+### v2.1.5
+- NIN - Adds a /bat toggle for bat earrings if using horizon_safe_mode
+- SMN - Improves BP set granularity for some Horizon-specific gear and Garuda
+- THF - Rearranges bolt cycle so that default is "None"
+- Melee - Fixes Ranged attacks so that override sets on interim will not disrupt ranged attacks
+
+### v2.1.6
+- NIN - Adds Ninja Kyahan purely for movement
+- NIN - Adds Blue Cotehardie for /RDM /WHM /DRK /PLD
+
+### v2.1.7
+- NIN - Adds Koga Kyahan for WS
+
+### v2.1.8
+- PLD / NIN / DRK - Tinkers with priority of IdleDT / IdleAltDT sets so that these will equip with highest priority. DRK will only equip it if the /hate toggle is enabled
+- Fixes Poison etc. to use max enfeebling skill
